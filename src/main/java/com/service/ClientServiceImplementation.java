@@ -8,12 +8,15 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
 import com.repository.ClientRepository;
+
+import jakarta.persistence.Column;
 
 @Service
 public class ClientServiceImplementation implements ClientService{
@@ -26,6 +29,7 @@ public class ClientServiceImplementation implements ClientService{
 	@Override
 	public Client createClient(Client client) {
 		Date birthDate=client.getFechaDeNacimiento();
+		
 		LocalDate dateParsed = birthDate.toLocalDate();
 		int birthYear=dateParsed.getYear();
 		// int birthMonth=dateParsed.getMonth().getValue(); 
@@ -40,7 +44,9 @@ public class ClientServiceImplementation implements ClientService{
 		
 		// && currentMonth >= birthMonth && currentDay >= birthDay
 		if(currentYear-birthYear >= 18 ) {
-			
+			java.util.Date date = new java.util.Date();
+			java.sql.Date sqlDate = new Date(date.getTime());
+			client.setFechaDeCreacion(sqlDate);
 			return clientRepository.save(client);
 					
 		}else {
@@ -50,7 +56,7 @@ public class ClientServiceImplementation implements ClientService{
 		
 		
 	}
-
+	
 	@Override
 	public Client deleteClient(Client client) {
 		// TODO Auto-generated method stub
@@ -58,9 +64,31 @@ public class ClientServiceImplementation implements ClientService{
 	}
 
 	@Override
-	public Client updateClient(Client client) {
-		// TODO Auto-generated method stub
-		return null;
+	public Client updateClient(Client client,int userId) {
+		java.util.Date date = new java.util.Date();
+		java.sql.Date sqlDate = new Date(date.getTime());
+		
+		//FALTA AGREGAR VALIDACION DE SI EXISTE O NO
+		Optional<Client> getClient = clientRepository.findById(userId);
+		if(getClient.isPresent()) {
+			Client clientToUpdate= getClient.get();
+			clientToUpdate.setApellido(client.getApellido());
+			clientToUpdate.setCorreoElectronico(client.getCorreoElectronico());
+			clientToUpdate.setFechaDeModificacion(sqlDate);
+			clientToUpdate.setNombres(client.getNombres());
+			clientToUpdate.setNumeroDeIdentificacion(client.getNumeroDeIdentificacion());
+			if(!client.getPassword().isEmpty()) {
+				clientToUpdate.setPassword(client.getPassword());
+			}		
+			clientToUpdate.setTipoDeIdentificacion(client.getTipoDeIdentificacion());
+			clientToUpdate.setUsuarioModificacion("ADMIN");
+			
+			return clientRepository.save(clientToUpdate);
+		}else {
+			return null;
+		}
+			
+		
 	}
 
 	@Override
@@ -70,6 +98,12 @@ public class ClientServiceImplementation implements ClientService{
 		
 		
 		
+	}
+
+	@Override
+	public Client getClientById(int id) {
+		
+		return clientRepository.getById(id);
 	}
 
 	
