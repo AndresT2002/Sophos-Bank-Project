@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.repository.ClientRepository;
 
-import jakarta.persistence.Column;
+
 
 @Service
 public class ClientServiceImplementation implements ClientService{

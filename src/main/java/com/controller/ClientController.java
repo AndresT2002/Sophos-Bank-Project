@@ -60,8 +60,7 @@ public class ClientController {
 		}else {
 			return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
 		
-			}
-		
+			}	
 	}
 	
 	
