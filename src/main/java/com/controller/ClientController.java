@@ -3,6 +3,7 @@ import com.service.ClientService;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,10 +37,14 @@ public class ClientController {
 		return new ResponseEntity<>(clientService.listClients(),HttpStatus.OK);
 	}
 	
+	@GetMapping ("/mostrar/{id}")
+	public ResponseEntity<Optional<Client>> getClientById(@PathVariable("id") int id){
+		return new ResponseEntity<>(clientService.getClientById(id),HttpStatus.OK);
+	}
+	
 	
 	
 	@PostMapping
-	
 	public ResponseEntity<Client> createClient(@RequestBody Client client){
 		Client clientCreated = clientService.createClient(client);
 		

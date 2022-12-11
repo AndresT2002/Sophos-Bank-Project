@@ -2,6 +2,8 @@ package com.entity;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +44,7 @@ public class Product {
 	private String modifiedBy;
 	@ManyToOne
 	@JoinColumn(name="BELONGS_TO")
+	@JsonIgnore
 	private Client belongsTo;
 	
 	

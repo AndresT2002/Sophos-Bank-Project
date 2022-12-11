@@ -2,16 +2,18 @@ package com.entity;
 
 
 import java.sql.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 
 
 @Entity
 @Table(name="CLIENTS")
 public class Client {
 	@Id
-	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private int id;
 	@Column(name="TIPO_DE_IDENTIFICACION")
@@ -36,10 +38,27 @@ public class Client {
 	private String usuarioModificacion;
 	@Column(name="PASSWORD")
 	private String password;
+	@OneToMany(mappedBy="belongsTo")
+	private List<Product> products;
+	
 	
 	public Client() {
 		
 	}
+	
+	public List<Product> getProducts() {
+		return products;
+	}
+
+
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+
+
+	
 	
 	
 	

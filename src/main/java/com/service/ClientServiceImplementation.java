@@ -101,9 +101,9 @@ public class ClientServiceImplementation implements ClientService{
 	}
 
 	@Override
-	public Client getClientById(int id) {
+	public Optional<Client> getClientById(int id) {
 		
-		return clientRepository.getById(id);
+		return clientRepository.findById(id);
 	}
 
 	
