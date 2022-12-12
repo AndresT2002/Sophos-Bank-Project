@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
@@ -39,6 +41,7 @@ public class Client {
 	@Column(name="PASSWORD")
 	private String password;
 	@OneToMany(mappedBy="belongsTo")
+	@JsonManagedReference
 	private List<Product> products;
 	
 	

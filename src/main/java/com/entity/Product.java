@@ -2,6 +2,7 @@ package com.entity;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -44,7 +45,7 @@ public class Product {
 	private String modifiedBy;
 	@ManyToOne
 	@JoinColumn(name="BELONGS_TO")
-	@JsonIgnore
+	@JsonBackReference
 	private Client belongsTo;
 	
 	
@@ -52,6 +53,7 @@ public class Product {
 	public Product() {
 		this.productBalance=0;
 		this.productAvailable=0;
+		this.status="Inactive";
 	}
 	
 	

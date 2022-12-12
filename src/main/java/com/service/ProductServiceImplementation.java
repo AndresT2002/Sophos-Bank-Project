@@ -1,4 +1,5 @@
 package com.service;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,7 @@ import com.entity.Client;
 import com.entity.Product;
 
 import com.repository.ProductRepository;
-
+import com.service.ClientServiceImplementation;
 
 @Service
 public class ProductServiceImplementation implements ProductService{
@@ -26,8 +27,19 @@ public class ProductServiceImplementation implements ProductService{
 
 	@Override
 	public Product createProduct(Product product) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if (product.getProductType().equals( "Ahorros")) {
+			product.setStatus("Active");
+			
+		}
+		
+		java.util.Date date = new java.util.Date();
+		java.sql.Date sqlDate = new Date(date.getTime());
+		product.setCreatedAt(sqlDate);
+		
+		//product.setBelongsTo(ClientServiceImplementation.findById();
+		
+		return productRepository.save(product);
 	}
 
 	@Override
