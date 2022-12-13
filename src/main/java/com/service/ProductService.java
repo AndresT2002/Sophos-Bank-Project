@@ -14,4 +14,11 @@ public interface ProductService {
 	public Product createProduct(Product product);
 	public Product updateProduct(Product product);
 	public Product deleteProduct(Product product);
+	public Product activateProduct(int id );
+	public Product desactivateProduct(int id );
+	public Product overDraft(int id, long value);
+	public Long createProductId(String tipo);
+	public String randomNumber(String strInicial);
+	
+	
 }

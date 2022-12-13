@@ -26,13 +26,15 @@ public class Product {
 	@Column(name="PRODUCT_TYPE")
 	private String productType;
 	@Column(name="PRODUCT_NUMBER")
-	private int productNumber;
+	private Long productNumber;
 	@Column(name="STATUS")
 	private String status;
 	@Column(name="PRODUCT_BALANCE")
-	private int productBalance;
+	private Long productBalance;
 	@Column(name="PRODUCT_AVAILABLE")
-	private int productAvailable;
+	private Long productAvailable;
+	@Column(name="DEBT_VALUE")
+	private Long debtValue;
 	@Column(name="GMF")
 	private String gmf;
 	@Column(name="CREATED_AT")
@@ -41,6 +43,8 @@ public class Product {
 	private String createdBy;
 	@Column(name="MODIFIED_AT")
 	private Date modifiedAt;
+	
+
 	@Column(name="MODIFIED_BY")
 	private String modifiedBy;
 	@ManyToOne
@@ -51,11 +55,22 @@ public class Product {
 	
 	
 	public Product() {
-		this.productBalance=0;
-		this.productAvailable=0;
+		this.productBalance=(long) 0;
+		this.productAvailable=(long) 0;
+		this.debtValue=(long) 0;
 		this.status="Inactive";
 	}
 	
+	
+	public Long getDebtValue() {
+		return debtValue;
+	}
+
+
+	public void setDebtValue(Long debtValue) {
+		this.debtValue = debtValue;
+	}
+
 	
 	public int getId() {
 		return id;
@@ -81,13 +96,13 @@ public class Product {
 
 
 
-	public int getProductNumber() {
+	public Long getProductNumber() {
 		return productNumber;
 	}
 
 
 
-	public void setProductNumber(int productNumber) {
+	public void setProductNumber(Long productNumber) {
 		this.productNumber = productNumber;
 	}
 
@@ -105,25 +120,25 @@ public class Product {
 
 
 
-	public int getProductBalance() {
+	public Long getProductBalance() {
 		return productBalance;
 	}
 
 
 
-	public void setProductBalance(int productBalance) {
+	public void setProductBalance(Long productBalance) {
 		this.productBalance = productBalance;
 	}
 
 
 
-	public int getProductAvailable() {
+	public Long getProductAvailable() {
 		return productAvailable;
 	}
 
 
 
-	public void setProductAvailable(int productAvailable) {
+	public void setProductAvailable(Long productAvailable) {
 		this.productAvailable = productAvailable;
 	}
 
