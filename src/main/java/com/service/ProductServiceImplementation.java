@@ -1,5 +1,8 @@
 package com.service;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -45,9 +48,10 @@ public class ProductServiceImplementation implements ProductService{
 		
 		
 		
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		
-		java.util.Date date = new java.util.Date();
-		java.sql.Date sqlDate = new Date(date.getTime());
 		
 		boolean bandera=false;
 		
@@ -98,7 +102,9 @@ public class ProductServiceImplementation implements ProductService{
 	public Product activateProduct(int id) {
 		Optional<Product> product= productRepository.findById(id);
 		
-		
+		if (!product.isPresent()) {
+			return null;
+		}
 		
 		
 		//FALTA AGREGAR VALIDACION DE SI EXISTE O NO
@@ -108,8 +114,9 @@ public class ProductServiceImplementation implements ProductService{
 		if (productFinded.getStatus().equals("Active")) {
 			return null;
 		}
-		java.util.Date date = new java.util.Date();
-		java.sql.Date sqlDate = new Date(date.getTime());
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		productFinded.setStatus("Active");
 		productFinded.setModifiedAt(sqlDate);
 		
@@ -119,6 +126,9 @@ public class ProductServiceImplementation implements ProductService{
 	@Override
 	public Product desactivateProduct(int id) {
 		Optional<Product> product= productRepository.findById(id);
+		if (!product.isPresent()) {
+			return null;
+		}
 		Product productFinded=product.get();
 		if (productFinded.getStatus().equals("Inactive")) {
 			return null;
@@ -127,8 +137,9 @@ public class ProductServiceImplementation implements ProductService{
 			return null;
 		}
 		
-		java.util.Date date = new java.util.Date();
-		java.sql.Date sqlDate = new Date(date.getTime());
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		productFinded.setStatus("Inactive");
 		productFinded.setModifiedAt(sqlDate);
 		
@@ -140,6 +151,9 @@ public class ProductServiceImplementation implements ProductService{
 		//FALTA AGREGAR VALIDACION EN LOS METODOS PARA QUE SOLO PUEDAN HACERLOS
 		//CLIENTES CON SUS CUENTAS O UN USUARIO ADMIN
 		Optional<Product> product= productRepository.findById(id);
+		if (!product.isPresent()) {
+			return null;
+		}
 		Product productFinded=product.get();
 		
 		if(!(productFinded.getProductType().equals("Corriente") && productFinded.getStatus().equals("Active"))) {

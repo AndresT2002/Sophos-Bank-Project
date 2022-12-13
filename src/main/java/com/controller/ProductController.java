@@ -35,9 +35,9 @@ public class ProductController {
 		
 		try {
 			Optional<Product> productFinded = productService.getProductById(id);
-			System.out.println(productFinded);
+			
 			if (!productFinded.isPresent()) {
-				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<>(productFinded,HttpStatus.OK);
 		}catch(Exception e) {

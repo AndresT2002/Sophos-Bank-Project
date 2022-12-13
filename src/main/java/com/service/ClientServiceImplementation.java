@@ -4,7 +4,7 @@ import com.entity.Client;
 import java.sql.Date;
 import java.time.LocalDate;
 // import java.time.Month;
-
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -35,17 +35,22 @@ public class ClientServiceImplementation implements ClientService{
 		// int birthMonth=dateParsed.getMonth().getValue(); 
 		// int birthDay=dateParsed.getDayOfMonth();
 		
-		ZoneId zoneId = ZoneId.of( "America/Montreal" );  // Or 'ZoneOffset.UTC'.
+		ZoneId zoneId = ZoneId.of( "America/Bogota" );  // Or 'ZoneOffset.UTC'.
 		ZonedDateTime now = ZonedDateTime.now( zoneId );
+		
 		// Month month = now.getMonth(); 
 		int currentYear=now.getYear();
+		System.out.println(now.getDayOfMonth());
 		// int currentDay=now.getDayOfMonth();
 		// int currentMonth = month.getValue(); 
 		
 		// && currentMonth >= birthMonth && currentDay >= birthDay
 		if(currentYear-birthYear >= 18 ) {
-			java.util.Date date = new java.util.Date();
-			java.sql.Date sqlDate = new Date(date.getTime());
+			ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+			LocalDate localDate = zonedDateTime.toLocalDate();
+			java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+			System.out.println(localDate);
+			System.out.println(sqlDate);
 			client.setFechaDeCreacion(sqlDate);
 			return clientRepository.save(client);
 					
@@ -65,8 +70,11 @@ public class ClientServiceImplementation implements ClientService{
 
 	@Override
 	public Client updateClient(Client client,int userId) {
-		java.util.Date date = new java.util.Date();
-		java.sql.Date sqlDate = new Date(date.getTime());
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+		
 		
 		//FALTA AGREGAR VALIDACION DE SI EXISTE O NO
 		Optional<Client> getClient = clientRepository.findById(userId);
