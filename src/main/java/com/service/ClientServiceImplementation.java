@@ -5,7 +5,7 @@ import com.entity.Product;
 import java.sql.Date;
 import java.time.LocalDate;
 // import java.time.Month;
-import java.time.LocalDateTime;
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -32,7 +32,7 @@ public class ClientServiceImplementation implements ClientService{
 	
 	@Override
 	public Client createClient(Client client) {
-		Date birthDate=client.getFechaDeNacimiento();
+		Date birthDate=client.getBirthDay();
 		
 		LocalDate dateParsed = birthDate.toLocalDate();
 		int birthYear=dateParsed.getYear();
@@ -55,7 +55,7 @@ public class ClientServiceImplementation implements ClientService{
 			java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 			System.out.println(localDate);
 			System.out.println(sqlDate);
-			client.setFechaDeCreacion(sqlDate);
+			client.setCreatedAt(sqlDate);
 			return clientRepository.save(client);
 					
 		}else {
@@ -97,16 +97,16 @@ public class ClientServiceImplementation implements ClientService{
 		Optional<Client> getClient = clientRepository.findById(userId);
 		if(getClient.isPresent()) {
 			Client clientToUpdate= getClient.get();
-			clientToUpdate.setApellido(client.getApellido());
-			clientToUpdate.setCorreoElectronico(client.getCorreoElectronico());
-			clientToUpdate.setFechaDeModificacion(sqlDate);
-			clientToUpdate.setNombres(client.getNombres());
-			clientToUpdate.setNumeroDeIdentificacion(client.getNumeroDeIdentificacion());
+			clientToUpdate.setLastName(client.getLastName());
+			clientToUpdate.setEmail(client.getEmail());
+			clientToUpdate.setModifiedAt(sqlDate);
+			clientToUpdate.setName(client.getName());
+			clientToUpdate.setIdentificationNumber(client.getIdentificationNumber());
 			if(!client.getPassword().isEmpty()) {
 				clientToUpdate.setPassword(client.getPassword());
 			}		
-			clientToUpdate.setTipoDeIdentificacion(client.getTipoDeIdentificacion());
-			clientToUpdate.setUsuarioModificacion("ADMIN");
+			clientToUpdate.setIdentificationType(client.getIdentificationType());
+			clientToUpdate.setModifiedBy("ADMIN");
 			
 			return clientRepository.save(clientToUpdate);
 		}else {
