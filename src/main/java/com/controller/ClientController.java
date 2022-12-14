@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Client;
+import com.entity.Product;
 
 
 
@@ -64,6 +66,19 @@ public class ClientController {
 			return new ResponseEntity<>(clientUpdated,HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+		
+			}	
+	}
+	
+	@DeleteMapping (path="/delete/{id}")
+	public ResponseEntity<Object> deleteClient(@PathVariable("id") int id){
+		
+		boolean clientEliminated = clientService.deleteClient(id);
+		
+		if(clientEliminated) {
+			return new ResponseEntity<>("Client Eliminated" ,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("Error",HttpStatus.BAD_REQUEST);
 		
 			}	
 	}

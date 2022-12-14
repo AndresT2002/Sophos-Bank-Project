@@ -19,6 +19,8 @@ public interface ProductService {
 	public Product overDraft(int id, long value);
 	public Long createProductId(String tipo);
 	public String randomNumber(String strInicial);
-	
+	public Product activateGmf(int id);
+	public Product desactivateGmf(int id);
+	 
 	
 }

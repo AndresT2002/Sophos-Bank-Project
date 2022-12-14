@@ -102,6 +102,40 @@ public class ProductController {
 			}	
 	}
 	
+	@PutMapping(path="/activate/{id}/gmf")
+	public ResponseEntity<Product> activateGmf(@PathVariable("id") int id){
+		
+		Product productUpdated = productService.activateGmf(id);
+		
+		if(productUpdated !=  null) {
+			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		
+			}	
+	}
+	
+	
+	
+	@PutMapping(path="/desactivate/{id}/gmf")
+	public ResponseEntity<Product> desactivateGmf(@PathVariable("id") int id){
+		
+		Product productUpdated = productService.desactivateGmf(id);
+		
+		if(productUpdated !=  null) {
+			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		
+			}	
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

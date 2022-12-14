@@ -1,5 +1,6 @@
 package com.service;
 import com.entity.Client;
+import com.entity.Product;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.repository.ClientRepository;
+import com.repository.ProductRepository;
 
 
 
@@ -23,6 +25,8 @@ public class ClientServiceImplementation implements ClientService{
 
 	@Autowired
 	ClientRepository clientRepository;
+	@Autowired
+	ProductRepository productRepository;
 	
 	
 	
@@ -63,9 +67,22 @@ public class ClientServiceImplementation implements ClientService{
 	}
 	
 	@Override
-	public Client deleteClient(Client client) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean deleteClient(int id) {
+		Optional<Client> client=clientRepository.findById(id);
+
+		if(client.isPresent()) {
+			Client clientObtained=client.get();
+			List <Product> clientProducts=productRepository.findByBelongsTo(clientObtained);
+			boolean hasActive=clientProducts.stream().filter(o -> o.getStatus().equals("Active")).findFirst().isPresent();
+			System.out.println(hasActive);
+			if (!hasActive) {
+				clientRepository.delete(clientObtained);
+				return true;
+			}
+		}
+		
+		
+		return false;
 	}
 
 	@Override

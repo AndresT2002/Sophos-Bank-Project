@@ -211,5 +211,52 @@ public class ProductServiceImplementation implements ProductService{
 
 	
 	
+	@Override
+	public Product activateGmf(int id) {
+		Optional<Product> productFinded= productRepository.findById(id);
+		if(productFinded.isPresent()) {
+			Product productObtained=productFinded.get();
+			Client productOwner=productObtained.getBelongsTo();
+			
+			List<Product> products= productRepository.findByBelongsTo(productOwner);
+			
+			boolean hasGmf=products.stream().filter(o -> o.getGmf().equals("Yes")).findFirst().isPresent();
+			
+			if (!hasGmf) {
+				productObtained.setGmf("Yes");
+				
+				ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+				LocalDate localDate = zonedDateTime.toLocalDate();
+				java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+				productObtained.setModifiedAt(sqlDate);
+				return productRepository.save(productObtained);
+			}
+			return null;
+		}
+		return null;
+		
+	}
+
+	@Override
+	public Product desactivateGmf(int id) {
+		Optional<Product> productFinded= productRepository.findById(id);
+		if(productFinded.isPresent()) {
+			Product productObtained=productFinded.get();
+			
+			productObtained.setGmf("No");
+			
+			ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+			LocalDate localDate = zonedDateTime.toLocalDate();
+			java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+			productObtained.setModifiedAt(sqlDate);
+			return productRepository.save(productObtained);
+			
+		}
+		
+		return null;
+	}
+
+	
+	
 	
 }
