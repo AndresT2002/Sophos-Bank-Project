@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.entity.Client;
+
 import com.entity.Product;
 import com.service.ProductService;
 
@@ -35,7 +35,7 @@ public class ProductController {
 		
 		try {
 			Optional<Product> productFinded = productService.getProductById(id);
-			
+			// Retornar string y si es tal, se retorna null y el error del string
 			if (!productFinded.isPresent()) {
 				return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 			}

@@ -134,6 +134,7 @@ public class ProductServiceImplementation implements ProductService{
 			return null;
 		}
 		if(!(productFinded.getProductBalance() < 1 && productFinded.getDebtValue()== 0)) {
+				
 			return null;
 		}
 		

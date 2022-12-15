@@ -3,7 +3,7 @@ package com.service;
 import com.entity.Product;
 
 public interface Transactions {
-	Product deposit(Product from,Product to, int value);
-	Product withdraw(Product from, int value);
-	Product transfer(Product from,Product to, int value);
+	Product deposit(long  from,long to, long value);
+	Product withdraw(long from, long value);
+	Product transfer(long from,long to, long value);
 }
