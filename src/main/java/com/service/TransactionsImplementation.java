@@ -51,8 +51,11 @@ public class TransactionsImplementation implements Transactions{
 			
 			 valueGmf=value;
 		}else {
-			 gmf=(long) Math.round((float) value*4/1000);
+			 gmf=(long) Math.round((float) productFromFinded.getProductBalance()*4/1000);
 			 valueGmf=value+(gmf);
+			 System.out.print( (float) value*4/1000);
+			 System.out.print( Math.round((float) value*4/1000));
+			 System.out.print( value+Math.round((float) value*4/1000));
 			 
 		}
 		System.out.println(valueGmf);
@@ -68,9 +71,6 @@ public class TransactionsImplementation implements Transactions{
 		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		
 		
-		productToFinded.setProductBalance((productToFinded.getProductBalance()+value));
-		productToFinded.setProductAvailable((productToFinded.getProductBalance())-((productToFinded.getProductBalance()*4)/1000)	);
-		productToFinded.setModifiedAt(sqlDate);
 			
 		
 		productFromFinded.setProductBalance((productFromFinded.getProductBalance()-valueGmf));
@@ -85,11 +85,21 @@ public class TransactionsImplementation implements Transactions{
 		productFromFinded.setModifiedAt(sqlDate);
 		
 		
+		productToFinded.setProductBalance((productToFinded.getProductBalance()+value));
+		if(productToFinded.getGmf().equals("No")) {
+			gmf=(long) Math.round((float) productToFinded.getProductBalance()*4/1000);
+			productToFinded.setProductAvailable((productToFinded.getProductBalance())-(gmf));
+		}else {
+			productToFinded.setProductAvailable((productToFinded.getProductBalance()));
+		}
+		productToFinded.setModifiedAt(sqlDate);
 		
 		
 		TransactionHistory newTransactionFrom= createTransaction( valueGmf,"Debit", productFromFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productFromFinded.getProductNumber());
 		TransactionHistory newTransactionTo= createTransaction( value,"Credit", productToFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productToFinded.getProductNumber());
 		
+		productRepository.save(productToFinded);
+		productRepository.save(productFromFinded);
 		transactionHistoryRepository.save(newTransactionFrom);
 		transactionHistoryRepository.save(newTransactionTo);
 		
@@ -125,12 +135,13 @@ public class TransactionsImplementation implements Transactions{
 		}else {
 			
 			 
-			 gmf=(long) Math.round((float) value*4/1000);
+			 gmf=(long) Math.round((float) productFinded.getProductBalance()*4/1000);
 			 valueGmf=value+(gmf);
 			 //System.out.print( Math.toIntExact(test));
 			 //System.out.print(test);
 			 System.out.print( (float) value*4/1000);
 			 System.out.print( Math.round((float) value*4/1000));
+			 System.out.print( value+Math.round((float) value*4/1000));
 		}
 		
 		//Si al retirar queda saldo negativo o está inactivo retorno
@@ -146,7 +157,7 @@ public class TransactionsImplementation implements Transactions{
 			productFinded.setProductAvailable(productFinded.getProductBalance());
 		}else {
 			gmf=(long) Math.round((float) productFinded.getProductBalance()*4/1000);
-			productFinded.setProductAvailable((productFinded.getProductBalance())-(gmf)	);
+			productFinded.setProductAvailable((productFinded.getProductBalance())-(gmf));
 		}
 		
 		
