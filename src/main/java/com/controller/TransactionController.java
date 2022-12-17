@@ -24,10 +24,10 @@ public class TransactionController {
 	TransactionsImplementation transactionService;
 	
 	
-	@PutMapping("/withdraw/{id}/{value}")
-	public ResponseEntity<Product> withdraw(@PathVariable("id") long id,@PathVariable("value") long value){
+	@PutMapping("/withdraw/{productNumber}/{value}")
+	public ResponseEntity<Product> withdraw(@PathVariable("productNumber") long productNumber,@PathVariable("value") long value){
 		try {
-			Product productUpdated=transactionService.withdraw(id, value);
+			Product productUpdated=transactionService.withdraw(productNumber, value);
 			if (productUpdated == null) {
 				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 			}
@@ -35,9 +35,22 @@ public class TransactionController {
 		}catch(Exception e) {
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
-		
-	
-		
+			
 	}
+	
+	@PutMapping("/transfer/{productNumberFrom}/{productNumberTo}/{value}")
+	public ResponseEntity<Product> transfer(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value){
+		try {
+			Product productUpdated=transactionService.transfer(productNumberFrom,productNumberTo, value);
+			if (productUpdated == null) {
+				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		}
+			
+	}
+	
 
 }

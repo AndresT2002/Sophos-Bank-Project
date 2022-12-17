@@ -1,5 +1,6 @@
 package com.service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -29,16 +30,79 @@ public class TransactionsImplementation implements Transactions{
 	
 
 	@Override
-	public Product deposit(long from, long to, long value) {
+	public Product transfer(long from, long to, long value) {
+		Optional<Product> productTo= productRepository.findByProductNumber(to);
+		Optional<Product> productFrom= productRepository.findByProductNumber(from);
+		
+		if (!productTo.isPresent() || !productFrom.isPresent()) {
+			return null;
+		}
+		
+		
+		long valueGmf;
+		long gmf;
+		
+		
+		Product productToFinded=productTo.get();
+		Product productFromFinded=productFrom.get();
+		
+		//Valido si está exento de GMF o no. Calculo el valor total a debitar
+		if(productFromFinded.getGmf().equals("Yes")) {
+			
+			 valueGmf=value;
+		}else {
+			 gmf=(long) Math.round((float) value*4/1000);
+			 valueGmf=value+(gmf);
+			 
+		}
+		System.out.println(valueGmf);
+		//Si al retirar queda saldo negativo o está inactivo retorno
+		if((productFromFinded.getProductBalance()-valueGmf < 0) || (productFromFinded.getStatus().equals("Inactive"))) {
+			
+			return null;
+		}
+		
+		
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+		
+		
+		productToFinded.setProductBalance((productToFinded.getProductBalance()+value));
+		productToFinded.setProductAvailable((productToFinded.getProductBalance())-((productToFinded.getProductBalance()*4)/1000)	);
+		productToFinded.setModifiedAt(sqlDate);
+			
+		
+		productFromFinded.setProductBalance((productFromFinded.getProductBalance()-valueGmf));
+		
+		if(productFromFinded.getGmf().equals("Yes")) {
+			productFromFinded.setProductAvailable(productFromFinded.getProductBalance());
+		}else {
+			gmf=(long) Math.round((float) productFromFinded.getProductBalance()*4/1000);
+			productFromFinded.setProductAvailable((productFromFinded.getProductBalance())-(gmf)	);
+		}
+				
+		productFromFinded.setModifiedAt(sqlDate);
 		
 		
 		
-		return null;
+		
+		TransactionHistory newTransactionFrom= createTransaction( valueGmf,"Debit", productFromFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productFromFinded.getProductNumber());
+		TransactionHistory newTransactionTo= createTransaction( value,"Credit", productToFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productToFinded.getProductNumber());
+		
+		transactionHistoryRepository.save(newTransactionFrom);
+		transactionHistoryRepository.save(newTransactionTo);
+		
+		return productFromFinded;
+		
 	}
 	
 	//Sobrecarga de deposit para ingresar dinero a mi misma cuenta
 	public Product deposit(long to, long value) {
-		// TODO Auto-generated method stub
+		Optional<Product> product= productRepository.findByProductNumber(to);
+		if (!product.isPresent()) {
+			return null;
+		}
 		return null;
 	}
 	
@@ -53,23 +117,39 @@ public class TransactionsImplementation implements Transactions{
 		
 		Product productFinded=product.get();
 		long valueGmf;
-		
+		long gmf;
 		
 		
 		if(productFinded.getGmf().equals("Yes")) {
 			 valueGmf=value;
 		}else {
-			 valueGmf=value+((value*4)/1000);
+			
+			 
+			 gmf=(long) Math.round((float) value*4/1000);
+			 valueGmf=value+(gmf);
+			 //System.out.print( Math.toIntExact(test));
+			 //System.out.print(test);
+			 System.out.print( (float) value*4/1000);
+			 System.out.print( Math.round((float) value*4/1000));
 		}
 		
 		//Si al retirar queda saldo negativo o está inactivo retorno
-		if((productFinded.getProductAvailable()-valueGmf< 0) || (productFinded.getStatus().equals("Inactive"))) {
+		if((productFinded.getProductBalance()-valueGmf< 0) || (productFinded.getStatus().equals("Inactive"))) {
 			
 			return null;
 		}
 		
 		productFinded.setProductBalance((productFinded.getProductBalance()-valueGmf));
-		productFinded.setProductAvailable((productFinded.getProductBalance())-((productFinded.getProductBalance()*4)/1000)	);
+		
+		//REVISAR COMO OPTIMIZAR PARA NO VALIDAR SI ES EXCEPTO DE GMF 2 VECES
+		if(productFinded.getGmf().equals("Yes")) {
+			productFinded.setProductAvailable(productFinded.getProductBalance());
+		}else {
+			gmf=(long) Math.round((float) productFinded.getProductBalance()*4/1000);
+			productFinded.setProductAvailable((productFinded.getProductBalance())-(gmf)	);
+		}
+		
+		
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
 		LocalDate localDate = zonedDateTime.toLocalDate();
 		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
@@ -89,10 +169,20 @@ public class TransactionsImplementation implements Transactions{
 		return productRepository.save(productFinded);
 	}
 
+	
+	
+	
 	@Override
-	public Product transfer(long from, long to, long value) {
-		// TODO Auto-generated method stub
-		return null;
+	public TransactionHistory createTransaction(long amount, String movemenType,int clientId, Date transactionDate,String transactionType, long productNumber) {
+		TransactionHistory newTransaction= new TransactionHistory();
+		newTransaction.setAmount(amount);
+		newTransaction.setMovementType(movemenType);
+		newTransaction.setClientId(clientId);
+		newTransaction.setTransactionDate(transactionDate);
+		newTransaction.setTransactionType(transactionType);
+		newTransaction.setProductNumber(productNumber);
+		return newTransaction;
 	}
-
+	
+	
 }
