@@ -53,9 +53,7 @@ public class TransactionsImplementation implements Transactions{
 		}else {
 			 gmf=(long) Math.round((float) productFromFinded.getProductBalance()*4/1000);
 			 valueGmf=value+(gmf);
-			 System.out.print( (float) value*4/1000);
-			 System.out.print( Math.round((float) value*4/1000));
-			 System.out.print( value+Math.round((float) value*4/1000));
+			 
 			 
 		}
 		System.out.println(valueGmf);
@@ -109,11 +107,35 @@ public class TransactionsImplementation implements Transactions{
 	
 	//Sobrecarga de deposit para ingresar dinero a mi misma cuenta
 	public Product deposit(long to, long value) {
+		
 		Optional<Product> product= productRepository.findByProductNumber(to);
 		if (!product.isPresent()) {
 			return null;
 		}
-		return null;
+				
+		Product productToFinded=product.get();
+		
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+		
+			
+		productToFinded.setProductBalance((productToFinded.getProductBalance()+value));
+		
+		if(productToFinded.getGmf().equals("Yes")) {
+			productToFinded.setProductAvailable(productToFinded.getProductBalance());
+		}else {
+			long gmf=(long) Math.round((float) productToFinded.getProductBalance()*4/1000);
+			productToFinded.setProductAvailable((productToFinded.getProductBalance())-(gmf)	);
+		}
+				
+		productToFinded.setModifiedAt(sqlDate);
+		TransactionHistory newTransactionTo= createTransaction( value,"Credit", productToFinded.getBelongsTo().getId(),  sqlDate, "Deposit",  productToFinded.getProductNumber());
+		
+		transactionHistoryRepository.save(newTransactionTo);
+		productRepository.save(productToFinded);
+		
+		return productToFinded;
 	}
 	
 
@@ -137,11 +159,7 @@ public class TransactionsImplementation implements Transactions{
 			 
 			 gmf=(long) Math.round((float) productFinded.getProductBalance()*4/1000);
 			 valueGmf=value+(gmf);
-			 //System.out.print( Math.toIntExact(test));
-			 //System.out.print(test);
-			 System.out.print( (float) value*4/1000);
-			 System.out.print( Math.round((float) value*4/1000));
-			 System.out.print( value+Math.round((float) value*4/1000));
+			 
 		}
 		
 		//Si al retirar queda saldo negativo o está inactivo retorno

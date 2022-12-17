@@ -52,5 +52,20 @@ public class TransactionController {
 			
 	}
 	
+	@PutMapping("/deposit/{productNumberTo}/{value}")
+	public ResponseEntity<Product> deposit(@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value){
+		try {
+			Product productUpdated=transactionService.deposit(productNumberTo, value);
+			if (productUpdated == null) {
+				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		}
+			
+	}
+	
+	
 
 }

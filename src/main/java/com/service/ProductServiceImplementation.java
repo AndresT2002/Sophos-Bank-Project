@@ -25,6 +25,7 @@ public class ProductServiceImplementation implements ProductService{
 	@Autowired
 	ClientRepository clientRepository;
 	
+	
 	@Override
 	public Product getProducts(Product product) {
 		// TODO Auto-generated method stub
@@ -151,13 +152,15 @@ public class ProductServiceImplementation implements ProductService{
 	public Product overDraft(int id, long value) {
 		//FALTA AGREGAR VALIDACION EN LOS METODOS PARA QUE SOLO PUEDAN HACERLOS
 		//CLIENTES CON SUS CUENTAS O UN USUARIO ADMIN
+		//FALTA AGREGARLE LO DEL GMF
+		//EL CREDITO SE DEBE AGREGAR TANTO AL DEB VALUE Y A SU AVAILABLE Y BALANCE
 		Optional<Product> product= productRepository.findById(id);
 		if (!product.isPresent()) {
 			return null;
 		}
 		Product productFinded=product.get();
 		
-		if(!(productFinded.getProductType().equals("Corriente") && productFinded.getStatus().equals("Active"))) {
+		if(!(productFinded.getProductType().equals("Corriente") && (productFinded.getStatus().equals("Active") || productFinded.getStatus().equals("Canceled") ))) {
 			
 			return null;
 		}
@@ -168,11 +171,16 @@ public class ProductServiceImplementation implements ProductService{
 		}
 		
 		
-		
-		productFinded.setDebtValue( (productFinded.getDebtValue() + value));
-		productFinded.setProductAvailable(productFinded.getProductAvailable() + value);
 		productFinded.setProductBalance(productFinded.getProductBalance() + value);
+		productFinded.setDebtValue( (productFinded.getDebtValue() + value));
 		
+		
+		if(productFinded.getGmf().equals("Yes")) {
+			productFinded.setProductAvailable(productFinded.getProductBalance());
+		}else {
+			long gmf=(long) Math.round((float) productFinded.getProductBalance()*4/1000);
+			productFinded.setProductAvailable((productFinded.getProductBalance())-(gmf)	);
+		}	
 		
 		
 		return productRepository.save(productFinded);
