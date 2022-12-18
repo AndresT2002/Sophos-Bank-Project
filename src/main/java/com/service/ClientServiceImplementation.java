@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 
 import com.repository.ClientRepository;
 import com.repository.ProductRepository;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -36,20 +37,19 @@ public class ClientServiceImplementation implements ClientService{
 		
 		LocalDate dateParsed = birthDate.toLocalDate();
 		int birthYear=dateParsed.getYear();
-		// int birthMonth=dateParsed.getMonth().getValue(); 
-		// int birthDay=dateParsed.getDayOfMonth();
+		
 		
 		ZoneId zoneId = ZoneId.of( "America/Bogota" );  // Or 'ZoneOffset.UTC'.
 		ZonedDateTime now = ZonedDateTime.now( zoneId );
-		
-		// Month month = now.getMonth(); 
 		int currentYear=now.getYear();
-		System.out.println(now.getDayOfMonth());
-		// int currentDay=now.getDayOfMonth();
-		// int currentMonth = month.getValue(); 
 		
-		// && currentMonth >= birthMonth && currentDay >= birthDay
-		if(currentYear-birthYear >= 18 ) {
+		Pattern pattern = Pattern.compile("^[_A-ZáéíóúÁÉÍÓÚñÑa-z0-9-\\+]+(\\.[_A-ZáéíóúÁÉÍÓÚñÑa-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher matcher = pattern.matcher(client.getEmail());
+        
+		if((currentYear-birthYear <18) || (client.getName().length() <= 2) || (client.getLastName().length() <= 2) || (!matcher.find())) {
+			return null;
+					
+		}else {
 			ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
 			LocalDate localDate = zonedDateTime.toLocalDate();
 			java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
@@ -57,9 +57,6 @@ public class ClientServiceImplementation implements ClientService{
 			System.out.println(sqlDate);
 			client.setCreatedAt(sqlDate);
 			return clientRepository.save(client);
-					
-		}else {
-			return null;
 		}
 		
 		

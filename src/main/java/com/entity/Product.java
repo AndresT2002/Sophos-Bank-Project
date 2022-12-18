@@ -55,8 +55,8 @@ public class Product {
 	
 	
 	public Product() {
-		this.productBalance=(long) 20000;
-		this.productAvailable=(long) 20000;
+		this.productBalance=(long) 0;
+		this.productAvailable=(long) 0;
 		this.debtValue=(long) 0;
 		this.status="Inactive";
 	}

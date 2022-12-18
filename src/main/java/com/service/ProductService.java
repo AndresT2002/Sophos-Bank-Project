@@ -21,6 +21,7 @@ public interface ProductService {
 	public String randomNumber(String strInicial);
 	public Product activateGmf(int id);
 	public Product desactivateGmf(int id);
+	public Product cancelProduct(long productNumber);
 	 
 	
 }

@@ -134,10 +134,6 @@ public class ProductServiceImplementation implements ProductService{
 		if (productFinded.getStatus().equals("Inactive")) {
 			return null;
 		}
-		if(!(productFinded.getProductBalance() < 1 && productFinded.getDebtValue()== 0)) {
-				
-			return null;
-		}
 		
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
 		LocalDate localDate = zonedDateTime.toLocalDate();
@@ -263,6 +259,29 @@ public class ProductServiceImplementation implements ProductService{
 		}
 		
 		return null;
+	}
+
+	@Override
+	public Product cancelProduct(long productNumber) {
+		Optional<Product> product= productRepository.findByProductNumber(productNumber);
+		if (!product.isPresent()) {
+			return null;
+		}
+		Product productFinded=product.get();
+		
+		if(!(productFinded.getProductBalance() < 1 && productFinded.getDebtValue()== 0) || (productFinded.getStatus().equals("Canceled"))) {
+				
+			return null;
+		}
+		
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+		productFinded.setStatus("Canceled");
+		productFinded.setModifiedAt(sqlDate);
+		
+		return productRepository.save(productFinded);
+		
 	}
 
 	

@@ -89,6 +89,18 @@ public class ProductController {
 			}	
 	}
 	
+	@PutMapping(path="/cancel/{productNumber}")
+	public ResponseEntity<Product> cancelProduct(@PathVariable("productNumber") long productNumber){
+		
+		Product productUpdated = productService.cancelProduct(productNumber);
+		
+		if(productUpdated !=  null) {
+			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		
+			}	
+	}
 	@PutMapping(path="/overdraft/{id}/{value}")
 	public ResponseEntity<Product> overDraft(@PathVariable("id") int id, @PathVariable("value") long value){
 		
