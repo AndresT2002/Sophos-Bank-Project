@@ -1,1 +1,48 @@
-<p>navbar works!</p>
+<mat-toolbar color="primary">
+    <a
+      [routerLink]="'/'"
+      mat-icon-button
+      class="example-icon"
+      arial-label="Example icon-button with menu icon"
+    >
+      <mat-icon>menu_books</mat-icon>
+    </a>
+    <span>Portal de exámenes</span>
+    <span class="example-spacer"></span>
+    <a
+    style="margin-right: 120px"
+      [routerLink]="'/login'"
+      mat-icon-button
+      class = "example-icon favorite-icon "
+      aria-label = "Example icon-button with heart icon"
+    >
+      Iniciar sesión
+    </a>
+    <a
+    style="margin-right: 70px"
+      [routerLink]="'/register'"
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+    >
+      Registrar
+    </a>
+    <a
+     
+      style="margin-right: 50px"
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+    >
+      Cerrar sesión
+    </a>
+    <button
+  
+      mat-button
+      style="margin-right: 10px"
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+    >
+     
+    </button>
+  </mat-toolbar>

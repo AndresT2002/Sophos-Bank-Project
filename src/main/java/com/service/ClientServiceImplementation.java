@@ -128,6 +128,17 @@ public class ClientServiceImplementation implements ClientService{
 		return clientRepository.findById(id);
 	}
 
+	@Override
+	public Client getClientByEmail(String email) {
+		Optional<Client> client= clientRepository.findByEmail(email);
+		if (!client.isPresent()) {
+			return null;
+		}
+		Client clientFinded=client.get();
+		
+		return clientFinded;
+	}
+
 	
 
 	

@@ -37,6 +37,20 @@ public class Client {
 	private Date modifiedAt;
 	@Column(name="MODIFIED_BY")
 	private String modifiedBy;
+	@Column(name="ROLE")
+	private String role;
+	
+	
+	public String getRole() {
+		return role;
+	}
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
 	public int getId() {
 		return id;
 	}

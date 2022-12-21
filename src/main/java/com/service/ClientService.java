@@ -13,5 +13,6 @@ public interface ClientService {
 	public Client updateClient(Client client,int userId);
 	public List<Client> listClients();
 	public Optional<Client> getClientById(int id);
+	public Client getClientByEmail(String email);
 	
 }
