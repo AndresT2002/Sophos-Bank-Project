@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.repository.ClientRepository;
 import com.repository.ProductRepository;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class ClientServiceImplementation implements ClientService{
@@ -39,6 +39,8 @@ public class ClientServiceImplementation implements ClientService{
 		int birthYear=dateParsed.getYear();
 		
 		
+		
+		
 		ZoneId zoneId = ZoneId.of( "America/Bogota" );  // Or 'ZoneOffset.UTC'.
 		ZonedDateTime now = ZonedDateTime.now( zoneId );
 		int currentYear=now.getYear();
@@ -50,11 +52,14 @@ public class ClientServiceImplementation implements ClientService{
 			return null;
 					
 		}else {
+			String password= new BCryptPasswordEncoder().encode(client.getPassword());
+			
+			client.setPassword(password);
+			
 			ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
 			LocalDate localDate = zonedDateTime.toLocalDate();
 			java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
-			System.out.println(localDate);
-			System.out.println(sqlDate);
+			
 			client.setCreatedAt(sqlDate);
 			return clientRepository.save(client);
 		}
@@ -100,8 +105,9 @@ public class ClientServiceImplementation implements ClientService{
 			clientToUpdate.setName(client.getName());
 			clientToUpdate.setIdentificationNumber(client.getIdentificationNumber());
 			if(!client.getPassword().isEmpty()) {
-				clientToUpdate.setPassword(client.getPassword());
+				clientToUpdate.setPassword(new BCryptPasswordEncoder().encode(client.getPassword()));
 			}		
+			client.setCreatedBy("Admin");
 			clientToUpdate.setIdentificationType(client.getIdentificationType());
 			clientToUpdate.setModifiedBy("ADMIN");
 			
