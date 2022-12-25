@@ -11,13 +11,13 @@ import Swal from 'sweetalert2';
 export class RegisterComponent implements OnInit{
 
   public user={
-    name:" ",
-    lastName:" ",
-    birthDay:" ",
-    identificationType:" ",
-    identificationNumber:" ",
-    email:" ",
-    password:" ",
+    name:"",
+    lastName:"",
+    birthDay:"",
+    identificationType:"",
+    identificationNumber:"",
+    email:"",
+    password:"",
     createdBy:"user"
 
   }
@@ -29,11 +29,11 @@ export class RegisterComponent implements OnInit{
 
   formSubmit(){
     console.log(this.user)
-    if(this.user.name == ' ' || this.user.name == null || this.user.lastName == ' ' 
+    if(this.user.name == '' || this.user.name == null || this.user.lastName == '' 
     || this.user.lastName == null || this.user.birthDay == '' || this.user.birthDay == null || 
-    this.user.identificationType == ' ' || this.user.identificationType == null
-    ||this.user.identificationNumber == ' ' || this.user.identificationNumber == null ||
-    this.user.email == ' ' || this.user.email == null || this.user.password == ' ' || this.user.password == null ){
+    this.user.identificationType == '' || this.user.identificationType == null
+    ||this.user.identificationNumber == '' || this.user.identificationNumber == null ||
+    this.user.email == '' || this.user.email == null || this.user.password == '' || this.user.password == null ){
       this.snack.open('Todos los campos deben estar completos','Aceptar',{
         duration : 3000,
         verticalPosition : 'top',

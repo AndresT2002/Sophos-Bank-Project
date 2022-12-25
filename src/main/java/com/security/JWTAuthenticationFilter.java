@@ -6,7 +6,9 @@ import java.util.Collections;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.entity.Response;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +21,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
+
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	
@@ -32,6 +35,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			authCredentials=new ObjectMapper().readValue(request.getReader(),AuthCredentials.class);
 			
 		} catch (IOException e) {
+			System.out.println("ENTRE ERROR");
 			e.printStackTrace();
 		} 
 		
@@ -48,18 +52,24 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public void successfulAuthentication (HttpServletRequest request,
 			HttpServletResponse response,FilterChain chain, Authentication authResult) throws IOException, ServletException {
-		
+			
 		UserDetailsImpl  userDetails=(UserDetailsImpl) authResult.getPrincipal();
 		
 		String token= TokenUtils.createToken(userDetails.getNombre(),userDetails.getUsername());
 		
+		Response responseObjec= new Response();
+		responseObjec.setToken(token);
+		
+		String json = new ObjectMapper().writeValueAsString(responseObjec);
+		
 		response.addHeader("Authorization", "Bearer "+token);
+		response.getWriter().write(json);
 		response.getWriter().flush();
 		
 		super.successfulAuthentication(request, response, chain, authResult);
 		
 	}
-	
+		
 	
 	
 	

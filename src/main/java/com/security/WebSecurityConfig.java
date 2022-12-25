@@ -1,5 +1,8 @@
 package com.security;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,15 +19,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.security.config.Customizer;
 @Configuration
 
 
 @AllArgsConstructor
-
+@EnableWebSecurity
 public class WebSecurityConfig {
 
 	private final UserDetailsService userDetailsService;
@@ -42,8 +49,8 @@ public class WebSecurityConfig {
 		
 		
 		
-		
-	return http
+			
+	return http.cors(Customizer.withDefaults())
 			.csrf().disable()
 			
 			.authorizeHttpRequests()
@@ -75,9 +82,19 @@ public class WebSecurityConfig {
 //		return new InMemoryUserDetailsManager(user);
 //		
 //	}
-		
+	@Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        
+        
+        
+        return source;
+    }
 	
 	@Bean
+	
 	AuthenticationManager authManager(HttpSecurity http) throws Exception{
 		return http.getSharedObject(AuthenticationManagerBuilder.class)
 				.userDetailsService(userDetailsService)
@@ -89,7 +106,7 @@ public class WebSecurityConfig {
 	
 	
 	
-	
+		
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		
