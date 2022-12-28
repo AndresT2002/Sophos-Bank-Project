@@ -28,8 +28,6 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.Customizer;
 @Configuration
-
-
 @AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig {

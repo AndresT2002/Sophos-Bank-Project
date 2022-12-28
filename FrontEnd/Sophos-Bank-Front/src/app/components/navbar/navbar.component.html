@@ -9,16 +9,19 @@
     </a>
     <span>Portal de exámenes</span>
     <span class="example-spacer"></span>
+
     <a
-    style="margin-right: 120px"
+      *ngIf="!loginService.isLoggedIn()"
+    style="margin-right: 70px"
       [routerLink]="'/login'"
       mat-icon-button
-      class = "example-icon favorite-icon "
-      aria-label = "Example icon-button with heart icon"
-    >
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+    >  
       Iniciar sesión
     </a>
     <a
+    *ngIf="!loginService.isLoggedIn()"
     style="margin-right: 70px"
       [routerLink]="'/register'"
       mat-icon-button
@@ -27,9 +30,12 @@
     >
       Registrar
     </a>
+
+
     <a
-     
-      style="margin-right: 50px"
+    *ngIf="loginService.isLoggedIn()"
+    (click)="logout()"
+      style="margin-right: 200px"
       mat-icon-button
       class="example-icon favorite-icon"
       aria-label="Example icon-button with heart icon"
@@ -37,12 +43,13 @@
       Cerrar sesión
     </a>
     <button
-  
+    *ngIf="loginService.isLoggedIn()"
+    
       mat-button
       style="margin-right: 10px"
       class="example-icon favorite-icon"
       aria-label="Example icon-button with heart icon"
+      
     >
-     
-    </button>
+    </button> 
   </mat-toolbar>

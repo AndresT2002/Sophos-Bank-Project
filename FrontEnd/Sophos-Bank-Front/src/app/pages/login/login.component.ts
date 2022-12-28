@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class LoginComponent {
   }
 
 
-  constructor(private snack: MatSnackBar,private loginService:LoginService){}
+  constructor(private snack: MatSnackBar,private loginService:LoginService,private router:Router){}
 
   ngOnInit():void{
 
@@ -42,8 +43,27 @@ export class LoginComponent {
         this.loginService.generateToken(this.loginData).subscribe(  
           (data:any)=>{
           console.log(data)
+          this.loginService.loginUser(data.token)
+          this.loginService.getCurrentUser().subscribe((user:any)=>{
+            this.loginService.setUser(user);
+            console.log(user)
+            if(user.role=="ADMIN"){
+              this.router.navigate(["/admin"])
+              this.loginService.loginStatusSubject.next(true);
+            }else if (user.role=="CLIENT"){
+              this.router.navigate(["/user-dashboard"]) 
+              this.loginService.loginStatusSubject.next(true);
+            }else{
+              this.loginService.logout()
+            }
+
+
+          })
           },(error)=>{
             console.log(error)
+            this.snack.open("Detalles invalidos,vuelva a intentar !!", "Aceptar",{
+              duration:3000
+            })
           }
 
         )

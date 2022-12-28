@@ -1,5 +1,7 @@
 package com.security;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +29,5 @@ public class UserDetailServiceImpl implements UserDetailsService{
 	}
 
 	
-	
-	
+		
 }

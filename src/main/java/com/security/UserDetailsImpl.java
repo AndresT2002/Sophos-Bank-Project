@@ -35,7 +35,12 @@ public class UserDetailsImpl implements UserDetails{
 		// TODO Auto-generated method stub
 		return client.getEmail();
 	}
-
+	
+	public String getRole() {
+		// TODO Auto-generated method stub
+		return client.getRole();
+	}
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
