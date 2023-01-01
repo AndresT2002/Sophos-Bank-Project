@@ -27,7 +27,6 @@ import com.entity.Client;
 
 
 @RestController
-
 @RequestMapping("/clients")
 @CrossOrigin("*")
 public class ClientController {
@@ -42,8 +41,8 @@ public class ClientController {
 	}
 	
 	@GetMapping ("/mostrar/{id}")
-	public ResponseEntity<Optional<Client>> getClientById(@PathVariable("id") int id){
-		return new ResponseEntity<>(clientService.getClientById(id),HttpStatus.OK);
+	public ResponseEntity<Optional<Client>> getClientByIdentificationNumber(@PathVariable("id") int id){
+		return new ResponseEntity<>(clientService.getClientByIdentificationNumber(id),HttpStatus.OK);
 	}
 	
 	
@@ -78,9 +77,9 @@ public class ClientController {
 		boolean clientEliminated = clientService.deleteClient(id);
 		
 		if(clientEliminated) {
-			return new ResponseEntity<>("Client Eliminated" ,HttpStatus.OK);
+			return new ResponseEntity<>(null ,HttpStatus.OK);
 		}else {
-			return new ResponseEntity<>("Error",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		
 			}	
 	}

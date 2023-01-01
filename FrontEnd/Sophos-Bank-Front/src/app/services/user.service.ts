@@ -10,8 +10,15 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
+  
+
   public registrarUsuario(user:any){
   return this.httpClient.post(`${baseUrl}/v0/clients`,user)
   }
+
+  public deleteClient(cedula:number){
+    return this.httpClient.delete(`${baseUrl}/v0/clients/delete/${cedula}`)
+    }
+
 
 }

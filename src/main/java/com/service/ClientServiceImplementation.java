@@ -69,8 +69,8 @@ public class ClientServiceImplementation implements ClientService{
 	}
 	
 	@Override
-	public boolean deleteClient(int id) {
-		Optional<Client> client=clientRepository.findById(id);
+	public boolean deleteClient(int identificationNumber) {
+		Optional<Client> client=clientRepository.findByIdentificationNumber(identificationNumber);
 
 		if(client.isPresent()) {
 			Client clientObtained=client.get();
@@ -129,9 +129,9 @@ public class ClientServiceImplementation implements ClientService{
 	}
 
 	@Override
-	public Optional<Client> getClientById(int id) {
+	public Optional<Client> getClientByIdentificationNumber(int identificationNumber) {
 		
-		return clientRepository.findById(id);
+		return clientRepository.findById(identificationNumber);
 	}
 
 	@Override

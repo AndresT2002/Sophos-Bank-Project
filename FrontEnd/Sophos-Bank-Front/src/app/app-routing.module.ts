@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { DeleteClientComponent } from './pages/delete-client/delete-client.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -20,7 +21,8 @@ const routes: Routes = [
   {
     path:'register',
     component:RegisterComponent,
-    pathMatch:'full'
+    pathMatch:'full',
+    canActivate:[AdminGuard]
   },
 
   {
@@ -41,6 +43,13 @@ const routes: Routes = [
     component:UserDashboardComponent,
     pathMatch:'full',
     canActivate:[NormalGuard]
+  },
+
+  {
+    path:'deleteClient',
+    component:DeleteClientComponent,
+    pathMatch:'full',
+    canActivate:[AdminGuard]
   }
 
 

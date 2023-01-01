@@ -17,7 +17,7 @@ export class LoginService {
   
   //generar token
   public generateToken(loginData:any){
-  return this.http.post(`${baseUrl}/login`,loginData)
+  return this.http.post(`${baseUrl}/v0/login`,loginData)
   }
 
   //iniciar sesion y almacenar token en local storage
@@ -69,7 +69,7 @@ public getUserRole(){
 }
 
 public getCurrentUser(){
-  return  this.http.get(`${baseUrl}/user/currentUser`)
+  return  this.http.get(`${baseUrl}/v0/user/currentUser`)
 }
 
 

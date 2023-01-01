@@ -22,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { authInterceptorProviders } from './services/auth.interceptor';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
+import { DeleteClientComponent } from './pages/delete-client/delete-client.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboa
     HomeComponent,
     DashboardComponent,
     UserDashboardComponent,
+    DeleteClientComponent,
     
   ],
   imports: [

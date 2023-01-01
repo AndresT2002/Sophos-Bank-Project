@@ -45,8 +45,8 @@ public class WebSecurityConfig {
 		jwtAuthenticationFilter.setAuthenticationManager(authManager);
 		jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 		
-		
-		
+			
+			
 			
 	return http.cors(Customizer.withDefaults())
 			.csrf().disable()
@@ -84,8 +84,15 @@ public class WebSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedHeader("*");         
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PUT");
+        source.registerCorsConfiguration("/**", config);
         
         
         return source;
