@@ -35,12 +35,12 @@ public class ClientController {
 	@Autowired
 	ClientService clientService;
 	
-	@GetMapping ("/mostrar")
+	@GetMapping ("/getclients")
 	public ResponseEntity<List<Client>> getClients(){
 		return new ResponseEntity<>(clientService.listClients(),HttpStatus.OK);
 	}
 	
-	@GetMapping ("/mostrar/{id}")
+	@GetMapping ("/getclients/{id}")
 	public ResponseEntity<Optional<Client>> getClientByIdentificationNumber(@PathVariable("id") int id){
 		return new ResponseEntity<>(clientService.getClientByIdentificationNumber(id),HttpStatus.OK);
 	}

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { DeleteClientComponent } from './pages/delete-client/delete-client.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ListClientsComponent } from './pages/list-clients/list-clients.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
@@ -48,6 +49,12 @@ const routes: Routes = [
   {
     path:'deleteClient',
     component:DeleteClientComponent,
+    pathMatch:'full',
+    canActivate:[AdminGuard]
+  },
+  {
+    path:'listClients',
+    component:ListClientsComponent,
     pathMatch:'full',
     canActivate:[AdminGuard]
   }

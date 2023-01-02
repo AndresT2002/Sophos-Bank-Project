@@ -23,6 +23,9 @@ import { authInterceptorProviders } from './services/auth.interceptor';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
 import { DeleteClientComponent } from './pages/delete-client/delete-client.component';
+import { ListClientsComponent } from './pages/list-clients/list-clients.component';
+import {MatTableModule} from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +37,7 @@ import { DeleteClientComponent } from './pages/delete-client/delete-client.compo
     DashboardComponent,
     UserDashboardComponent,
     DeleteClientComponent,
+    ListClientsComponent,
     
   ],
   imports: [
@@ -51,7 +55,9 @@ import { DeleteClientComponent } from './pages/delete-client/delete-client.compo
     MatSnackBarModule,
     MatCardModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
+    
     
   ],
   providers: [MatDatepickerModule,MatNativeDateModule,authInterceptorProviders],
