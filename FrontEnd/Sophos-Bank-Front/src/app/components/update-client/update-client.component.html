@@ -1,0 +1,66 @@
+<div class="bootstrap-wrapper">
+
+<div class="container">
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6 offset-md-3">
+            <div class="container text-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/3394/3394625.png" width="100" height="100">
+            </div>
+            <h1 class="text-center"> Actualizar Usuario</h1>
+
+            <form (ngSubmit)="formUpdate()">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label> Nombre </mat-label>
+                <input required  [(ngModel)]="client.name" matInput name="name" type="text" placeholder="Escriba su nombre">
+            </mat-form-field>
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label> Apellido</mat-label>
+                <input  required  [(ngModel)]="client.lastName" name="lastName" matInput type="text" placeholder="Escriba su Apellido">
+            </mat-form-field>
+
+            
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label> Tipo de identificación</mat-label>
+               <mat-select [(value)]="client.identificationType">
+                   <mat-option value="Cedula Extranjeria">Cedula extranjeria</mat-option>
+                  <mat-option value="Cedula Ciudadania">Cedula ciudadania</mat-option>
+             </mat-select> 
+                
+            </mat-form-field>
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label> Número de identificación</mat-label>
+                <input required  [(ngModel)]="client.identificationNumber" name="identificationNumber" matInput min="0" type="number" placeholder="Escriba su número de identificación">
+            </mat-form-field>
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label> Email</mat-label>
+                <input required [(ngModel)]="client.email"name="email" matInput type="email" placeholder="Escriba su email">
+            </mat-form-field>
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label> Contraseña</mat-label>
+                <input required [(ngModel)]="client.password" name="password" matInput type="password" placeholder="Escriba su contraseña">
+            </mat-form-field>
+
+            <div class="container text-center ">
+                <button mat-raised-button color="primary">Registrar</button>
+                <button style="margin-left: 20px;" type="reset" mat-raised-button color="accent">Limpiar</button>
+                
+            </div>
+
+
+            </form>
+            
+            <button mat-raised-button color="warn" (click)="onCloseClick()">Close</button>  
+        </div>
+
+
+    </div>
+</div>
+
+</div>
+
+

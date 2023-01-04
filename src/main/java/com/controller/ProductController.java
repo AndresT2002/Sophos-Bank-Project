@@ -32,6 +32,11 @@ public class ProductController {
 		return new ResponseEntity<>(productService.listProducts(),HttpStatus.OK);
 	}
 	
+	@GetMapping("/clientid/{clientid}")
+	public ResponseEntity<List<Product>> getProductsByClientId(@PathVariable("clientid") int clientid){
+		return new ResponseEntity<>(productService.getProductsByClientId(clientid),HttpStatus.OK);
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Product>> getProductById(@PathVariable("id") int id){
 		

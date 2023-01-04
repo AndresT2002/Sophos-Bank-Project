@@ -54,6 +54,19 @@
                 <input required [(ngModel)]="user.password" name="password" matInput type="password" placeholder="Escriba su contraseña">
             </mat-form-field>
 
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label> Tipo de usuario</mat-label>
+                
+            
+               <mat-select [(value)]="user.role">
+                   <mat-option value="ADMIN">Admin</mat-option>
+                  <mat-option value="CLIENT">Cliente</mat-option>
+             </mat-select> 
+                
+            </mat-form-field>
+
+
             <div class="container text-center">
                 <button mat-raised-button color="primary">Registrar</button>
                 <button style="margin-left: 20px;" type="reset" mat-raised-button color="accent">Limpiar</button>

@@ -3,7 +3,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminServiceService } from 'src/app/services/admin-service.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
-
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateClientComponent } from 'src/app/components/update-client/update-client.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-clients',
@@ -21,9 +23,10 @@ export class ListClientsComponent {
     email:"",
 
   }
-  columndefs : any[] = ['name','email','birthDay','createdAt','identificationNumber','deleteClient'];
+  columndefs : any[] = ['name','email','birthDay','createdAt','identificationNumber','deleteClient','updateClient'];
   data:any;
-  constructor(private adminService:AdminServiceService, private userService: UserService,private snack: MatSnackBar){}
+  constructor(private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
+    private matDialog:MatDialog){}
   
 
   ngOnInit():void{
@@ -47,6 +50,7 @@ export class ListClientsComponent {
     this.userService.deleteClient(Number(identificationNumber)).subscribe((data)=>{
       console.log(data)
       Swal.fire('Usuario Eliminado','Usuario eliminado con exito en el sistema','success');
+      window.location.reload();
     },(error =>{
       console.log(error)
       this.snack.open('Error en la solicitud','Aceptar',{
@@ -57,7 +61,21 @@ export class ListClientsComponent {
     )
   }
 
+  onOpenUpdateDialog(client:any){
 
+    let dialogRef=this.matDialog.open(UpdateClientComponent,{
+      data:client,
+      disableClose:true,
+      hasBackdrop:true
+    })
+
+    dialogRef.afterClosed().subscribe(result =>{
+      
+    })
+
+
+
+  }
 
 
 }

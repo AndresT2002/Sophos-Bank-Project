@@ -20,5 +20,7 @@ export class UserService {
     return this.httpClient.delete(`${baseUrl}/v0/clients/delete/${cedula}`)
     }
 
-
+  public updateClient(user:any){
+    return this.httpClient.put(`${baseUrl}/v0/clients/${user.id}/update`,user)
+    }
 }

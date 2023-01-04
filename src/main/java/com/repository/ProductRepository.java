@@ -16,6 +16,6 @@ public interface ProductRepository extends JpaRepository<Product,Integer>{
 
 		List <Product >findByBelongsTo(Client client);
 		Optional<Product> findByProductNumber(long productNumber);
-		
+		List <Product> findByBelongsTo(int clientId);
 		
 }

@@ -18,7 +18,8 @@ export class RegisterComponent implements OnInit{
     identificationNumber:"",
     email:"",
     password:"",
-    createdBy:"user"
+    createdBy:"ADMIN",
+    role:""
 
   }
 

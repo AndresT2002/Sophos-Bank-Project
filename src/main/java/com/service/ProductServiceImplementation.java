@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -282,6 +283,20 @@ public class ProductServiceImplementation implements ProductService{
 		
 		return productRepository.save(productFinded);
 		
+	}
+
+	@Override
+	public List<Product> getProductsByClientId(int clientId) {
+		// TODO Auto-generated method stub
+		
+		List<Product> allProducts=productRepository.findAll();
+		
+		List<Product> clientProducts=allProducts.stream()
+	               .filter(a -> a.getBelongsTo().getId()== clientId)
+	               .collect(Collectors.toList());;
+	            		   
+		
+		return clientProducts;
 	}
 
 	

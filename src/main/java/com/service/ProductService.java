@@ -23,5 +23,5 @@ public interface ProductService {
 	public Product desactivateGmf(int id);
 	public Product cancelProduct(long productNumber);
 	 
-	
+	public List<Product> getProductsByClientId(int clientId);
 }

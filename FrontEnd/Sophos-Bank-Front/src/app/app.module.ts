@@ -25,6 +25,10 @@ import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboa
 import { DeleteClientComponent } from './pages/delete-client/delete-client.component';
 import { ListClientsComponent } from './pages/list-clients/list-clients.component';
 import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
+import { UpdateClientComponent } from './components/update-client/update-client.component';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
+
 
 
 @NgModule({
@@ -38,6 +42,7 @@ import {MatTableModule} from '@angular/material/table';
     UserDashboardComponent,
     DeleteClientComponent,
     ListClientsComponent,
+    UpdateClientComponent,
     
   ],
   imports: [
@@ -57,10 +62,12 @@ import {MatTableModule} from '@angular/material/table';
     MatToolbarModule,
     MatIconModule,
     MatTableModule,
+    MatDialogModule,
+    MatMomentDateModule
     
     
   ],
-  providers: [MatDatepickerModule,MatNativeDateModule,authInterceptorProviders],
+  providers: [MatDatepickerModule,MatNativeDateModule,authInterceptorProviders, { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
