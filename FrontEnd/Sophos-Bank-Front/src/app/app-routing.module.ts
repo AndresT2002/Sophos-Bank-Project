@@ -4,6 +4,7 @@ import { DashboardComponent } from './pages/admin/dashboard/dashboard.component'
 import { DeleteClientComponent } from './pages/delete-client/delete-client.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ListClientsComponent } from './pages/list-clients/list-clients.component';
+import { ListProductsComponent } from './pages/list-products/list-products.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
@@ -57,6 +58,12 @@ const routes: Routes = [
     component:ListClientsComponent,
     pathMatch:'full',
     canActivate:[AdminGuard]
+  },
+  {
+    path:'listProducts',
+    component:ListProductsComponent,
+    pathMatch:'full',
+    
   }
 
 

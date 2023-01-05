@@ -65,8 +65,14 @@ public class UserDetailsImpl implements UserDetails{
 		return true;
 	}
 	
-	public String getNombre() {
+	public String getName() {
 		return client.getName();
 	}
+	
+	public int getId() {
+		return client.getId();
+	}
+	
+	
 
 }

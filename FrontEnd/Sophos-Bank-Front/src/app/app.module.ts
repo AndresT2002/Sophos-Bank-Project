@@ -28,6 +28,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import { UpdateClientComponent } from './components/update-client/update-client.component';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
+import { ListProductsComponent } from './pages/list-products/list-products.component';
 
 
 
@@ -43,6 +44,7 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/mat
     DeleteClientComponent,
     ListClientsComponent,
     UpdateClientComponent,
+    ListProductsComponent,
     
   ],
   imports: [
