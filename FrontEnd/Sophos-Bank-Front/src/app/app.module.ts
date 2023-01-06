@@ -12,7 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { HomeComponent } from './pages/home/home.component';
@@ -29,7 +29,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { UpdateClientComponent } from './components/update-client/update-client.component';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
 import { ListProductsComponent } from './pages/list-products/list-products.component';
-
+import { CreateProductComponent } from './pages/create-product/create-product.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { ListProductsComponent } from './pages/list-products/list-products.compo
     ListClientsComponent,
     UpdateClientComponent,
     ListProductsComponent,
+    CreateProductComponent,
     
   ],
   imports: [
@@ -65,7 +67,9 @@ import { ListProductsComponent } from './pages/list-products/list-products.compo
     MatIconModule,
     MatTableModule,
     MatDialogModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
     
     
   ],

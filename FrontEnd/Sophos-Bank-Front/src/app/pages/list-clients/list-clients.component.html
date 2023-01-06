@@ -26,6 +26,11 @@
       <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="identificationType">
+      <th mat-header-cell *matHeaderCellDef> Identification Type </th>
+      <td mat-cell *matCellDef="let element"> {{element.identificationType}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="identificationNumber">
         <th mat-header-cell *matHeaderCellDef> Identification Number </th>
         <td mat-cell *matCellDef="let element"> {{element.identificationNumber}} </td>

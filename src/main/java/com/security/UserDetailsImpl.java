@@ -73,6 +73,10 @@ public class UserDetailsImpl implements UserDetails{
 		return client.getId();
 	}
 	
+	public int getIdentificationNumber() {
+		return client.getIdentificationNumber();
+	}
+	
 	
 
 }

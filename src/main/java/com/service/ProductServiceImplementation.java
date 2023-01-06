@@ -48,6 +48,23 @@ public class ProductServiceImplementation implements ProductService{
 		List<Product> productsId=productRepository.findAll();
 		
 		
+		Optional<Client> productOwner=clientRepository.findById(product.getBelongsTo().getId());
+		if (!productOwner.isPresent()) {
+			return null;
+		}
+		Client clientFinded=productOwner.get();
+		
+		List<Product> products= productRepository.findByBelongsTo(clientFinded);
+		
+		boolean hasGmf=products.stream().filter(o -> o.getGmf().equals("Yes")).findFirst().isPresent();
+		System.out.println(product.getGmf());
+		System.out.println(hasGmf);
+		
+		if (hasGmf== true && product.getGmf().equals("Yes")) {
+			System.out.println("XDDDDDD");
+			return null;
+		}
+		
 		
 		
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { CreateProductComponent } from './pages/create-product/create-product.component';
 import { DeleteClientComponent } from './pages/delete-client/delete-client.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ListClientsComponent } from './pages/list-clients/list-clients.component';
@@ -63,6 +64,14 @@ const routes: Routes = [
     path:'listProducts',
     component:ListProductsComponent,
     pathMatch:'full',
+    
+  }
+  ,
+  {
+    path:'createProduct',
+    component:CreateProductComponent,
+    pathMatch:'full',
+    canActivate:[AdminGuard]
     
   }
 

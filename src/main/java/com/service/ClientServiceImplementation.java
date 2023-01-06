@@ -41,6 +41,7 @@ public class ClientServiceImplementation implements ClientService{
 		
 		
 		
+		
 		ZoneId zoneId = ZoneId.of( "America/Bogota" );  // Or 'ZoneOffset.UTC'.
 		ZonedDateTime now = ZonedDateTime.now( zoneId );
 		int currentYear=now.getYear();
@@ -48,7 +49,16 @@ public class ClientServiceImplementation implements ClientService{
 		Pattern pattern = Pattern.compile("^[_A-ZáéíóúÁÉÍÓÚñÑa-z0-9-\\+]+(\\.[_A-ZáéíóúÁÉÍÓÚñÑa-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         Matcher matcher = pattern.matcher(client.getEmail());
         
-		if((currentYear-birthYear <18) || (client.getName().length() <= 2) || (client.getLastName().length() <= 2) || (!matcher.find())) {
+        
+        Optional<Client> clientByIdentification=clientRepository.findByIdentificationNumber(client.getIdentificationNumber());
+		Optional<Client> clientByEmail=clientRepository.findByEmail(client.getEmail());
+		
+		if(clientByIdentification.isPresent() || clientByEmail.isPresent()) {
+			return null;
+		}
+		
+        
+		if((currentYear-birthYear < 18) || (client.getName().length() <= 2) || (client.getLastName().length() <= 2) || (!matcher.find())) {
 			return null;
 					
 		}else {
@@ -144,6 +154,8 @@ public class ClientServiceImplementation implements ClientService{
 		
 		return clientFinded;
 	}
+
+	
 
 	
 

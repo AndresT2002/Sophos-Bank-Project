@@ -23,7 +23,7 @@ export class ListClientsComponent {
     email:"",
 
   }
-  columndefs : any[] = ['name','email','birthDay','createdAt','identificationNumber','deleteClient','updateClient'];
+  columndefs : any[] = ['name','email','birthDay','createdAt','identificationType','identificationNumber','deleteClient','updateClient'];
   data:any;
   constructor(private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     private matDialog:MatDialog){}
