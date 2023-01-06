@@ -100,7 +100,7 @@ export class CreateProductComponent implements OnInit{
 
     this.productService.createProduct(this.product).subscribe((data)=>{
       
-      Swal.fire('Usuario guardado','Usuario registrado con exito en el sistema','success');
+      Swal.fire('Producto Creado','Producto creado con exito en el sistema','success');
     },(error =>{
       console.log(error)
       this.snack.open('Error en la solicitud','Aceptar',{

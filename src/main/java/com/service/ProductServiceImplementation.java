@@ -311,7 +311,10 @@ public class ProductServiceImplementation implements ProductService{
 		List<Product> clientProducts=allProducts.stream()
 	               .filter(a -> a.getBelongsTo().getId()== clientId)
 	               .collect(Collectors.toList());;
-	            		   
+	            		  
+	    if(clientProducts.isEmpty()) {
+	    	return null;
+	    }
 		
 		return clientProducts;
 	}

@@ -1,29 +1,27 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component,Inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ProductTransHistoryComponent } from 'src/app/components/product-trans-history/product-trans-history.component';
-
 import { AdminServiceService } from 'src/app/services/admin-service.service';
 import { LoginService } from 'src/app/services/login.service';
-
+import  {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog'
 import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
+import { ProductTransHistoryComponent } from '../product-trans-history/product-trans-history.component';
 
 @Component({
-  selector: 'app-list-products',
-  templateUrl: './list-products.component.html',
-  styleUrls: ['./list-products.component.css']
+  selector: 'app-list-products-admin',
+  templateUrl: './list-products-admin.component.html',
+  styleUrls: ['./list-products-admin.component.css']
 })
 //Yes es que si está excenta
-export class ListProductsComponent {
+export class ListProductsAdminComponent {
   columndefs : any[] = ['productNumber','createdAt','modifiedAt','debtValue','gmf','productAvailable','productBalance','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
   data:any;
-  constructor(private matDialog:MatDialog,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
+  constructor(private matDialog:MatDialog,private MatDialogRef:MatDialogRef<ListProductsAdminComponent>,@Inject(MAT_DIALOG_DATA) public clientData:any,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     ){}
-  
+
   currentUser:any;
   activeProducts:any;
   inactiveProducts:any;
@@ -31,14 +29,27 @@ export class ListProductsComponent {
   products:any;
   productsOrdered:any;
 
+  public client={
+    id:this.clientData.id,
+    }
   
-  
+  ngOnDestroy():void{
+    this.MatDialogRef.close(this.clientData)
+    
+  }
+
+  onCloseClick():void{
+    this.MatDialogRef.close()
+  }
+
+
+
   ngOnInit():void{
 
     this.loginService.getCurrentUser().subscribe((dataObtained)=>{
       this.currentUser=dataObtained
       
-      this.productService.listClientProducts(this.currentUser.id).subscribe((dataObtained)=>{
+      this.productService.listClientProducts(this.client.id).subscribe((dataObtained)=>{
         console.log(dataObtained)
         this.products=[]
         this.productsOrdered=[]

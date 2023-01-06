@@ -31,6 +31,9 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/mat
 import { ListProductsComponent } from './pages/list-products/list-products.component';
 import { CreateProductComponent } from './pages/create-product/create-product.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ListProductsAdminComponent } from './components/list-products-admin/list-products-admin.component';
+import { ProductTransHistoryComponent } from './components/product-trans-history/product-trans-history.component';
+
 
 
 @NgModule({
@@ -47,6 +50,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     UpdateClientComponent,
     ListProductsComponent,
     CreateProductComponent,
+    ListProductsAdminComponent,
+    ProductTransHistoryComponent
     
   ],
   imports: [

@@ -1,17 +1,20 @@
 package com.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Product;
+import com.entity.TransactionHistory;
 import com.service.ProductService;
 import com.service.TransactionsImplementation;
 
@@ -66,6 +69,20 @@ public class TransactionController {
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 			
+	}
+	
+	
+	
+	@GetMapping("/history/{productNumber}")
+	public ResponseEntity<List<TransactionHistory>> transactionHistoryByNumber(@PathVariable("productNumber") long productNumber){
+
+		List<TransactionHistory> historyObtained=transactionService.transactionHistoryByNumber(productNumber);
+		
+		if(historyObtained ==  null) {
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(historyObtained,HttpStatus.OK);
 	}
 	
 	

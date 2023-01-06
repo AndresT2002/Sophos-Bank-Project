@@ -81,17 +81,18 @@
             <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" *ngIf="element.status != 'Canceled' && element.gmf=='Yes'" (click)="desactivateGmf(element.id)" >Desactivate Gmf</button> </td>
           </ng-container>
           
-          
-        
+
           <ng-container matColumnDef="productHistory">
             <th mat-header-cell *matHeaderCellDef> Product History</th>
             <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onOpenProductHistoryDialog(element)">Transaction History</button> </td>
           </ng-container>
 
 
+
           <tr mat-header-row *matHeaderRowDef="columndefs"></tr>
           <tr mat-row *matRowDef="let row; columns: columndefs;" [ngClass]="{'new-row': row.gmf == 'Yes' }"></tr>
-      </table>
         
+      </table>
+      <button mat-raised-button color="warn" (click)="onCloseClick()">Close</button> 
     </div>
     </div>

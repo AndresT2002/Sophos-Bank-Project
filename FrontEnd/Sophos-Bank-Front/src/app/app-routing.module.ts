@@ -61,7 +61,7 @@ const routes: Routes = [
     canActivate:[AdminGuard]
   },
   {
-    path:'listProducts',
+    path:'listClientProducts',
     component:ListProductsComponent,
     pathMatch:'full',
     

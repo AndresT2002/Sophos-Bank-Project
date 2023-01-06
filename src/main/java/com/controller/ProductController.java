@@ -34,7 +34,13 @@ public class ProductController {
 	
 	@GetMapping("/clientid/{clientid}")
 	public ResponseEntity<List<Product>> getProductsByClientId(@PathVariable("clientid") int clientid){
-		return new ResponseEntity<>(productService.getProductsByClientId(clientid),HttpStatus.OK);
+		List<Product> productsObtained=productService.getProductsByClientId(clientid);
+		
+		if(productsObtained ==  null) {
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(productsObtained,HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")

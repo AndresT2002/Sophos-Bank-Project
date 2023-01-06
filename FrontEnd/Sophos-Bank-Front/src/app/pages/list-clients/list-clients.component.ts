@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateClientComponent } from 'src/app/components/update-client/update-client.component';
 import { Router } from '@angular/router';
+import { ListProductsComponent } from '../list-products/list-products.component';
+import { ListProductsAdminComponent } from 'src/app/components/list-products-admin/list-products-admin.component';
 
 @Component({
   selector: 'app-list-clients',
@@ -23,7 +25,7 @@ export class ListClientsComponent {
     email:"",
 
   }
-  columndefs : any[] = ['name','email','birthDay','createdAt','identificationType','identificationNumber','deleteClient','updateClient'];
+  columndefs : any[] = ['name','email','birthDay','createdAt','identificationType','identificationNumber','deleteClient','updateClient','listProducts'];
   data:any;
   constructor(private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     private matDialog:MatDialog){}
@@ -69,6 +71,22 @@ export class ListClientsComponent {
       hasBackdrop:true
     })
 
+    dialogRef.afterClosed().subscribe(result =>{
+      
+    })
+
+
+
+  }
+
+  onOpenListProductsDialog(client:any){
+
+    let dialogRef=this.matDialog.open(ListProductsAdminComponent,{
+      data:client,
+      disableClose:true,
+      hasBackdrop:true
+    })
+    
     dialogRef.afterClosed().subscribe(result =>{
       
     })

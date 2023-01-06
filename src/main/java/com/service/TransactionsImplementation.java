@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,8 +94,8 @@ public class TransactionsImplementation implements Transactions{
 		productToFinded.setModifiedAt(sqlDate);
 		
 		
-		TransactionHistory newTransactionFrom= createTransaction( valueGmf,"Debit", productFromFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productFromFinded.getProductNumber());
-		TransactionHistory newTransactionTo= createTransaction( value,"Credit", productToFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productToFinded.getProductNumber());
+		TransactionHistory newTransactionFrom= createTransaction( valueGmf,"Debit", productFromFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productFromFinded.getProductNumber(),productFromFinded.getProductBalance(),productFromFinded.getProductAvailable());
+		TransactionHistory newTransactionTo= createTransaction( value,"Credit", productToFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productToFinded.getProductNumber(),productToFinded.getProductBalance(),productToFinded.getProductAvailable());
 		
 		productRepository.save(productToFinded);
 		productRepository.save(productFromFinded);
@@ -130,10 +131,12 @@ public class TransactionsImplementation implements Transactions{
 		}
 				
 		productToFinded.setModifiedAt(sqlDate);
-		TransactionHistory newTransactionTo= createTransaction( value,"Credit", productToFinded.getBelongsTo().getId(),  sqlDate, "Deposit",  productToFinded.getProductNumber());
+		
+		productRepository.save(productToFinded);
+		
+		TransactionHistory newTransactionTo= createTransaction( value,"Credit", productToFinded.getBelongsTo().getId(),  sqlDate, "Deposit",  productToFinded.getProductNumber(),productToFinded.getProductBalance(),productToFinded.getProductAvailable());
 		
 		transactionHistoryRepository.save(newTransactionTo);
-		productRepository.save(productToFinded);
 		
 		return productToFinded;
 	}
@@ -185,25 +188,29 @@ public class TransactionsImplementation implements Transactions{
 		productFinded.setModifiedAt(sqlDate);
 		
 		
-		TransactionHistory newTransaction= new TransactionHistory();
-		newTransaction.setAmount(valueGmf);
-		newTransaction.setMovementType("Debit");
-		newTransaction.setClientId(productFinded.getBelongsTo().getId());
-		newTransaction.setTransactionDate(sqlDate);
-		newTransaction.setTransactionType("Withdraw");
-		newTransaction.setProductNumber(productFinded.getProductNumber());
 		
-		transactionHistoryRepository.save(newTransaction);
 		
-		return productRepository.save(productFinded);
+		TransactionHistory newTransactionTo= createTransaction( valueGmf,"Debit", productFinded.getBelongsTo().getId(),  sqlDate, "Withdraw",  productFinded.getProductNumber(),productFinded.getProductBalance(),productFinded.getProductAvailable());
+		
+		
+		productRepository.save(productFinded);
+		transactionHistoryRepository.save(newTransactionTo);
+		
+				
+		
+		
+		
+		return productFinded;
 	}
 
 	
 	
 	
 	@Override
-	public TransactionHistory createTransaction(long amount, String movemenType,int clientId, Date transactionDate,String transactionType, long productNumber) {
+	public TransactionHistory createTransaction(long amount, String movemenType,int clientId, Date transactionDate,String transactionType, long productNumber,long productBalance,long productAvailable) {
 		TransactionHistory newTransaction= new TransactionHistory();
+		newTransaction.setProductBalance(productBalance);
+		newTransaction.setProductAvailable(productAvailable);
 		newTransaction.setAmount(amount);
 		newTransaction.setMovementType(movemenType);
 		newTransaction.setClientId(clientId);
@@ -211,6 +218,18 @@ public class TransactionsImplementation implements Transactions{
 		newTransaction.setTransactionType(transactionType);
 		newTransaction.setProductNumber(productNumber);
 		return newTransaction;
+	}
+
+	@Override
+	public List<TransactionHistory> transactionHistoryByNumber(long productNumber) {
+		List<TransactionHistory> transactionHistory= transactionHistoryRepository.findByProductNumber(productNumber);
+		
+		if(transactionHistory.size() ==  0) {
+			return null;
+		}
+		
+
+		return transactionHistory;
 	}
 	
 	

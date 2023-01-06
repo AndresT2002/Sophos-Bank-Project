@@ -28,6 +28,24 @@ public class TransactionHistory {
 	private Long productNumber;
 	@Column(name="TRANSACTION_TYPE")
 	private String transactionType;
+	@Column(name="PRODUCT_BALANCE")
+	private long productBalance;
+	@Column(name="PRODUCT_AVAILABLE")
+	private long productAvailable;
+	
+	
+	public long getProductBalance() {
+		return productBalance;
+	}
+	public void setProductBalance(long productBalance) {
+		this.productBalance = productBalance;
+	}
+	public long getProductAvailable() {
+		return productAvailable;
+	}
+	public void setProductAvailable(long productAvailable) {
+		this.productAvailable = productAvailable;
+	}
 	public int getId() {
 		return id;
 	}
