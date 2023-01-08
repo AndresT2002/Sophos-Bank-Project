@@ -1,0 +1,32 @@
+<!-- Cards with media area -->
+
+<div class="d-flex align-content-between flex-wrap">
+
+    <div class="card w-25  p-3" style="width: 18rem;" *ngFor="let product of data">
+        
+        <div class="card-body" [ngClass]="{'new-row': product.gmf == 'Yes' }">
+          <h1 class="card-title">Product: {{product.productNumber}}</h1>
+          <h1 class="card-title">{{product.productType}}</h1>
+          <h1 class="card-title">{{product.status}}</h1>
+          <p class="card-text">¿Except GMF?:{{product.gmf}}</p>
+          <p class="card-text">Product Balance:{{product.productBalance}}</p>
+          <p class="card-text">Product Available:{{product.productAvailable}}</p>
+          <p class="card-text">Debt Value:{{product.debtValue}}</p>
+          <p class="card-text">Modified By:{{product.modifiedBy}}</p>
+          <div class="d-flex justify-content-evenly">
+            <a (click)="onOpenTransferDialog(product.productNumber)"  *ngIf="product.status == 'Active'" class="btn btn-dark">Transfer</a>
+            <a (click)="onOpenDepositDialog(product.productNumber)"  *ngIf="currentUser.role != 'CLIENT'"  class="btn btn-dark">Deposit</a>
+            <a (click)="onOpenWithdrawtDialog(product.productNumber)"  *ngIf="product.status == 'Active'" class="btn btn-danger">Withdraw</a>
+            <a (click)="onOpenOverdraftDialog(product.productNumber)"  *ngIf="product.productType != 'Ahorros' "  class="btn btn-dark">Overdraft</a>
+            <a (click)="onOpenPayDebtDialog(product.productNumber)"  *ngIf="product.debtValue != 0 "  class="btn btn-dark">Pay Debt</a>
+        </div>
+          
+        </div>
+      </div>
+
+      
+
+      
+
+
+</div>

@@ -9,6 +9,7 @@ import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import { ProductTransHistoryComponent } from '../product-trans-history/product-trans-history.component';
+import { DeleteClientComponent } from 'src/app/pages/delete-client/delete-client.component';
 
 @Component({
   selector: 'app-list-products-admin',
@@ -210,7 +211,7 @@ export class ListProductsAdminComponent {
 
     let dialogRef=this.matDialog.open(ProductTransHistoryComponent,{
       data:productNumber,
-      disableClose:true,
+     
       hasBackdrop:true
     })
     
@@ -219,6 +220,8 @@ export class ListProductsAdminComponent {
     })
 
   }
+
+  
 
 
 

@@ -199,7 +199,7 @@ export class ListProductsComponent {
 
     let dialogRef=this.matDialog.open(ProductTransHistoryComponent,{
       data:productNumber,
-      disableClose:true,
+      
       hasBackdrop:true
     })
     

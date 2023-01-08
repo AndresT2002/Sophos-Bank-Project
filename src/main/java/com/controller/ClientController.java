@@ -40,9 +40,9 @@ public class ClientController {
 		return new ResponseEntity<>(clientService.listClients(),HttpStatus.OK);
 	}
 	
-	@GetMapping ("/getclients/{id}")
-	public ResponseEntity<Optional<Client>> getClientByIdentificationNumber(@PathVariable("id") int id){
-		return new ResponseEntity<>(clientService.getClientByIdentificationNumber(id),HttpStatus.OK);
+	@GetMapping ("/getclient/{id}")
+	public ResponseEntity<Optional<Client>> getClientByI(@PathVariable("id") int id){
+		return new ResponseEntity<>(clientService.getClientById(id),HttpStatus.OK);
 	}
 	
 	
@@ -71,10 +71,10 @@ public class ClientController {
 			}	
 	}
 	
-	@DeleteMapping (path="/delete/{id}")
-	public ResponseEntity<Object> deleteClient(@PathVariable("id") int id){
+	@DeleteMapping (path="/delete/{identificationNumber}")
+	public ResponseEntity<Object> deleteClient(@PathVariable("identificationNumber") int identificationNumber){
 		
-		boolean clientEliminated = clientService.deleteClient(id);
+		boolean clientEliminated = clientService.deleteClient(identificationNumber);
 		
 		if(clientEliminated) {
 			return new ResponseEntity<>(null ,HttpStatus.OK);

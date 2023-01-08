@@ -1,1 +1,36 @@
-<p>bienvenido al panel de user</p>
+<div class="">
+
+    
+
+      <div class="card" style="width: 18rem;">
+        <img src="https://play-lh.googleusercontent.com/jIYCAnoBUwKUQbLr0TVkbOhWf887G2nIyp-CyrFVPZKbcaySNnCo0n3571gfAKu8Jw" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">My products</h1>
+          <p class="card-text">Here you can see your list of products and transaction history</p>
+          <a [routerLink]="'/listClientProducts'"  class="btn btn-primary">Go there</a>
+        </div>
+      </div>
+
+
+      
+      <div class="card" style="width: 18rem;">
+        <img src="https://static.thenounproject.com/png/1340396-200.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">Transactions</h1>
+          <p class="card-text">Here you can do transactions with your products</p>
+          <a [routerLink]="'/transactions'"  class="btn btn-primary">Go there</a>
+        </div>
+      </div>
+
+
+      <div class="card" style="width: 18rem;">
+        <img src="https://static.thenounproject.com/png/3137405-200.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">Update my profile</h1>
+          <p class="card-text">Here you can update your profile data</p>
+          <a  (click)="onOpenUpdateDialog()" class="btn btn-primary">Go there</a>
+        </div>
+      </div>
+
+
+</div>

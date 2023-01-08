@@ -58,6 +58,8 @@ public class ProductController {
 		}
 	}
 	
+	
+	
 	@PostMapping("/create")
 	public ResponseEntity<Product> createProduct(@RequestBody Product product){
 		
@@ -114,10 +116,10 @@ public class ProductController {
 		
 			}	
 	}
-	@PutMapping(path="/overdraft/{id}/{value}")
-	public ResponseEntity<Product> overDraft(@PathVariable("id") int id, @PathVariable("value") long value){
+	@PutMapping(path="/overdraft/{modifiedby}/{productNumber}/{value}")
+	public ResponseEntity<Product> overDraft(@PathVariable("productNumber") long productNumber, @PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		
-		Product productOverdrafted= productService.overDraft(id,value);
+		Product productOverdrafted= productService.overDraft(productNumber,value,modifiedBy);
 		
 		if(productOverdrafted !=  null) {
 			return new ResponseEntity<>(productOverdrafted,HttpStatus.OK);

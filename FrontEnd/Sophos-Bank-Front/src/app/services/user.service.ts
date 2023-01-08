@@ -12,7 +12,7 @@ export class UserService {
 
   
 
-  public registrarUsuario(user:any){
+  public registerUser(user:any){
   return this.httpClient.post(`${baseUrl}/v0/clients`,user)
   }
 
@@ -23,4 +23,9 @@ export class UserService {
   public updateClient(user:any){
     return this.httpClient.put(`${baseUrl}/v0/clients/${user.id}/update`,user)
     }
+
+  public getUserById(id:any){
+    return this.httpClient.get(`${baseUrl}/v0/clients/getclient/${id}`)
+  }
+  
 }

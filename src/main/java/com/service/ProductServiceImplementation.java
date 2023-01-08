@@ -1,5 +1,6 @@
 package com.service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import com.entity.Client;
 import com.entity.Product;
+import com.entity.TransactionHistory;
 import com.repository.ClientRepository;
 import com.repository.ProductRepository;
+import com.repository.TransactionHistoryRepository;
 
 
 @Service
@@ -25,7 +28,8 @@ public class ProductServiceImplementation implements ProductService{
 	ProductRepository productRepository;
 	@Autowired
 	ClientRepository clientRepository;
-	
+	@Autowired
+	TransactionHistoryRepository transactionHistoryRepository;
 	
 	@Override
 	public Product getProducts(Product product) {
@@ -163,12 +167,12 @@ public class ProductServiceImplementation implements ProductService{
 	}
 
 	@Override
-	public Product overDraft(int id, long value) {
+	public Product overDraft(long productNumber, long value,String modifiedBy) {
 		//FALTA AGREGAR VALIDACION EN LOS METODOS PARA QUE SOLO PUEDAN HACERLOS
 		//CLIENTES CON SUS CUENTAS O UN USUARIO ADMIN
 		//FALTA AGREGARLE LO DEL GMF
 		//EL CREDITO SE DEBE AGREGAR TANTO AL DEB VALUE Y A SU AVAILABLE Y BALANCE
-		Optional<Product> product= productRepository.findById(id);
+		Optional<Product> product= productRepository.findByProductNumber(productNumber);
 		if (!product.isPresent()) {
 			return null;
 		}
@@ -196,8 +200,19 @@ public class ProductServiceImplementation implements ProductService{
 			productFinded.setProductAvailable((productFinded.getProductBalance())-(gmf)	);
 		}	
 		
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+		productFinded.setModifiedAt(sqlDate);
+		productFinded.setModifiedBy(modifiedBy);
+		productRepository.save(productFinded);
 		
-		return productRepository.save(productFinded);
+		TransactionHistory newTransactionTo= createTransaction( value,"Overdraft", productFinded.getBelongsTo().getId(),  sqlDate, "Withdraw",  productFinded.getProductNumber(),productFinded.getProductBalance(),productFinded.getProductAvailable());
+		transactionHistoryRepository.save(newTransactionTo);
+		
+		
+		
+		return productFinded;
 	}
 	
 	@Override
@@ -319,6 +334,19 @@ public class ProductServiceImplementation implements ProductService{
 		return clientProducts;
 	}
 
+	@Override
+	public TransactionHistory createTransaction(long amount, String movemenType,int clientId, Date transactionDate,String transactionType, long productNumber,long productBalance,long productAvailable) {
+		TransactionHistory newTransaction= new TransactionHistory();
+		newTransaction.setProductBalance(productBalance);
+		newTransaction.setProductAvailable(productAvailable);
+		newTransaction.setAmount(amount);
+		newTransaction.setMovementType(movemenType);
+		newTransaction.setClientId(clientId);
+		newTransaction.setTransactionDate(transactionDate);
+		newTransaction.setTransactionType(transactionType);
+		newTransaction.setProductNumber(productNumber);
+		return newTransaction;
+	}
 	
 	
 	

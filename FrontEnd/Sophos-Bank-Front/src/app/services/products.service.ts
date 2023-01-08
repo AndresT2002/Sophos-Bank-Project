@@ -38,6 +38,9 @@ export class ProductsService {
   public createProduct(product:any){
     return this.httpClient.post(`${baseUrl}/v0/products/create`,product)
   }
+  public listAllProducts(){
+    return this.httpClient.get(`${baseUrl}/v0/products`)
+  }
 
 
     

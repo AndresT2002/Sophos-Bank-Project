@@ -2,6 +2,7 @@ import { Component,Inject, OnInit } from '@angular/core';
 import  {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./update-client.component.css']
 })
 export class UpdateClientComponent implements OnInit{
-  constructor (@Inject(MAT_DIALOG_DATA) public dataObtained:any,private router:Router,private snack: MatSnackBar, private MatDialogRef:MatDialogRef<UpdateClientComponent>,private userService: UserService){}
+  constructor (private loginService:LoginService,@Inject(MAT_DIALOG_DATA) public dataObtained:any,private router:Router,private snack: MatSnackBar, private MatDialogRef:MatDialogRef<UpdateClientComponent>,private userService: UserService){}
 
 
   public client={
@@ -22,10 +23,12 @@ export class UpdateClientComponent implements OnInit{
     identificationType:this.dataObtained.identificationType,
     identificationNumber:this.dataObtained.identificationNumber,
     email:this.dataObtained.email,
-    password:this.dataObtained.password
+    password:this.dataObtained.password,
+    
 
   }
 
+  
 
   ngOnInit(): void {
     

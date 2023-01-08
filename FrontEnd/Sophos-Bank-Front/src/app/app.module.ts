@@ -33,6 +33,12 @@ import { CreateProductComponent } from './pages/create-product/create-product.co
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ListProductsAdminComponent } from './components/list-products-admin/list-products-admin.component';
 import { ProductTransHistoryComponent } from './components/product-trans-history/product-trans-history.component';
+import { TransactionsComponent } from './pages/transactions/transactions.component';
+import { DepositComponent } from './components/deposit/deposit.component';
+import { WithdrawComponent } from './components/withdraw/withdraw.component';
+import { OverdraftComponent } from './components/overdraft/overdraft.component';
+import { TransferComponent } from './components/transfer/transfer.component';
+import { PaydebtComponent } from './components/paydebt/paydebt.component';
 
 
 
@@ -51,7 +57,13 @@ import { ProductTransHistoryComponent } from './components/product-trans-history
     ListProductsComponent,
     CreateProductComponent,
     ListProductsAdminComponent,
-    ProductTransHistoryComponent
+    ProductTransHistoryComponent,
+    TransactionsComponent,
+    DepositComponent,
+    WithdrawComponent,
+    OverdraftComponent,
+    TransferComponent,
+    PaydebtComponent
     
   ],
   imports: [

@@ -35,17 +35,18 @@
             <th mat-header-cell *matHeaderCellDef> Transaction Type</th>
             <td mat-cell *matCellDef="let element"> {{element.transactionType}} </td>
           </ng-container>
-
+          
+          <ng-container matColumnDef="productBalance">
+            <th mat-header-cell *matHeaderCellDef> Product Balance </th>
+            <td mat-cell *matCellDef="let element"> {{element.productBalance}} </td>
+          </ng-container>
           <!-- Symbol Column -->
         <ng-container matColumnDef="productAvailable">
             <th mat-header-cell *matHeaderCellDef> Product Available </th>
             <td mat-cell *matCellDef="let element"> {{element.productAvailable}} </td>
           </ng-container>
           <!-- Symbol Column -->
-        <ng-container matColumnDef="productBalance">
-            <th mat-header-cell *matHeaderCellDef> Product Balance </th>
-            <td mat-cell *matCellDef="let element"> {{element.productBalance}} </td>
-          </ng-container>
+        
           <!-- Symbol Column -->
             
           

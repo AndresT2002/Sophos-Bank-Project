@@ -29,10 +29,10 @@ public class TransactionController {
 	TransactionsImplementation transactionService;
 	
 	
-	@PutMapping("/withdraw/{productNumber}/{value}")
-	public ResponseEntity<Product> withdraw(@PathVariable("productNumber") long productNumber,@PathVariable("value") long value){
+	@PutMapping("/withdraw/{modifiedby}/{productNumber}/{value}")
+	public ResponseEntity<Product> withdraw(@PathVariable("productNumber") long productNumber,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
-			Product productUpdated=transactionService.withdraw(productNumber, value);
+			Product productUpdated=transactionService.withdraw(productNumber, value,modifiedBy);
 			if (productUpdated == null) {
 				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 			}
@@ -43,10 +43,10 @@ public class TransactionController {
 			
 	}
 	
-	@PutMapping("/transfer/{productNumberFrom}/{productNumberTo}/{value}")
-	public ResponseEntity<Product> transfer(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value){
+	@PutMapping("/transfer/{modifiedby}/{productNumberFrom}/{productNumberTo}/{value}")
+	public ResponseEntity<Product> transfer(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
-			Product productUpdated=transactionService.transfer(productNumberFrom,productNumberTo, value);
+			Product productUpdated=transactionService.transfer(productNumberFrom,productNumberTo, value,modifiedBy);
 			if (productUpdated == null) {
 				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 			}
@@ -57,10 +57,10 @@ public class TransactionController {
 			
 	}
 	
-	@PutMapping("/deposit/{productNumberTo}/{value}")
-	public ResponseEntity<Product> deposit(@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value){
+	@PutMapping("/deposit/{modifiedby}/{productNumberTo}/{value}")
+	public ResponseEntity<Product> deposit(@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
-			Product productUpdated=transactionService.deposit(productNumberTo, value);
+			Product productUpdated=transactionService.deposit(productNumberTo, value,modifiedBy);
 			if (productUpdated == null) {
 				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 			}
@@ -85,6 +85,20 @@ public class TransactionController {
 		return new ResponseEntity<>(historyObtained,HttpStatus.OK);
 	}
 	
+	
+	@PutMapping("/paydebt/{modifiedby}/{productNumberFrom}/{productNumberTo}/{value}")
+	public ResponseEntity<Product> debtPaymen(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
+		try {
+			Product productUpdated=transactionService.payDebt(productNumberFrom,productNumberTo, value,modifiedBy);
+			if (productUpdated == null) {
+				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
+		}catch(Exception e) {
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		}
+			
+	}
 	
 
 }

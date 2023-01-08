@@ -117,9 +117,9 @@ public class ClientServiceImplementation implements ClientService{
 			if(!client.getPassword().isEmpty()) {
 				clientToUpdate.setPassword(new BCryptPasswordEncoder().encode(client.getPassword()));
 			}		
-			client.setCreatedBy("Admin");
+			
 			clientToUpdate.setIdentificationType(client.getIdentificationType());
-			clientToUpdate.setModifiedBy("ADMIN");
+			clientToUpdate.setModifiedBy(client.getModifiedBy());
 			
 			return clientRepository.save(clientToUpdate);
 		}else {
@@ -139,9 +139,9 @@ public class ClientServiceImplementation implements ClientService{
 	}
 
 	@Override
-	public Optional<Client> getClientByIdentificationNumber(int identificationNumber) {
+	public Optional<Client> getClientById(int id) {
 		
-		return clientRepository.findById(identificationNumber);
+		return clientRepository.findById(id);
 	}
 
 	@Override

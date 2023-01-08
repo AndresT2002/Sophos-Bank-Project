@@ -1,22 +1,22 @@
 <!-- Cards with media area -->
 
-<div class="">
+<div class="d-flex justify-content-evenly align-content-between flex-wrap ">
 
     <div class="card" style="width: 18rem;">
         <img src="https://cdn-icons-png.flaticon.com/512/3126/3126647.png" class="card-img-top" alt="...">
         <div class="card-body">
-          <h1 class="card-title">Card title</h1>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h1 class="card-title">List Clients</h1>
+          <p class="card-text">Here you can see all clients with their list of products and transactions history</p>
+          <a [routerLink]="'/listClients'"  class="btn btn-primary">Go there</a>
         </div>
       </div>
 
       <div class="card" style="width: 18rem;">
         <img src="https://play-lh.googleusercontent.com/jIYCAnoBUwKUQbLr0TVkbOhWf887G2nIyp-CyrFVPZKbcaySNnCo0n3571gfAKu8Jw" class="card-img-top" alt="...">
         <div class="card-body">
-          <h1 class="card-title">Card title</h1>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h1 class="card-title">My products</h1>
+          <p class="card-text">Here you can see your list of products and transaction history</p>
+          <a [routerLink]="'/listClientProducts'"  class="btn btn-primary">Go there</a>
         </div>
       </div>
 
@@ -24,9 +24,57 @@
       <div class="card" style="width: 18rem;">
         <img src="https://static.thenounproject.com/png/3137405-200.png" class="card-img-top" alt="...">
         <div class="card-body">
-          <h1 class="card-title">Card title</h1>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h1 class="card-title">Create new user</h1>
+          <p class="card-text">Here you can create a new user</p>
+          <a [routerLink]="'/register'"  class="btn btn-primary">Go there</a>
         </div>
       </div>
+
+      <div class="card" style="width: 18rem;">
+        <img src="https://static.thenounproject.com/png/1340396-200.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">Transactions</h1>
+          <p class="card-text">Here you can do transactions with your products</p>
+          <a [routerLink]="'/transactions'"  class="btn btn-primary">Go there</a>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem;">
+        <img src="https://cdn-icons-png.flaticon.com/512/811/811532.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">Deposit Money</h1>
+          <p class="card-text">Here you can deposit money in any existent product </p>
+          <a  (click)="onOpenDepositDialog()" class="btn btn-primary">Go there</a>
+        </div>
+      </div>
+
+
+      <div class="card" style="width: 18rem;">
+        <img src="https://static.thenounproject.com/png/3137405-200.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">Update my profile</h1>
+          <p class="card-text">Here you can update your profile data</p>
+          <a  (click)="onOpenUpdateDialog()" class="btn btn-primary">Go there</a>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem;">
+        <img src="https://static.thenounproject.com/png/3137405-200.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">Delete client</h1>
+          <p class="card-text">Here you can delete a client</p>
+          <a  (click)="onOpenDeleteClientDialog()" class="btn btn-primary">Go there</a>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem;">
+        <img src="https://static.thenounproject.com/png/3137405-200.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">Create Product</h1>
+          <p class="card-text">Here you can create a product to a client</p>
+          <a  (click)="onOpenCreateProductDialog()" class="btn btn-primary">Go there</a>
+        </div>
+      </div>
+
+
 </div>

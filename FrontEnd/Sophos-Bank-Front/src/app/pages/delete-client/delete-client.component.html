@@ -10,10 +10,21 @@
     
                 <form (ngSubmit)="deleteClient()">
                 
-                <mat-form-field class="full-width" appearance="outline">
-                    <mat-label> Número de identificación a eliminar</mat-label>
-                    <input required  [(ngModel)]="identificationNumber.number" name="number" matInput min="0" type="number" placeholder="Escriba el número de identificación a eliminar">
-                </mat-form-field>
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Cedula del cliente</mat-label>
+                        <input type="text"
+                               placeholder="Escriba la fecha del cliente al cual se le asignara el producto"
+                               aria-label="Number"
+                               matInput
+                               [formControl]="myControl"
+                               [matAutocomplete]="auto"
+                               required>
+                        <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.identificationNumber" (onSelectionChange)="updateMySelection(option.identificationNumber)" >
+                            {{option.identificationNumber}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
     
             
                 <div class="container text-center">
@@ -23,10 +34,11 @@
     
     
                 </form>
+                <button mat-raised-button color="warn" (click)="onCloseClick()">Close</button>  
                 <br><br><br>
             </div>
     
-    
+            
         </div>
     </div>
     

@@ -67,7 +67,7 @@ export class ListClientsComponent {
 
     let dialogRef=this.matDialog.open(UpdateClientComponent,{
       data:client,
-      disableClose:true,
+      
       hasBackdrop:true
     })
 

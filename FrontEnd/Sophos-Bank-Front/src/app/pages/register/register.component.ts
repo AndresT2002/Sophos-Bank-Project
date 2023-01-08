@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit{
       return;
     }
 
-    this.userService.registrarUsuario(this.user).subscribe((data)=>{
+    this.userService.registerUser(this.user).subscribe((data)=>{
       console.log(data)
       Swal.fire('Usuario guardado','Usuario registrado con exito en el sistema','success');
     },(error =>{

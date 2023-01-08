@@ -12,7 +12,7 @@ public interface ClientService {
 	public boolean deleteClient(int id);
 	public Client updateClient(Client client,int userId);
 	public List<Client> listClients();
-	public Optional<Client> getClientByIdentificationNumber(int identificationNumber);
+	public Optional<Client> getClientById(int id);
 	public Client getClientByEmail(String email);
 	
 }

@@ -6,7 +6,7 @@ import {map, startWith} from 'rxjs/operators';
 import { AdminServiceService } from 'src/app/services/admin-service.service';
 import { ProductsService } from 'src/app/services/products.service';
 import Swal from 'sweetalert2';
-
+import  { MatDialogRef} from '@angular/material/dialog'
 
 export interface User {
   id: number;
@@ -27,7 +27,7 @@ export class CreateProductComponent implements OnInit{
     }
   }
   data:any;
-  constructor(private adminService:AdminServiceService,private snack:MatSnackBar,private productService:ProductsService){}
+  constructor(private adminService:AdminServiceService, private MatDialogRef:MatDialogRef<CreateProductComponent>,private snack:MatSnackBar,private productService:ProductsService){}
   identificatorsArray:any;
   ids:any;
   
@@ -83,7 +83,9 @@ export class CreateProductComponent implements OnInit{
     return
   }
 
-
+  onCloseClick():void{
+    this.MatDialogRef.close()
+  }
   formSubmit(){
     
     console.log(this.product)

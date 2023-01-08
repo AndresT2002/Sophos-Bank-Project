@@ -31,7 +31,7 @@ public class TransactionsImplementation implements Transactions{
 	
 
 	@Override
-	public Product transfer(long from, long to, long value) {
+	public Product transfer(long from, long to, long value, String modifiedBy) {
 		Optional<Product> productTo= productRepository.findByProductNumber(to);
 		Optional<Product> productFrom= productRepository.findByProductNumber(from);
 		
@@ -82,7 +82,7 @@ public class TransactionsImplementation implements Transactions{
 		}
 				
 		productFromFinded.setModifiedAt(sqlDate);
-		
+		productFromFinded.setModifiedBy(modifiedBy);
 		
 		productToFinded.setProductBalance((productToFinded.getProductBalance()+value));
 		if(productToFinded.getGmf().equals("No")) {
@@ -92,7 +92,7 @@ public class TransactionsImplementation implements Transactions{
 			productToFinded.setProductAvailable((productToFinded.getProductBalance()));
 		}
 		productToFinded.setModifiedAt(sqlDate);
-		
+		productToFinded.setModifiedBy(modifiedBy);
 		
 		TransactionHistory newTransactionFrom= createTransaction( valueGmf,"Debit", productFromFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productFromFinded.getProductNumber(),productFromFinded.getProductBalance(),productFromFinded.getProductAvailable());
 		TransactionHistory newTransactionTo= createTransaction( value,"Credit", productToFinded.getBelongsTo().getId(),  sqlDate, "Transfer",  productToFinded.getProductNumber(),productToFinded.getProductBalance(),productToFinded.getProductAvailable());
@@ -107,7 +107,7 @@ public class TransactionsImplementation implements Transactions{
 	}
 	
 	//Sobrecarga de deposit para ingresar dinero a mi misma cuenta
-	public Product deposit(long to, long value) {
+	public Product deposit(long to, long value, String modifiedBy) {
 		
 		Optional<Product> product= productRepository.findByProductNumber(to);
 		if (!product.isPresent()) {
@@ -131,6 +131,7 @@ public class TransactionsImplementation implements Transactions{
 		}
 				
 		productToFinded.setModifiedAt(sqlDate);
+		productToFinded.setModifiedBy(modifiedBy);
 		
 		productRepository.save(productToFinded);
 		
@@ -143,7 +144,7 @@ public class TransactionsImplementation implements Transactions{
 	
 
 	@Override
-	public Product withdraw(long from, long value) {
+	public Product withdraw(long from, long value, String modifiedBy) {
 		Optional<Product> product= productRepository.findByProductNumber(from);
 		if (!product.isPresent()) {
 			return null;
@@ -186,7 +187,7 @@ public class TransactionsImplementation implements Transactions{
 		LocalDate localDate = zonedDateTime.toLocalDate();
 		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		productFinded.setModifiedAt(sqlDate);
-		
+		productFinded.setModifiedBy(modifiedBy);
 		
 		
 		
@@ -227,9 +228,56 @@ public class TransactionsImplementation implements Transactions{
 		if(transactionHistory.size() ==  0) {
 			return null;
 		}
-		
+		 
 
 		return transactionHistory;
+	}
+
+	@Override
+	public Product payDebt(long payProduct, long fromProduct, long amount, String modifiedBy) {
+		Optional<Product> getPayProduct= productRepository.findByProductNumber(payProduct);
+		if (!getPayProduct.isPresent()) {
+			
+			return null;
+		}
+		
+		Optional<Product> getFromProduct= productRepository.findByProductNumber(fromProduct);
+		if (!getFromProduct.isPresent()) {
+			
+			return null;
+		}
+		
+		
+		Product payProductFinded=getPayProduct.get();
+		
+		if(amount > payProductFinded.getDebtValue()) {	
+			return null;
+		}
+		
+		Product fromProductFinded=getFromProduct.get();
+		
+
+		Product withdrawProduct=withdraw(fromProduct,amount,modifiedBy);
+		
+		
+		
+		payProductFinded.setDebtValue(payProductFinded.getDebtValue()-amount);
+		
+		productRepository.save(payProductFinded);
+		
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
+		LocalDate localDate = zonedDateTime.toLocalDate();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+		payProductFinded.setModifiedAt(sqlDate);
+		payProductFinded.setModifiedBy(modifiedBy);
+		
+		
+		TransactionHistory paymentTransaction= createTransaction( amount,"Credit", payProductFinded.getBelongsTo().getId(),  sqlDate, "Debt Payment",  payProductFinded.getProductNumber(),payProductFinded.getProductBalance(),payProductFinded.getProductAvailable());
+		
+		transactionHistoryRepository.save(paymentTransaction);
+		
+		
+		return payProductFinded;
 	}
 	
 	
