@@ -14,25 +14,25 @@ export class ProductsService {
     return this.httpClient.get(`${baseUrl}/v0/products/clientid/${clientId}`)
   }
 
-  public activateProduct(productId:number){
-    return this.httpClient.put(`${baseUrl}/v0/products/activate/${productId}`,null)
+  public activateProduct(productId:number,modifiedBy:string){
+    return this.httpClient.put(`${baseUrl}/v0/products/activate/${modifiedBy}/${productId}`,null)
   }
 
-  public desactivateProduct(productId:number){
-    return this.httpClient.put(`${baseUrl}/v0/products/desactivate/${productId}`,null)
+  public desactivateProduct(productId:number,modifiedBy:string){
+    return this.httpClient.put(`${baseUrl}/v0/products/desactivate/${modifiedBy}/${productId}`,null)
   }
 
   
-  public activateGmf(productId:number){
-    return this.httpClient.put(`${baseUrl}/v0/products/activate/${productId}/gmf`,null)
+  public activateGmf(productId:number,modifiedBy:string){
+    return this.httpClient.put(`${baseUrl}/v0/products/activate/${modifiedBy}/${productId}/gmf`,null)
   }
 
-  public desactivateGmf(productId:number){
-    return this.httpClient.put(`${baseUrl}/v0/products/desactivate/${productId}/gmf`,null)
+  public desactivateGmf(productId:number,modifiedBy:string){
+    return this.httpClient.put(`${baseUrl}/v0/products/desactivate/${modifiedBy}/${productId}/gmf`,null)
   }
 
-  public cancelProduct(productNumber:number){
-    return this.httpClient.put(`${baseUrl}/v0/products/cancel/${productNumber}`,null)
+  public cancelProduct(productNumber:number,modifiedBy:string){
+    return this.httpClient.put(`${baseUrl}/v0/products/cancel/${modifiedBy}/${productNumber}`,null)
   }
 
   public createProduct(product:any){

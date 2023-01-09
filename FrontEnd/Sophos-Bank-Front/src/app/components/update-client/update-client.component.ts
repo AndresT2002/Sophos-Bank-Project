@@ -24,6 +24,7 @@ export class UpdateClientComponent implements OnInit{
     identificationNumber:this.dataObtained.identificationNumber,
     email:this.dataObtained.email,
     password:this.dataObtained.password,
+    modifiedBy:this.loginService.getUser().username
     
 
   }
@@ -62,14 +63,26 @@ export class UpdateClientComponent implements OnInit{
 
     this.userService.updateClient(this.client).subscribe((data)=>{
       console.log(data)
-      Swal.fire('Usuario actualizado','Usuario actualizado con exito en el sistema','success');
+      Swal.fire('User updated','User updated successfully','success');
       window.location.reload();
     },(error =>{
       console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Client to update not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('Error on petition','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   

@@ -104,10 +104,22 @@ export class TransferComponent {
       window.location.reload();
     },(error =>{
       console.log(error)
-      this.snack.open('Error on petition','Accept',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Product to deposit or product from  not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('Your product does not have enough money to transfer that value','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   

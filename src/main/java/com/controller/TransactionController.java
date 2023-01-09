@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Product;
+import com.entity.Response;
 import com.entity.TransactionHistory;
 import com.service.ProductService;
 import com.service.TransactionsImplementation;
@@ -30,11 +31,14 @@ public class TransactionController {
 	
 	
 	@PutMapping("/withdraw/{modifiedby}/{productNumber}/{value}")
-	public ResponseEntity<Product> withdraw(@PathVariable("productNumber") long productNumber,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
+	public ResponseEntity<Response> withdraw(@PathVariable("productNumber") long productNumber,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
-			Product productUpdated=transactionService.withdraw(productNumber, value,modifiedBy);
-			if (productUpdated == null) {
-				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			Response productUpdated=transactionService.withdraw(productNumber, value,modifiedBy);
+			if (productUpdated.getResponseCode() ==  "404") {
+				return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
+			}
+			if (productUpdated.getResponseCode() ==  "400") {
+				return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 			}
 			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
 		}catch(Exception e) {
@@ -44,11 +48,14 @@ public class TransactionController {
 	}
 	
 	@PutMapping("/transfer/{modifiedby}/{productNumberFrom}/{productNumberTo}/{value}")
-	public ResponseEntity<Product> transfer(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
+	public ResponseEntity<Response> transfer(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
-			Product productUpdated=transactionService.transfer(productNumberFrom,productNumberTo, value,modifiedBy);
-			if (productUpdated == null) {
-				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			Response productUpdated=transactionService.transfer(productNumberFrom,productNumberTo, value,modifiedBy);
+			if (productUpdated.getResponseCode() ==  "404") {
+				return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
+			}
+			if (productUpdated.getResponseCode() ==  "400") {
+				return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 			}
 			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
 		}catch(Exception e) {
@@ -58,12 +65,17 @@ public class TransactionController {
 	}
 	
 	@PutMapping("/deposit/{modifiedby}/{productNumberTo}/{value}")
-	public ResponseEntity<Product> deposit(@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
+	public ResponseEntity<Response> deposit(@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
-			Product productUpdated=transactionService.deposit(productNumberTo, value,modifiedBy);
-			if (productUpdated == null) {
-				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			Response productUpdated=transactionService.deposit(productNumberTo, value,modifiedBy);
+			if (productUpdated.getResponseCode().equals("404")) {
+				return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 			}
+			
+			if (productUpdated.getResponseCode() ==  "400") {
+				return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
+			}
+			
 			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
 		}catch(Exception e) {
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -87,11 +99,15 @@ public class TransactionController {
 	
 	
 	@PutMapping("/paydebt/{modifiedby}/{productNumberFrom}/{productNumberTo}/{value}")
-	public ResponseEntity<Product> debtPaymen(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
+	public ResponseEntity<Response> debtPaymen(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
-			Product productUpdated=transactionService.payDebt(productNumberFrom,productNumberTo, value,modifiedBy);
-			if (productUpdated == null) {
-				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			Response productUpdated=transactionService.payDebt(productNumberFrom,productNumberTo, value,modifiedBy);
+			if (productUpdated.getResponseCode().equals("404")) {
+				return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
+			}
+			
+			if (productUpdated.getResponseCode() ==  "400") {
+				return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 			}
 			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
 		}catch(Exception e) {

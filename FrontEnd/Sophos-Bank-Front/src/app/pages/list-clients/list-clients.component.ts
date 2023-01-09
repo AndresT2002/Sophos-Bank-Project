@@ -8,6 +8,7 @@ import { UpdateClientComponent } from 'src/app/components/update-client/update-c
 import { Router } from '@angular/router';
 import { ListProductsComponent } from '../list-products/list-products.component';
 import { ListProductsAdminComponent } from 'src/app/components/list-products-admin/list-products-admin.component';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-list-clients',
@@ -25,9 +26,9 @@ export class ListClientsComponent {
     email:"",
 
   }
-  columndefs : any[] = ['name','email','birthDay','createdAt','identificationType','identificationNumber','deleteClient','updateClient','listProducts'];
+  columndefs : any[] = ['name','email','birthDay','createdAt','modifiedBy','modifiedAt','identificationType','identificationNumber','deleteClient','updateClient','listProducts'];
   data:any;
-  constructor(private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
+  constructor(private loginService:LoginService,private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     private matDialog:MatDialog){}
   
 
@@ -35,9 +36,19 @@ export class ListClientsComponent {
     this.adminService.listClients().subscribe((dataObtained)=>{
       this.data=dataObtained
       console.log(this.data)
+    },(error =>{
+      if(error.status=="401"){
+       
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }
     }
     )
-    
+    )
   }
 
 
@@ -83,7 +94,7 @@ export class ListClientsComponent {
 
     let dialogRef=this.matDialog.open(ListProductsAdminComponent,{
       data:client,
-      disableClose:true,
+      
       hasBackdrop:true
     })
     

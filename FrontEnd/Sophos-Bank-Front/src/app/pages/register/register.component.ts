@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -26,7 +28,7 @@ export class RegisterComponent implements OnInit{
   ngOnInit(): void {
     
   }
-  constructor(private userService:UserService,private snack:MatSnackBar){}
+  constructor(private router:Router,private loginService:LoginService,private userService:UserService,private snack:MatSnackBar){}
 
   formSubmit(){
     console.log(this.user)
@@ -48,10 +50,22 @@ export class RegisterComponent implements OnInit{
       Swal.fire('Usuario guardado','Usuario registrado con exito en el sistema','success');
     },(error =>{
       console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "409"){
+        this.snack.open('Client already exist on database','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('Client name or lastname is less than 2 chars or does not have a valid email value or age is less than 18 years','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   

@@ -85,7 +85,10 @@ export class DepositComponent {
 
   deposit(){
     console.log(this.dataObtained)
-    this.productDeposit.productNumber=this.dataObtained
+    if(this.dataObtained !=null){
+      this.productDeposit.productNumber=this.dataObtained
+    }
+    
 
     if(this.productDeposit.productNumber == '' || this.productDeposit.productNumber == null || this.productDeposit.value == '' 
     || this.productDeposit.value == null  ){
@@ -99,14 +102,27 @@ export class DepositComponent {
 
     this.transactionsService.deposit(Number(this.productDeposit.productNumber),Number(this.productDeposit.value),this.productDeposit.modifiedBy).subscribe((data)=>{
       console.log(data)
-      Swal.fire('Usuario actualizado','Usuario actualizado con exito en el sistema','success');
+      Swal.fire('Deposit complete','Deposit operation was succesful','success');
       window.location.reload();
     },(error =>{
       console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Product to deposit not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('Sesion expire, login again','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('Error on petition','Aceptar',{
+          duration : 3000,
+          });
+      }
+      
     })
     )
   

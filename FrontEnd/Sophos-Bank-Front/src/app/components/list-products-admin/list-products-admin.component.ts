@@ -18,7 +18,7 @@ import { DeleteClientComponent } from 'src/app/pages/delete-client/delete-client
 })
 //Yes es que si está excenta
 export class ListProductsAdminComponent {
-  columndefs : any[] = ['productNumber','createdAt','modifiedAt','debtValue','gmf','productAvailable','productBalance','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
+  columndefs : any[] = ['productNumber','createdAt','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
   data:any;
   constructor(private matDialog:MatDialog,private MatDialogRef:MatDialogRef<ListProductsAdminComponent>,@Inject(MAT_DIALOG_DATA) public clientData:any,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     ){}
@@ -29,6 +29,8 @@ export class ListProductsAdminComponent {
   canceledProducts:any;
   products:any;
   productsOrdered:any;
+  modifiedBy=this.loginService.getUser().username
+
 
   public client={
     id:this.clientData.id,
@@ -83,7 +85,17 @@ export class ListProductsAdminComponent {
       }
       )
       
-    }
+    },(error =>{
+      if(error.status=="401"){
+        
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }
+    })
     )
 
     
@@ -121,16 +133,27 @@ export class ListProductsAdminComponent {
   activateProduct(productId: String){
     
     console.log(productId)
-    this.productService.activateProduct(Number(productId)).subscribe((data)=>{
+    this.productService.activateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
       console.log(data)
       Swal.fire('Producto Activado','Producto Activado con exito','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Product to activate not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('This product is already active','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   }
@@ -139,16 +162,28 @@ export class ListProductsAdminComponent {
   activateGmf(productId: String){
     
 
-    this.productService.activateGmf(Number(productId)).subscribe((data)=>{
+    this.productService.activateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       console.log(data)
       Swal.fire('GMF Activado','GMF Activado con exito','success');
       window.location.reload();
     },(error =>{
       console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Product to activate GMF or product from  not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('You can only have GMF exception on one product','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   }
@@ -157,16 +192,28 @@ export class ListProductsAdminComponent {
   desactivateProduct(productId: String){
     
 
-    this.productService.desactivateProduct(Number(productId)).subscribe((data)=>{
+    this.productService.desactivateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('Producto Desactivado','Producto Desactivado con exito','success');
       window.location.reload();
     },(error =>{
       console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Product to desactivate not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('This product is already inactive','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   }
@@ -175,16 +222,24 @@ export class ListProductsAdminComponent {
   desactivateGmf(productId: String){
     
 
-    this.productService.desactivateGmf(Number(productId)).subscribe((data)=>{
+    this.productService.desactivateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('GMF Desactivado','GMF Desactivado con exito','success');
       window.location.reload();
     },(error =>{
       console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Product to desactivate GMF exception not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }
     })
     )
   }
@@ -193,16 +248,28 @@ export class ListProductsAdminComponent {
   cancelProduct(productNumber: String){
     
 
-    this.productService.cancelProduct(Number(productNumber)).subscribe((data)=>{
+    this.productService.cancelProduct(Number(productNumber),this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('Producto Cancelado','Producto Cancelado con exito','success');
       window.location.reload();
     },(error =>{
       console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Product to cancel not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('Your product balance is higher than $1 or has a debt ','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   }

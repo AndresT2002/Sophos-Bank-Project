@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.entity.Client;
 import com.entity.Product;
+import com.entity.Response;
 import com.entity.TransactionHistory;
 import com.repository.ClientRepository;
 import com.repository.ProductRepository;
@@ -38,7 +39,7 @@ public class ProductServiceImplementation implements ProductService{
 	}
 
 	@Override
-	public Product createProduct(Product product) {
+	public Response createProduct(Product product) {
 		
 		if(!(product.getProductType().equals("Ahorros") | product.getProductType().equals("Corriente"))) {
 			return null;
@@ -54,19 +55,22 @@ public class ProductServiceImplementation implements ProductService{
 		
 		Optional<Client> productOwner=clientRepository.findById(product.getBelongsTo().getId());
 		if (!productOwner.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 		Client clientFinded=productOwner.get();
 		
 		List<Product> products= productRepository.findByBelongsTo(clientFinded);
 		
 		boolean hasGmf=products.stream().filter(o -> o.getGmf().equals("Yes")).findFirst().isPresent();
-		System.out.println(product.getGmf());
-		System.out.println(hasGmf);
+		
 		
 		if (hasGmf== true && product.getGmf().equals("Yes")) {
-			System.out.println("XDDDDDD");
-			return null;
+			
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		
 		
@@ -95,7 +99,11 @@ public class ProductServiceImplementation implements ProductService{
 		product.setCreatedAt(sqlDate);
 		
 		
-		return productRepository.save(product);
+		productRepository.save(product);
+		
+		Response successResponse= new Response();
+		successResponse.setResponseCode("404");
+		return successResponse;
 	}
 
 	@Override
@@ -122,39 +130,51 @@ public class ProductServiceImplementation implements ProductService{
 	}
 
 	@Override
-	public Product activateProduct(int id) {
+	public Response activateProduct(int id,String modifiedBy) {
 		Optional<Product> product= productRepository.findById(id);
 		
 		if (!product.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
-		
-		
-		//FALTA AGREGAR VALIDACION DE SI EXISTE O NO
+	
 		
 		
 		Product productFinded=product.get();
 		if (productFinded.getStatus().equals("Active")) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
 		LocalDate localDate = zonedDateTime.toLocalDate();
 		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		productFinded.setStatus("Active");
 		productFinded.setModifiedAt(sqlDate);
+		productFinded.setModifiedBy(modifiedBy);
 		
-		return productRepository.save(productFinded);
+		productRepository.save(productFinded);
+		
+		Response successResponse= new Response();
+		successResponse.setResponseCode("200");
+		return successResponse;
 	}
 
 	@Override
-	public Product desactivateProduct(int id) {
+	public Response desactivateProduct(int id,String modifiedBy) {
 		Optional<Product> product= productRepository.findById(id);
 		if (!product.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 		Product productFinded=product.get();
+		
 		if (productFinded.getStatus().equals("Inactive")) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
@@ -162,30 +182,40 @@ public class ProductServiceImplementation implements ProductService{
 		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		productFinded.setStatus("Inactive");
 		productFinded.setModifiedAt(sqlDate);
+		productFinded.setModifiedBy(modifiedBy);
+		productRepository.save(productFinded);
 		
-		return productRepository.save(productFinded);
+		Response successResponse= new Response();
+		successResponse.setResponseCode("200");
+		return successResponse;
 	}
 
 	@Override
-	public Product overDraft(long productNumber, long value,String modifiedBy) {
+	public Response overDraft(long productNumber, long value,String modifiedBy) {
 		//FALTA AGREGAR VALIDACION EN LOS METODOS PARA QUE SOLO PUEDAN HACERLOS
 		//CLIENTES CON SUS CUENTAS O UN USUARIO ADMIN
 		//FALTA AGREGARLE LO DEL GMF
 		//EL CREDITO SE DEBE AGREGAR TANTO AL DEB VALUE Y A SU AVAILABLE Y BALANCE
 		Optional<Product> product= productRepository.findByProductNumber(productNumber);
 		if (!product.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 		Product productFinded=product.get();
 		
 		if(!(productFinded.getProductType().equals("Corriente") && (productFinded.getStatus().equals("Active") || productFinded.getStatus().equals("Canceled") ))) {
 			
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		
 		if(((productFinded.getDebtValue() + value) > 3000000)) {
 			
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		
 		
@@ -210,9 +240,11 @@ public class ProductServiceImplementation implements ProductService{
 		TransactionHistory newTransactionTo= createTransaction( value,"Overdraft", productFinded.getBelongsTo().getId(),  sqlDate, "Withdraw",  productFinded.getProductNumber(),productFinded.getProductBalance(),productFinded.getProductAvailable());
 		transactionHistoryRepository.save(newTransactionTo);
 		
+		Response successResponse= new Response();
+		successResponse.setResponseCode("200");
 		
 		
-		return productFinded;
+		return successResponse;
 	}
 	
 	@Override
@@ -222,13 +254,13 @@ public class ProductServiceImplementation implements ProductService{
 		String stringValue;
 		if(tipo.equals("Ahorros")){ 
 			stringValue=randomNumber("46");
-			System.out.println(stringValue);
+			
 			intValue=Long.valueOf(stringValue);
-			System.out.println(intValue);
+			
 			
 		}else if (tipo.equals("Corriente")){
 			stringValue=randomNumber("23");
-			System.out.println(stringValue);
+			
 			intValue=Long.parseLong(stringValue);
 		}else {
 			return (long) 0;
@@ -250,7 +282,7 @@ public class ProductServiceImplementation implements ProductService{
 	
 	
 	@Override
-	public Product activateGmf(int id) {
+	public Response activateGmf(int id,String modifiedBy) {
 		Optional<Product> productFinded= productRepository.findById(id);
 		if(productFinded.isPresent()) {
 			Product productObtained=productFinded.get();
@@ -266,17 +298,31 @@ public class ProductServiceImplementation implements ProductService{
 				ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
 				LocalDate localDate = zonedDateTime.toLocalDate();
 				java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+				productObtained.setProductAvailable(productObtained.getProductBalance());
 				productObtained.setModifiedAt(sqlDate);
-				return productRepository.save(productObtained);
+				productObtained.setModifiedBy(modifiedBy);
+				
+				
+				
+				
+				productRepository.save(productObtained);
+				
+				Response successResponse= new Response();
+				successResponse.setResponseCode("200");
+				return successResponse;
 			}
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
-		return null;
+		Response errorResponse= new Response();
+		errorResponse.setResponseCode("404");
+		return errorResponse;
 		
 	}
 
 	@Override
-	public Product desactivateGmf(int id) {
+	public Response desactivateGmf(int id,String modifiedBy) {
 		Optional<Product> productFinded= productRepository.findById(id);
 		if(productFinded.isPresent()) {
 			Product productObtained=productFinded.get();
@@ -287,24 +333,38 @@ public class ProductServiceImplementation implements ProductService{
 			LocalDate localDate = zonedDateTime.toLocalDate();
 			java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 			productObtained.setModifiedAt(sqlDate);
-			return productRepository.save(productObtained);
+			productObtained.setModifiedBy(modifiedBy);
+			long gmf=(long) Math.round((float) productObtained.getProductBalance()*4/1000);
+			productObtained.setProductAvailable((productObtained.getProductBalance())-(gmf)	);
+			
+			
+			productRepository.save(productObtained);
+			Response successResponse= new Response();
+			successResponse.setResponseCode("200");
+			return successResponse;
 			
 		}
 		
-		return null;
+		Response errorResponse= new Response();
+		errorResponse.setResponseCode("404");
+		return errorResponse;
 	}
 
 	@Override
-	public Product cancelProduct(long productNumber) {
+	public Response cancelProduct(long productNumber,String modifiedBy) {
 		Optional<Product> product= productRepository.findByProductNumber(productNumber);
 		if (!product.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 		Product productFinded=product.get();
 		
 		if(!(productFinded.getProductBalance() < 1 && productFinded.getDebtValue()== 0) || (productFinded.getStatus().equals("Canceled"))) {
 				
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
@@ -312,8 +372,13 @@ public class ProductServiceImplementation implements ProductService{
 		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		productFinded.setStatus("Canceled");
 		productFinded.setModifiedAt(sqlDate);
+		productFinded.setModifiedBy(modifiedBy);
+		productRepository.save(productFinded);
 		
-		return productRepository.save(productFinded);
+		Response successResponse= new Response();
+		successResponse.setResponseCode("200");
+		return successResponse;
+		
 		
 	}
 
@@ -327,9 +392,7 @@ public class ProductServiceImplementation implements ProductService{
 	               .filter(a -> a.getBelongsTo().getId()== clientId)
 	               .collect(Collectors.toList());;
 	            		  
-	    if(clientProducts.isEmpty()) {
-	    	return null;
-	    }
+	    
 		
 		return clientProducts;
 	}

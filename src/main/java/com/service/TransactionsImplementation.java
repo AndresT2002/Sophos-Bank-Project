@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.entity.Product;
+import com.entity.Response;
 import com.entity.TransactionHistory;
 import com.repository.ClientRepository;
 import com.repository.ProductRepository;
@@ -31,12 +32,14 @@ public class TransactionsImplementation implements Transactions{
 	
 
 	@Override
-	public Product transfer(long from, long to, long value, String modifiedBy) {
+	public Response transfer(long from, long to, long value, String modifiedBy) {
 		Optional<Product> productTo= productRepository.findByProductNumber(to);
 		Optional<Product> productFrom= productRepository.findByProductNumber(from);
 		
 		if (!productTo.isPresent() || !productFrom.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 		
 		
@@ -61,7 +64,9 @@ public class TransactionsImplementation implements Transactions{
 		//Si al retirar queda saldo negativo o está inactivo retorno
 		if((productFromFinded.getProductBalance()-valueGmf < 0) || (productFromFinded.getStatus().equals("Inactive"))) {
 			
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		
 		
@@ -102,16 +107,22 @@ public class TransactionsImplementation implements Transactions{
 		transactionHistoryRepository.save(newTransactionFrom);
 		transactionHistoryRepository.save(newTransactionTo);
 		
-		return productFromFinded;
+		Response successResponse= new Response();
+		successResponse.setResponseCode("200");
+		
+		
+		return successResponse;
 		
 	}
 	
 	//Sobrecarga de deposit para ingresar dinero a mi misma cuenta
-	public Product deposit(long to, long value, String modifiedBy) {
+	public Response deposit(long to, long value, String modifiedBy) {
 		
 		Optional<Product> product= productRepository.findByProductNumber(to);
 		if (!product.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 				
 		Product productToFinded=product.get();
@@ -139,15 +150,22 @@ public class TransactionsImplementation implements Transactions{
 		
 		transactionHistoryRepository.save(newTransactionTo);
 		
-		return productToFinded;
+	
+		Response successResponse= new Response();
+		successResponse.setResponseCode("200");
+		
+		
+		return successResponse;
 	}
 	
 
 	@Override
-	public Product withdraw(long from, long value, String modifiedBy) {
+	public Response withdraw(long from, long value, String modifiedBy) {
 		Optional<Product> product= productRepository.findByProductNumber(from);
 		if (!product.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 		
 		
@@ -169,7 +187,9 @@ public class TransactionsImplementation implements Transactions{
 		//Si al retirar queda saldo negativo o está inactivo retorno
 		if((productFinded.getProductBalance()-valueGmf< 0) || (productFinded.getStatus().equals("Inactive"))) {
 			
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		
 		productFinded.setProductBalance((productFinded.getProductBalance()-valueGmf));
@@ -197,11 +217,13 @@ public class TransactionsImplementation implements Transactions{
 		productRepository.save(productFinded);
 		transactionHistoryRepository.save(newTransactionTo);
 		
-				
+		Response successResponse= new Response();
+		successResponse.setResponseCode("200");
 		
 		
 		
-		return productFinded;
+		
+		return successResponse;
 	}
 
 	
@@ -234,30 +256,34 @@ public class TransactionsImplementation implements Transactions{
 	}
 
 	@Override
-	public Product payDebt(long payProduct, long fromProduct, long amount, String modifiedBy) {
+	public Response payDebt(long payProduct, long fromProduct, long amount, String modifiedBy) {
 		Optional<Product> getPayProduct= productRepository.findByProductNumber(payProduct);
-		if (!getPayProduct.isPresent()) {
+		Optional<Product> getFromProduct= productRepository.findByProductNumber(fromProduct);
+		
+		if (!getPayProduct.isPresent() || !getFromProduct.isPresent()) {
 			
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 		
-		Optional<Product> getFromProduct= productRepository.findByProductNumber(fromProduct);
-		if (!getFromProduct.isPresent()) {
-			
-			return null;
-		}
+		
+		
 		
 		
 		Product payProductFinded=getPayProduct.get();
 		
 		if(amount > payProductFinded.getDebtValue()) {	
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 		}
 		
 		Product fromProductFinded=getFromProduct.get();
 		
 
-		Product withdrawProduct=withdraw(fromProduct,amount,modifiedBy);
+		//En el metodo withdraw ya contemplo si es mayor al product available
+		Response withdrawProduct=withdraw(fromProduct,amount,modifiedBy);
 		
 		
 		
@@ -276,8 +302,11 @@ public class TransactionsImplementation implements Transactions{
 		
 		transactionHistoryRepository.save(paymentTransaction);
 		
+		Response successResponse= new Response();
+		successResponse.setResponseCode("200");
 		
-		return payProductFinded;
+		
+		return successResponse;
 	}
 	
 	

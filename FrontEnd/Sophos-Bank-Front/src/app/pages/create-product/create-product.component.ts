@@ -7,6 +7,8 @@ import { AdminServiceService } from 'src/app/services/admin-service.service';
 import { ProductsService } from 'src/app/services/products.service';
 import Swal from 'sweetalert2';
 import  { MatDialogRef} from '@angular/material/dialog'
+import { LoginService } from 'src/app/services/login.service';
+import {  Router } from '@angular/router';
 
 export interface User {
   id: number;
@@ -27,7 +29,7 @@ export class CreateProductComponent implements OnInit{
     }
   }
   data:any;
-  constructor(private adminService:AdminServiceService, private MatDialogRef:MatDialogRef<CreateProductComponent>,private snack:MatSnackBar,private productService:ProductsService){}
+  constructor(private router:Router,private loginService:LoginService,private adminService:AdminServiceService, private MatDialogRef:MatDialogRef<CreateProductComponent>,private snack:MatSnackBar,private productService:ProductsService){}
   identificatorsArray:any;
   ids:any;
   
@@ -56,7 +58,17 @@ export class CreateProductComponent implements OnInit{
       this.options=this.identificatorsArray
       
       
-    }
+    },(error =>{
+      if(error.status=="401"){
+        
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }
+    })
     )
 
     this.filteredOptions = this.myControl.valueChanges.pipe(

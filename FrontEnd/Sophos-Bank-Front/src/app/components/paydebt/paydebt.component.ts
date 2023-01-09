@@ -111,11 +111,22 @@ export class PaydebtComponent {
       Swal.fire('Payment complete','Paymen operation was succesful','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
-      this.snack.open('Error on petition','Accept',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Product to pay debt or product from not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('The product does not have enough money to pay that debt or you are trying to pay more than the debt','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   

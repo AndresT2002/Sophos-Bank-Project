@@ -1,6 +1,7 @@
 package com.service;
 import com.entity.Client;
 import com.entity.Product;
+import com.entity.Response;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -32,7 +33,7 @@ public class ClientServiceImplementation implements ClientService{
 	
 	
 	@Override
-	public Client createClient(Client client) {
+	public Response createClient(Client client) {
 		Date birthDate=client.getBirthDay();
 		
 		LocalDate dateParsed = birthDate.toLocalDate();
@@ -54,12 +55,16 @@ public class ClientServiceImplementation implements ClientService{
 		Optional<Client> clientByEmail=clientRepository.findByEmail(client.getEmail());
 		
 		if(clientByIdentification.isPresent() || clientByEmail.isPresent()) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("409");
+			return errorResponse;
 		}
 		
         
 		if((currentYear-birthYear < 18) || (client.getName().length() <= 2) || (client.getLastName().length() <= 2) || (!matcher.find())) {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("400");
+			return errorResponse;
 					
 		}else {
 			String password= new BCryptPasswordEncoder().encode(client.getPassword());
@@ -71,7 +76,11 @@ public class ClientServiceImplementation implements ClientService{
 			java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 			
 			client.setCreatedAt(sqlDate);
-			return clientRepository.save(client);
+			clientRepository.save(client);
+			
+			Response successResponse= new Response();
+			successResponse.setResponseCode("200");
+			return successResponse;
 		}
 		
 		
@@ -79,26 +88,33 @@ public class ClientServiceImplementation implements ClientService{
 	}
 	
 	@Override
-	public boolean deleteClient(int identificationNumber) {
+	public Response deleteClient(int identificationNumber) {
 		Optional<Client> client=clientRepository.findByIdentificationNumber(identificationNumber);
 
 		if(client.isPresent()) {
 			Client clientObtained=client.get();
 			List <Product> clientProducts=productRepository.findByBelongsTo(clientObtained);
 			boolean hasActive=clientProducts.stream().filter(o -> o.getStatus().equals("Active")).findFirst().isPresent();
-			System.out.println(hasActive);
+			
 			if (!hasActive) {
 				clientRepository.delete(clientObtained);
-				return true;
+				Response successResponse= new Response();
+				successResponse.setResponseCode("200");
+				return successResponse;
+			}else {
+				Response errorResponse= new Response();
+				errorResponse.setResponseCode("400");
+				return errorResponse;
 			}
 		}
 		
-		
-		return false;
+		Response errorResponse= new Response();
+		errorResponse.setResponseCode("404");
+		return errorResponse;
 	}
 
 	@Override
-	public Client updateClient(Client client,int userId) {
+	public Response updateClient(Client client,int userId) {
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Bogota"));
 		LocalDate localDate = zonedDateTime.toLocalDate();
 		
@@ -119,11 +135,18 @@ public class ClientServiceImplementation implements ClientService{
 			}		
 			
 			clientToUpdate.setIdentificationType(client.getIdentificationType());
-			clientToUpdate.setModifiedBy(client.getModifiedBy());
+			clientToUpdate.setModifiedBy(client.getModifiedBy()	);
 			
-			return clientRepository.save(clientToUpdate);
+			clientRepository.save(clientToUpdate);
+			
+			Response successResponse= new Response();
+			successResponse.setResponseCode("200");
+			return successResponse;
+			
 		}else {
-			return null;
+			Response errorResponse= new Response();
+			errorResponse.setResponseCode("404");
+			return errorResponse;
 		}
 			
 		

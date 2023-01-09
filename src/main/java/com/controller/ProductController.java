@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.entity.Product;
+import com.entity.Response;
 import com.service.ProductService;
 
 @RestController
@@ -36,10 +37,7 @@ public class ProductController {
 	public ResponseEntity<List<Product>> getProductsByClientId(@PathVariable("clientid") int clientid){
 		List<Product> productsObtained=productService.getProductsByClientId(clientid);
 		
-		if(productsObtained ==  null) {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-		}
-		
+				
 		return new ResponseEntity<>(productsObtained,HttpStatus.OK);
 	}
 	
@@ -61,14 +59,19 @@ public class ProductController {
 	
 	
 	@PostMapping("/create")
-	public ResponseEntity<Product> createProduct(@RequestBody Product product){
+	public ResponseEntity<Response> createProduct(@RequestBody Product product){
 		
 		try {
-			Product productCreated = productService.createProduct(product);
-			if (productCreated == null) {
-				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			Response productCreated = productService.createProduct(product);
+			if (productCreated.getResponseCode().equals("404")) {
+				return new ResponseEntity<>(productCreated,HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<>(productCreated,HttpStatus.CREATED);
+			
+			if (productCreated.getResponseCode() ==  "400") {
+				return new ResponseEntity<>(productCreated,HttpStatus.BAD_REQUEST);
+			}
+			
+			return new ResponseEntity<>(productCreated,HttpStatus.OK);	
 		}catch(Exception e) {
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
@@ -77,84 +80,105 @@ public class ProductController {
 	
 	
 	
-	@PutMapping(path="/activate/{id}")
-	public ResponseEntity<Product> updateClient(@PathVariable("id") int id){
+	@PutMapping(path="/activate/{modifiedby}/{id}")
+	public ResponseEntity<Response> activateProduct(@PathVariable("id") int id,@PathVariable("modifiedby") String modifiedBy){
 		
-		Product productUpdated = productService.activateProduct(id);
+		Response productUpdated = productService.activateProduct(id,modifiedBy);
 		
-		if(productUpdated !=  null) {
-			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		if (productUpdated.getResponseCode().equals("404")) {
+			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
+		}
 		
-			}	
+		if (productUpdated.getResponseCode() ==  "400") {
+			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(productUpdated,HttpStatus.OK);	
 	}
 	
 	
-	@PutMapping(path="/desactivate/{id}")
-	public ResponseEntity<Product> desactivateClient(@PathVariable("id") int id){
+	@PutMapping(path="/desactivate/{modifiedby}/{id}")
+	public ResponseEntity<Response> desactivateProduct(@PathVariable("id") int id,@PathVariable("modifiedby") String modifiedBy){
 		
-		Product productUpdated = productService.desactivateProduct(id);
+		Response productUpdated = productService.desactivateProduct(id,modifiedBy);
 		
-		if(productUpdated !=  null) {
-			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		if (productUpdated.getResponseCode().equals("404")) {
+			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
+		}
 		
-			}	
+		if (productUpdated.getResponseCode() ==  "400") {
+			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(productUpdated,HttpStatus.OK);
 	}
 	
-	@PutMapping(path="/cancel/{productNumber}")
-	public ResponseEntity<Product> cancelProduct(@PathVariable("productNumber") long productNumber){
+	@PutMapping(path="/cancel/{modifiedby}/{productNumber}")
+	public ResponseEntity<Response> cancelProduct(@PathVariable("productNumber") long productNumber,@PathVariable("modifiedby") String modifiedBy){
 		
-		Product productUpdated = productService.cancelProduct(productNumber);
+		Response productUpdated = productService.cancelProduct(productNumber,modifiedBy);
 		
-		if(productUpdated !=  null) {
-			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		if (productUpdated.getResponseCode().equals("404")) {
+			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
+		}
 		
-			}	
+		if (productUpdated.getResponseCode() ==  "400") {
+			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(productUpdated,HttpStatus.OK);
+		
 	}
 	@PutMapping(path="/overdraft/{modifiedby}/{productNumber}/{value}")
-	public ResponseEntity<Product> overDraft(@PathVariable("productNumber") long productNumber, @PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
+	public ResponseEntity<Response> overDraft(@PathVariable("productNumber") long productNumber, @PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		
-		Product productOverdrafted= productService.overDraft(productNumber,value,modifiedBy);
+		Response productOverdrafted= productService.overDraft(productNumber,value,modifiedBy);
 		
-		if(productOverdrafted !=  null) {
-			return new ResponseEntity<>(productOverdrafted,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		
-			}	
+		if (productOverdrafted.getResponseCode().equals("404")) {
+			return new ResponseEntity<>(productOverdrafted,HttpStatus.NOT_FOUND);
+		}
+		
+		if (productOverdrafted.getResponseCode() ==  "400") {
+			return new ResponseEntity<>(productOverdrafted,HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(productOverdrafted,HttpStatus.OK);
+		
 	}
 	
-	@PutMapping(path="/activate/{id}/gmf")
-	public ResponseEntity<Product> activateGmf(@PathVariable("id") int id){
+	@PutMapping(path="/activate/{modifiedby}/{id}/gmf")
+	public ResponseEntity<Response> activateGmf(@PathVariable("id") int id,@PathVariable("modifiedby") String modifiedBy){
 		
-		Product productUpdated = productService.activateGmf(id);
+		Response productUpdated = productService.activateGmf(id,modifiedBy);
 		
-		if(productUpdated !=  null) {
-			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		if (productUpdated.getResponseCode().equals("404")) {
+			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
+		}
 		
-			}	
+		if (productUpdated.getResponseCode() ==  "400") {
+			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(productUpdated,HttpStatus.OK);
 	}
 	
 	
 	
-	@PutMapping(path="/desactivate/{id}/gmf")
-	public ResponseEntity<Product> desactivateGmf(@PathVariable("id") int id){
+	@PutMapping(path="/desactivate/{modifiedby}/{id}/gmf")
+	public ResponseEntity<Response> desactivateGmf(@PathVariable("id") int id,@PathVariable("modifiedby") String modifiedBy){
 		
-		Product productUpdated = productService.desactivateGmf(id);
+		Response productUpdated = productService.desactivateGmf(id,modifiedBy);
 		
-		if(productUpdated !=  null) {
-			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		if (productUpdated.getResponseCode().equals("404")) {
+			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
+		}
 		
-			}	
+		if (productUpdated.getResponseCode() ==  "400") {
+			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(productUpdated,HttpStatus.OK);
 	}
 	
 	

@@ -33,9 +33,9 @@ export class TransactionsComponent {
 
       this.loginService.getCurrentUser().subscribe((dataObtained)=>{
         this.currentUser=dataObtained
-        console.log(this.currentUser)
+        
         this.productService.listClientProducts(this.currentUser.id).subscribe((dataObtained)=>{
-          console.log(dataObtained)
+          
           this.products=[]
           this.productsOrdered=[]
           this.products.push(dataObtained)
@@ -67,7 +67,17 @@ export class TransactionsComponent {
         }
         )
         
-      }
+      },(error =>{
+        if(error.status=="401"){
+          
+          this.snack.open('You have to login','Aceptar',{
+            duration : 3000,
+            });
+  
+            this.loginService.logout()
+            this.router.navigate(["/login"]) 
+        }
+      })
       )
   
       

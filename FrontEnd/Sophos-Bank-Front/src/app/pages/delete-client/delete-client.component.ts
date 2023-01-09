@@ -7,6 +7,8 @@ import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import  { MatDialogRef} from '@angular/material/dialog'
+import { LoginService } from 'src/app/services/login.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-delete-client',
   templateUrl: './delete-client.component.html',
@@ -20,7 +22,7 @@ export class DeleteClientComponent {
 
   
   data:any;
-  constructor(private userService:UserService, private MatDialogRef:MatDialogRef<DeleteClientComponent>,private adminService:AdminServiceService,private snack:MatSnackBar,private productService:ProductsService){}
+  constructor(private router:Router,private loginService:LoginService,private userService:UserService, private MatDialogRef:MatDialogRef<DeleteClientComponent>,private adminService:AdminServiceService,private snack:MatSnackBar,private productService:ProductsService){}
   identificatorsArray:any;
   ids:any;
   
@@ -47,7 +49,18 @@ export class DeleteClientComponent {
       this.options=this.identificatorsArray
       
       
-    }
+    },(error =>{
+      if(error.status=="401"){
+        
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }
+    })
+    
     )
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -88,13 +101,25 @@ export class DeleteClientComponent {
 
     this.userService.deleteClient(Number(this.identificationNumber.number)).subscribe((data)=>{
       console.log(data)
-      Swal.fire('Usuario Eliminado','Usuario eliminado con exito en el sistema','success');
+      Swal.fire('Client eliminated','Cient eliminated successfully','success');
     },(error =>{
       console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Client not found','Aceptar',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Aceptar',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('Client has at least one product without being cancelled','Aceptar',{
+          duration : 3000,
+          });
+      }
     })
     )
   }

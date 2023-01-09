@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Client;
+import com.entity.Response;
 
 
 
@@ -48,40 +49,48 @@ public class ClientController {
 	
 	
 	@PostMapping
-	public ResponseEntity<Client> createClient(@RequestBody Client client){
-		Client clientCreated = clientService.createClient(client);
+	public ResponseEntity<Response> createClient(@RequestBody Client client){
+		Response clientCreated = clientService.createClient(client);
 		
-		if(clientCreated !=  null) {
-			return new ResponseEntity<>(clientCreated,HttpStatus.CREATED);
+		
+		if (clientCreated.getResponseCode().equals("409")) {
+			return new ResponseEntity<>(clientCreated,HttpStatus.CONFLICT);
+		}
+		if(clientCreated.getResponseCode().equals("200")) {
+			return new ResponseEntity<>(clientCreated,HttpStatus.OK);	
 		}else {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-		
-			}
+			return new ResponseEntity<>(clientCreated,HttpStatus.BAD_REQUEST);	
+		}
 		}
 	@PutMapping(path="/{id}/update")
-	public ResponseEntity<Client> updateClient(@RequestBody Client client,@PathVariable("id") int id){
+	public ResponseEntity<Response> updateClient(@RequestBody Client client,@PathVariable("id") int id){
 		
-		Client clientUpdated = clientService.updateClient(client, id);
+		Response clientUpdated = clientService.updateClient(client, id);
 		
-		if(clientUpdated !=  null) {
-			return new ResponseEntity<>(clientUpdated,HttpStatus.OK);
+		if (clientUpdated.getResponseCode().equals("404")) {
+			return new ResponseEntity<>(clientUpdated,HttpStatus.NOT_FOUND);
+		}
+		if(clientUpdated.getResponseCode().equals("200")) {
+			return new ResponseEntity<>(clientUpdated,HttpStatus.OK);	
 		}else {
-			return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(clientUpdated,HttpStatus.BAD_REQUEST);	
+		}
 		
-			}	
 	}
 	
 	@DeleteMapping (path="/delete/{identificationNumber}")
-	public ResponseEntity<Object> deleteClient(@PathVariable("identificationNumber") int identificationNumber){
+	public ResponseEntity<Response> deleteClient(@PathVariable("identificationNumber") int identificationNumber){
 		
-		boolean clientEliminated = clientService.deleteClient(identificationNumber);
+		Response clientEliminated = clientService.deleteClient(identificationNumber);
 		
-		if(clientEliminated) {
-			return new ResponseEntity<>(null ,HttpStatus.OK);
+		if (clientEliminated.getResponseCode().equals("404")) {
+			return new ResponseEntity<>(clientEliminated,HttpStatus.NOT_FOUND);
+		}
+		if(clientEliminated.getResponseCode().equals("200")) {
+			return new ResponseEntity<>(clientEliminated,HttpStatus.OK);	
 		}else {
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-		
-			}	
+			return new ResponseEntity<>(clientEliminated,HttpStatus.BAD_REQUEST);	
+		}
 	}
 	
 	
