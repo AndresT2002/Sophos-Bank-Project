@@ -1,4 +1,4 @@
-import { Component,Inject, OnInit } from '@angular/core';
+import { Component,Inject } from '@angular/core';
 import  {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   templateUrl: './update-client.component.html',
   styleUrls: ['./update-client.component.css']
 })
-export class UpdateClientComponent implements OnInit{
+export class UpdateClientComponent{
   constructor (private loginService:LoginService,@Inject(MAT_DIALOG_DATA) public dataObtained:any,private router:Router,private snack: MatSnackBar, private MatDialogRef:MatDialogRef<UpdateClientComponent>,private userService: UserService){}
 
 
@@ -28,12 +28,7 @@ export class UpdateClientComponent implements OnInit{
     
 
   }
-
-  
-
-  ngOnInit(): void {
-    
-  }
+ 
 
   ngOnDestroy():void{
     this.MatDialogRef.close(this.dataObtained)

@@ -86,6 +86,7 @@ public class ClientController {
 		if (clientEliminated.getResponseCode().equals("404")) {
 			return new ResponseEntity<>(clientEliminated,HttpStatus.NOT_FOUND);
 		}
+				
 		if(clientEliminated.getResponseCode().equals("200")) {
 			return new ResponseEntity<>(clientEliminated,HttpStatus.OK);	
 		}else {

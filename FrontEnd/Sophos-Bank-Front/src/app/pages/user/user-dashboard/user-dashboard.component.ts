@@ -23,7 +23,7 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
       this.currentUser=userObtained
       
 
-      let userData=this.userService.getUserById(Number(this.currentUser.id)).subscribe(dataObtained =>{
+      this.userService.getUserById(Number(this.currentUser.id)).subscribe(dataObtained =>{
 
 
         let dialogRef=this.matDialog.open(UpdateClientComponent,{

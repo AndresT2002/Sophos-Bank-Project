@@ -34,7 +34,7 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
       this.currentUser=userObtained
       console.log(this.currentUser)
 
-      let userData=this.userService.getUserById(Number(this.currentUser.id)).subscribe(dataObtained =>{
+      this.userService.getUserById(Number(this.currentUser.id)).subscribe(dataObtained =>{
 
 
         let dialogRef=this.matDialog.open(UpdateClientComponent,{
@@ -76,7 +76,7 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
   onOpenDeleteClientDialog(){
 
     let dialogRef=this.matDialog.open(DeleteClientComponent,{
-      height: '40%',
+      height: '50%',
       width: '40%',
       hasBackdrop:true
     })
@@ -90,7 +90,7 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
   onOpenCreateProductDialog(){
 
     let dialogRef=this.matDialog.open(CreateProductComponent,{
-      height: '50%',
+      height: '70%',
       width: '40%',
       hasBackdrop:true
     })

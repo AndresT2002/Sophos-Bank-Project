@@ -1,55 +1,60 @@
-<mat-toolbar color="primary">
-    <a
-      [routerLink]="'/'"
-      mat-icon-button
-      class="example-icon"
-      arial-label="Example icon-button with menu icon"
-    >
-      <mat-icon>menu_books</mat-icon>
-    </a>
-    <span>Sophos Bank</span>
-    <span class="example-spacer"></span>
-
-    <a
-      *ngIf="!loginService.isLoggedIn()"
-    style="margin-right: 70px"
-      [routerLink]="'/login'"
-      mat-icon-button
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-    >  
-      Login
-    </a>
-    <a
-    *ngIf="!loginService.isLoggedIn()"
-    style="margin-right: 70px"
-      [routerLink]="'/register'"
-      mat-icon-button
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-    >
-      Register
-    </a>
 
 
-    <a
-    *ngIf="loginService.isLoggedIn()"
-    (click)="logout()"
-      style="margin-right: 200px"
-      mat-icon-button
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-    >
-      Logout
-    </a>
-    <button
-    *ngIf="loginService.isLoggedIn()"
+
+  <mat-toolbar color="primary" >
+    <mat-toolbar-row>
+      <button mat-icon-button  (click)="sidenav.toggle()">
+        
+        <mat-icon >menu</mat-icon>
+      </button >
+      <h1 >Sophos Bank</h1>
+      <span class="menu-spacer"></span>
+      <div>
+        <a mat-button *ngIf="!isLoggedIn" [routerLink]="'/login'"> Login </a>
+        <a mat-button *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/admin'"> Admin Dashboard </a>
+        <a mat-button *ngIf="isLoggedIn && user.role == 'CLIENT'"[routerLink]="'/user-dashboard'"> My Dashboard </a>
+        <a mat-button *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/register'"> Register</a>
+        <a mat-button *ngIf="isLoggedIn"  [routerLink]="'/transactions'"> Transactions </a>
+        <a mat-button *ngIf="isLoggedIn" [routerLink]="'/listClientProducts'"> My Products </a>
+        <a mat-button *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/listClients'"> List Clients </a>
+        
+        <a mat-button *ngIf="isLoggedIn" (click)="logout()"> Logout </a>
+        
+        
+  
+      </div>
+    </mat-toolbar-row>
+  
     
-      mat-button
-      style="margin-right: 10px"
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-      
-    >
-    </button> 
   </mat-toolbar>
+
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav>
+      <mat-nav-list>
+  
+        
+        
+        
+        
+
+        <a mat-list-item *ngIf="!isLoggedIn" [routerLink]="'/login'"> Login </a>
+        <a mat-list-item *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/admin'"> Admin Dashboard </a>
+        <a mat-list-item *ngIf=" isLoggedIn && user.role == 'CLIENT'"[routerLink]="'/user-dashboard'"> My Dashboard </a>
+        <a mat-list-item *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/register'"> Create User</a>
+        <a mat-list-item *ngIf="isLoggedIn"  [routerLink]="'/transactions'"> Transactions </a>
+        <a mat-list-item *ngIf="isLoggedIn" [routerLink]="'/listClientProducts'"> My Products </a>
+        <a mat-list-item *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/listClients'"> List Clients </a>
+        
+        <a mat-list-item *ngIf="isLoggedIn" (click)="logout()"> Logout </a>
+        <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>
+
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div style="height: 88vh;">
+  
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

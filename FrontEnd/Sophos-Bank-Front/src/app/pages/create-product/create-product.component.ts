@@ -46,15 +46,17 @@ export class CreateProductComponent implements OnInit{
       this.data=dataObtained
       
       this.identificatorsArray=[]
-      for (let index = 0; index < this.data.length; index++) {
-        const element = this.data[index];
+      
+      
+      for(let value of this.data){
         let object={
-          id:element.id,
-          identificationNumber:element.identificationNumber.toString()
+          id:value.id,
+          identificationNumber:value.identificationNumber.toString()
         }
         this.identificatorsArray.push(object)
       }
-      
+
+
       this.options=this.identificatorsArray
       
       
@@ -90,9 +92,7 @@ export class CreateProductComponent implements OnInit{
   updateMySelection(identificationNumber:string){
     let value=this._filter(identificationNumber)
     this.product.belongsTo.id=value[0].id
-    
-    
-    return
+     
   }
 
   onCloseClick():void{
@@ -112,13 +112,25 @@ export class CreateProductComponent implements OnInit{
 
     this.productService.createProduct(this.product).subscribe((data)=>{
       
-      Swal.fire('Product created','Product created succesfuly','success');
+      Swal.fire('Product created','Product created successfully','success');
     },(error =>{
       
-      this.snack.open('Error doing the request','Accept',{
-        duration : 3000,
-        
-      });
+      if(error.status == "404"){
+        this.snack.open('Client to asociate the product not found','Accept',{
+          duration : 3000,
+          });
+      }else if(error.status=="401"){
+        this.snack.open('You have to login','Accept',{
+          duration : 3000,
+          });
+
+          this.loginService.logout()
+          this.router.navigate(["/login"]) 
+      }else{
+        this.snack.open('You already have a product with GMF exception','Accept',{
+          duration : 3000,
+          });
+      }
     })
     )
   

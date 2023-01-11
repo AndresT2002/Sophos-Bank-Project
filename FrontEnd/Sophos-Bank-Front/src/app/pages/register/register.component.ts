@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit{
+export class RegisterComponent {
 
   public user={
     name:"",
@@ -25,9 +25,7 @@ export class RegisterComponent implements OnInit{
 
   }
 
-  ngOnInit(): void {
-    
-  }
+  
   constructor(private router:Router,private loginService:LoginService,private userService:UserService,private snack:MatSnackBar){}
 
   formSubmit(){
@@ -36,7 +34,8 @@ export class RegisterComponent implements OnInit{
     || this.user.lastName == null || this.user.birthDay == '' || this.user.birthDay == null || 
     this.user.identificationType == '' || this.user.identificationType == null
     ||this.user.identificationNumber == '' || this.user.identificationNumber == null ||
-    this.user.email == '' || this.user.email == null || this.user.password == '' || this.user.password == null ){
+    this.user.email == '' || this.user.email == null || this.user.password == '' || this.user.password == null||
+    this.user.role == '' || this.user.role == null ){
       this.snack.open('All fields must be filled','Accept',{
         duration : 3000,
         verticalPosition : 'top',
@@ -47,7 +46,7 @@ export class RegisterComponent implements OnInit{
 
     this.userService.registerUser(this.user).subscribe((data)=>{
       
-      Swal.fire('User Saved','User registered succesfuly','success');
+      Swal.fire('User Saved','User registered succesfully','success');
     },(error =>{
       
       if(error.status == "409"){

@@ -102,7 +102,7 @@ public class ProductServiceImplementation implements ProductService{
 		productRepository.save(product);
 		
 		Response successResponse= new Response();
-		successResponse.setResponseCode("404");
+		successResponse.setResponseCode("200");
 		return successResponse;
 	}
 

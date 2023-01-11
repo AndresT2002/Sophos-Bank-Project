@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ProductTransHistoryComponent } from 'src/app/components/product-trans-history/product-trans-history.component';
 
-import { AdminServiceService } from 'src/app/services/admin-service.service';
+
 import { LoginService } from 'src/app/services/login.service';
 
 import { ProductsService } from 'src/app/services/products.service';
@@ -52,13 +51,7 @@ export class ListProductsComponent {
         this.inactiveProducts=this.products[0].filter((element:any) => element.status=="Inactive")
         this.canceledProducts=this.products[0].filter((element:any) => element.status=="Canceled")
 
-
-
-        // this.activeProducts=this.sort(this.activeProducts)
-        // this.inactiveProducts=this.sort(this.inactiveProducts)
-        // this.canceledProducts=this.sort(this.canceledProducts)
-
-        
+      
         this.productsOrdered.push(this.sort(this.activeProducts))
         
         this.productsOrdered.push(this.sort(this.inactiveProducts))
@@ -96,17 +89,17 @@ export class ListProductsComponent {
       return []
     }
 
-    for(var i = 0; i < toOrder.length; i++){
+    for(let i = 0; i < toOrder.length; i++){
     
       // Last i elements are already in place 
-      for(var j = 0; j < ( toOrder.length - i -1 ); j++){
+      for(let j = 0; j < ( toOrder.length - i -1 ); j++){
          
         // Checking if the item at present iteration
         // is greater than the next iteration
         if(toOrder[j].productAvailable < toOrder[j+1].productAvailable){
             
           // If the condition is true then swap them
-          var temp = toOrder[j]
+          let temp = toOrder[j]
           toOrder[j] = toOrder[j + 1]
           toOrder[j+1] = temp
         }
@@ -116,7 +109,7 @@ export class ListProductsComponent {
     return toOrder
   }
 
-  activateProduct(productId: String){
+  activateProduct(productId: string){
     
     
     this.productService.activateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
@@ -137,7 +130,7 @@ export class ListProductsComponent {
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
-      }else if(error.status="400"){
+      }else if(error.status=="400"){
         this.snack.open('This product is already active','Accept',{
           duration : 3000,
           });
@@ -151,7 +144,7 @@ export class ListProductsComponent {
   }
 
 
-  activateGmf(productId: String){
+  activateGmf(productId: string){
     
 
     this.productService.activateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
@@ -181,7 +174,7 @@ export class ListProductsComponent {
   }
 
 
-  desactivateProduct(productId: String){
+  desactivateProduct(productId: string){
     
 
     this.productService.desactivateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
@@ -211,7 +204,7 @@ export class ListProductsComponent {
   }
 
 
-  desactivateGmf(productId: String){
+  desactivateGmf(productId: string){
     
 
     this.productService.desactivateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
@@ -229,7 +222,7 @@ export class ListProductsComponent {
   }
 
 
-  cancelProduct(productNumber: String){
+  cancelProduct(productNumber: string){
     
 
     this.productService.cancelProduct(Number(productNumber),this.modifiedBy).subscribe((data)=>{

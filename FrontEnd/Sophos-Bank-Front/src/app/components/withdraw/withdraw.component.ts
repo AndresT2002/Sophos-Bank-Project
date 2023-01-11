@@ -21,9 +21,7 @@ export class WithdrawComponent {
     modifiedBy:this.loginService.getUser().username
   }
 
-  ngOnInit(): void {
-    
-  }
+ 
 
   ngOnDestroy():void{
     this.MatDialogRef.close(this.dataObtained)

@@ -82,17 +82,17 @@ export class TransactionsComponent {
         return []
       }
   
-      for(var i = 0; i < toOrder.length; i++){
+      for(let i = 0; i < toOrder.length; i++){
       
         // Last i elements are already in place 
-        for(var j = 0; j < ( toOrder.length - i -1 ); j++){
+        for(let j = 0; j < ( toOrder.length - i -1 ); j++){
            
           // Checking if the item at present iteration
           // is greater than the next iteration
           if(toOrder[j].productAvailable < toOrder[j+1].productAvailable){
               
             // If the condition is true then swap them
-            var temp = toOrder[j]
+            let temp = toOrder[j]
             toOrder[j] = toOrder[j + 1]
             toOrder[j+1] = temp
           }
@@ -108,7 +108,7 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(DepositComponent,{
         data:productNumber,
-        height: '40%',
+        height: '50%',
         width: '40%',
         hasBackdrop:true
       })
@@ -123,7 +123,7 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(WithdrawComponent,{
         data:productNumber,
-        height: '40%',
+        height: '50%',
         width: '40%',
         hasBackdrop:true
       })
@@ -139,7 +139,7 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(OverdraftComponent,{
         data:productNumber,
-        height: '40%',
+        height: '50%',
         width: '40%',
         hasBackdrop:true
       })
@@ -154,7 +154,7 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(TransferComponent,{
         data:productNumber,
-        height: '40%',
+        height: '60%',
         width: '40%',
         hasBackdrop:true
       })
@@ -166,10 +166,10 @@ export class TransactionsComponent {
     }
 
     onOpenPayDebtDialog(productNumber:any){
-      console.log(productNumber)
+      
       let dialogRef=this.matDialog.open(PaydebtComponent,{
         data:productNumber,
-        height: '40%',
+        height: '60%',
         width: '40%',
         hasBackdrop:true
       })

@@ -8,7 +8,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 import Swal from 'sweetalert2';
-import { DepositComponent } from '../deposit/deposit.component';
+
 
 @Component({
   selector: 'app-transfer',
@@ -40,13 +40,11 @@ export class TransferComponent {
       this.data=dataObtained
       
       this.productNumbersArray=[]
-      for (let index = 0; index < this.data.length; index++) {
-        const element = this.data[index];
-        let number=element.productNumber.toString()
-      
-        this.productNumbersArray.push(number)
+            
+      for(let value of this.data){
+        this.productNumbersArray.push(value.productNumber.toString())
       }
-      
+
       this.options=this.productNumbersArray
       
       
@@ -69,9 +67,7 @@ export class TransferComponent {
   updateMySelection(productNumber:string){
     let value=this._filter(productNumber)
     this.productTransfer.productTo=value[0]
-    
-    
-    return
+
   }
 
 

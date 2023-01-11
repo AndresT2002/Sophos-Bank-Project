@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 import Swal from 'sweetalert2';
-import { DepositComponent } from '../deposit/deposit.component';
+
 
 @Component({
   selector: 'app-overdraft',
@@ -21,9 +21,7 @@ export class OverdraftComponent {
     modifiedBy:this.loginService.getUser().username
   }
 
-  ngOnInit(): void {
-    
-  }
+  
 
   ngOnDestroy():void{
     this.MatDialogRef.close(this.dataObtained)
@@ -48,7 +46,7 @@ export class OverdraftComponent {
 
     this.transactionsService.overdraft(Number(this.productOverdraft.productNumber),Number(this.productOverdraft.value),this.productOverdraft.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Overdraft completed','Overdraft operation was succesful','success');
+      Swal.fire('Overdraft completed','Overdraft operation was successful','success');
       window.location.reload();
     },(error =>{
       

@@ -37,15 +37,14 @@ export class DeleteClientComponent {
       this.data=dataObtained
       
       this.identificatorsArray=[]
-      for (let index = 0; index < this.data.length; index++) {
-        const element = this.data[index];
+            
+      for(let value of this.data){
         let object={
-          id:element.id,
-          identificationNumber:element.identificationNumber.toString()
+          id:value.id,
+          identificationNumber:value.identificationNumber.toString()
         }
         this.identificatorsArray.push(object)
       }
-      
       this.options=this.identificatorsArray
       
       
@@ -81,12 +80,13 @@ export class DeleteClientComponent {
   updateMySelection(identificationNumber:string){
     let value=this._filter(identificationNumber)
     this.identificationNumber.number=value[0].identificationNumber
-       
-    return
+      
   }
+
   onCloseClick():void{
     this.MatDialogRef.close()
   }
+  
   deleteClient(){
     
     if(this.identificationNumber.number == '' || this.identificationNumber.number == null ){

@@ -2,9 +2,11 @@
     <div class="container">
       <div class="row mt20">
         <div class = "col-md-6 offset-md-3 text-center">
-          <h1>Bienvenido al portal de examenes</h1>
-          <button mat-raised-button color = "primary">Inicio</button>
-        </div>
+          <h1>Welcome to sophos bank</h1>
+          <button mat-raised-button color = "primary" *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/admin'"> Admin Dashboard </button>
+          <button mat-raised-button color = "primary" *ngIf="isLoggedIn && user.role == 'CLIENT'"[routerLink]="'/user-dashboard'"> My Dashboard </button>
+          <button mat-raised-button color = "primary" [routerLink]="'/login'" *ngIf="!isLoggedIn"> Click here to login!</button>
+      </div>
       </div>
     </div>
   </div>

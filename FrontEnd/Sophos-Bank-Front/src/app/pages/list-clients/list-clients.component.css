@@ -1,3 +1,12 @@
-.titles{
-    
-}
+.mat-mdc-table {
+    width: 80%;
+    max-height: 500px;
+    overflow: auto;
+  }
+  
+
+  .mat-column-name {
+    max-width: 90px;
+  }
+
+  

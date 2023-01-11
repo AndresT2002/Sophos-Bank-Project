@@ -39,8 +39,9 @@ import { WithdrawComponent } from './components/withdraw/withdraw.component';
 import { OverdraftComponent } from './components/overdraft/overdraft.component';
 import { TransferComponent } from './components/transfer/transfer.component';
 import { PaydebtComponent } from './components/paydebt/paydebt.component';
-
-
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,11 @@ import { PaydebtComponent } from './components/paydebt/paydebt.component';
     MatDialogModule,
     MatMomentDateModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatSidenavModule,
+    MatListModule,
+    
     
     
   ],

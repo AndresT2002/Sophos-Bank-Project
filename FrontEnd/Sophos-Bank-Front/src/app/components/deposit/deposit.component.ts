@@ -7,9 +7,9 @@ import { map, Observable, startWith } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
-import { UserService } from 'src/app/services/user.service';
+
 import Swal from 'sweetalert2';
-import { UpdateClientComponent } from '../update-client/update-client.component';
+
 
 @Component({
   selector: 'app-deposit',
@@ -39,13 +39,12 @@ export class DepositComponent {
       this.data=dataObtained
       
       this.productNumbersArray=[]
-      for (let index = 0; index < this.data.length; index++) {
-        const element = this.data[index];
-        let number=element.productNumber.toString()
-      
-        this.productNumbersArray.push(number)
+            
+      for(let value of this.data){
+        this.productNumbersArray.push(value.productNumber.toString())
       }
-      
+
+
       this.options=this.productNumbersArray
       
       
@@ -68,9 +67,6 @@ export class DepositComponent {
   updateMySelection(productNumber:string){
     let value=this._filter(productNumber)
     this.productDeposit.productNumber=value[0]
-    
-    
-    return
   }
   
 
@@ -92,7 +88,7 @@ export class DepositComponent {
 
     if(this.productDeposit.productNumber == '' || this.productDeposit.productNumber == null || this.productDeposit.value == '' 
     || this.productDeposit.value == null  ){
-      this.snack.open('Todos los campos deben estar completos','Aceptar',{
+      this.snack.open('All fields must be filled','Accept',{
         duration : 3000,
         verticalPosition : 'top',
         horizontalPosition : 'right'
@@ -102,23 +98,23 @@ export class DepositComponent {
 
     this.transactionsService.deposit(Number(this.productDeposit.productNumber),Number(this.productDeposit.value),this.productDeposit.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Deposit complete','Deposit operation was succesful','success');
+      Swal.fire('Deposit complete','Deposit operation was successful','success');
       window.location.reload();
     },(error =>{
       
       if(error.status == "404"){
-        this.snack.open('Product to deposit not found','Aceptar',{
+        this.snack.open('Product to deposit not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('Error on petition','Aceptar',{
+        this.snack.open('Error on petition','Accept',{
           duration : 3000,
           });
       }

@@ -19,9 +19,7 @@ export class LoginComponent {
 
   constructor(private snack: MatSnackBar,private loginService:LoginService,private router:Router){}
 
-  ngOnInit():void{
-
-  }
+  
 
 
   formSubmit(){

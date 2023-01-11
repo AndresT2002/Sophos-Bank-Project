@@ -1,15 +1,15 @@
 import { Component,Inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AdminServiceService } from 'src/app/services/admin-service.service';
+
+
 import { LoginService } from 'src/app/services/login.service';
 import  {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog'
 import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import { ProductTransHistoryComponent } from '../product-trans-history/product-trans-history.component';
-import { DeleteClientComponent } from 'src/app/pages/delete-client/delete-client.component';
+
 
 @Component({
   selector: 'app-list-products-admin',
@@ -66,11 +66,7 @@ export class ListProductsAdminComponent {
         this.inactiveProducts=this.products[0].filter((element:any) => element.status=="Inactive")
         this.canceledProducts=this.products[0].filter((element:any) => element.status=="Canceled")
 
-
-
-        // this.activeProducts=this.sort(this.activeProducts)
-        // this.inactiveProducts=this.sort(this.inactiveProducts)
-        // this.canceledProducts=this.sort(this.canceledProducts)
+        
 
         
         this.productsOrdered.push(this.sort(this.activeProducts))
@@ -110,17 +106,17 @@ export class ListProductsAdminComponent {
       return []
     }
 
-    for(var i = 0; i < toOrder.length; i++){
+    for(let i = 0; i < toOrder.length; i++){
     
       // Last i elements are already in place 
-      for(var j = 0; j < ( toOrder.length - i -1 ); j++){
+      for(let j = 0; j < ( toOrder.length - i -1 ); j++){
          
         // Checking if the item at present iteration
         // is greater than the next iteration
         if(toOrder[j].productAvailable < toOrder[j+1].productAvailable){
             
           // If the condition is true then swap them
-          var temp = toOrder[j]
+          let temp = toOrder[j]
           toOrder[j] = toOrder[j + 1]
           toOrder[j+1] = temp
         }
@@ -130,11 +126,11 @@ export class ListProductsAdminComponent {
     return toOrder
   }
 
-  activateProduct(productId: String){
+  activateProduct(productId: string){
     
     this.productService.activateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Product Activated','Product Activated succesfuly','success');
+      Swal.fire('Product Activated','Product Activated successfully','success');
       window.location.reload();
     },(error =>{
       if(error.status == "404"){
@@ -158,12 +154,12 @@ export class ListProductsAdminComponent {
   }
 
 
-  activateGmf(productId: String){
+  activateGmf(productId: string){
     
 
     this.productService.activateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       console.log(data)
-      Swal.fire('GMF Activated','GMF Activated successfuly','success');
+      Swal.fire('GMF Activated','GMF Activated successfully','success');
       window.location.reload();
     },(error =>{
      
@@ -188,12 +184,12 @@ export class ListProductsAdminComponent {
   }
 
 
-  desactivateProduct(productId: String){
+  desactivateProduct(productId: string){
     
 
     this.productService.desactivateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Product Desactivated','Product Desactivated succesfuly','success');
+      Swal.fire('Product Desactivated','Product Desactivated successfully','success');
       window.location.reload();
     },(error =>{
       
@@ -218,12 +214,12 @@ export class ListProductsAdminComponent {
   }
 
 
-  desactivateGmf(productId: String){
+  desactivateGmf(productId: string){
     
 
     this.productService.desactivateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('GMF Desactivated','GMF Desactivated succesfuly','success');
+      Swal.fire('GMF Desactivated','GMF Desactivated successfully','success');
       window.location.reload();
     },(error =>{
      
@@ -244,12 +240,12 @@ export class ListProductsAdminComponent {
   }
 
 
-  cancelProduct(productNumber: String){
+  cancelProduct(productNumber: string){
     
 
     this.productService.cancelProduct(Number(productNumber),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Product Canceled','Product Canceled succesfuly','success');
+      Swal.fire('Product Canceled','Product Canceled successfully','success');
       window.location.reload();
     },(error =>{
       
