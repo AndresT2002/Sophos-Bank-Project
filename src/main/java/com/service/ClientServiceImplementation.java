@@ -5,7 +5,7 @@ import com.entity.Response;
 
 import java.sql.Date;
 import java.time.LocalDate;
-// import java.time.Month;
+
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -20,7 +20,7 @@ import com.repository.ClientRepository;
 import com.repository.ProductRepository;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @Service
 public class ClientServiceImplementation implements ClientService{
@@ -94,7 +94,7 @@ public class ClientServiceImplementation implements ClientService{
 		if(client.isPresent()) {
 			Client clientObtained=client.get();
 			List <Product> clientProducts=productRepository.findByBelongsTo(clientObtained);
-			boolean hasActive=clientProducts.stream().filter(o -> o.getStatus().equals("Active")).findFirst().isPresent();
+			boolean hasActive=clientProducts.stream().anyMatch(o -> o.getStatus().equals("Active"));
 			
 			if (!hasActive) {
 				clientRepository.delete(clientObtained);
@@ -173,9 +173,8 @@ public class ClientServiceImplementation implements ClientService{
 		if (!client.isPresent()) {
 			return null;
 		}
-		Client clientFinded=client.get();
-		
-		return clientFinded;
+				
+		return client.get();
 	}
 
 	

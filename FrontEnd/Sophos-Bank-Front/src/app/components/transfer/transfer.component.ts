@@ -48,7 +48,7 @@ export class TransferComponent {
       }
       
       this.options=this.productNumbersArray
-      console.log(this.options)
+      
       
     }
     )
@@ -69,7 +69,7 @@ export class TransferComponent {
   updateMySelection(productNumber:string){
     let value=this._filter(productNumber)
     this.productTransfer.productTo=value[0]
-    console.log(value)
+    
     
     return
   }
@@ -85,38 +85,35 @@ export class TransferComponent {
   }
 
   transfer(){
-    console.log(this.dataObtained)
-    
-
     if(this.productTransfer.productNumber == '' || this.productTransfer.productNumber == null || this.productTransfer.value == '' 
     || this.productTransfer.value == null ||  this.productTransfer.productTo == '' || this.productTransfer.productTo == null){
-      this.snack.open('Todos los campos deben estar completos','Aceptar',{
+      this.snack.open('All fields must be filled','Accept',{
         duration : 3000,
         verticalPosition : 'top',
         horizontalPosition : 'right'
       });
       return;
     }
-    console.log(this.productTransfer)
+    
     this.transactionsService.transfer(Number(this.productTransfer.productNumber),Number(this.productTransfer.productTo),Number(this.productTransfer.value),this.productTransfer.modifiedBy).subscribe((data)=>{
-      console.log(data)
+      
       Swal.fire('Transfer completed','Transfer operation was succesful','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+      
       if(error.status == "404"){
-        this.snack.open('Product to deposit or product from  not found','Aceptar',{
+        this.snack.open('Product to deposit or product from  not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('Your product does not have enough money to transfer that value','Aceptar',{
+        this.snack.open('Your product does not have enough money to transfer that value','Accept',{
           duration : 3000,
           });
       }

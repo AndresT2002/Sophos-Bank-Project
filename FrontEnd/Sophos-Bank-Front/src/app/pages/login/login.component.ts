@@ -26,27 +26,27 @@ export class LoginComponent {
 
   formSubmit(){
     if (this.loginData.email.trim() == "" || this.loginData.email.length < 2  ){
-          this.snack.open("El nombre de usuario es requerido!!! ", "Aceptar",{
+          this.snack.open("The email is required", "Accept",{
             duration:3000
           })
         return
         }
 
         if (this.loginData.password.trim() == ""  ){
-          this.snack.open("La contraseña es requerida!!! ", "Aceptar",{
+          this.snack.open("The password is required", "Accept",{
             duration:3000
           })
         return
         }
-        console.log(this.loginData)
+        
 
         this.loginService.generateToken(this.loginData).subscribe(  
           (data:any)=>{
-          console.log(data)
+          
           this.loginService.loginUser(data.token)
           this.loginService.getCurrentUser().subscribe((user:any)=>{
             this.loginService.setUser(user);
-            console.log(user)
+            
             if(user.role=="ADMIN"){
               this.router.navigate(["/admin"])
               this.loginService.loginStatusSubject.next(true);
@@ -60,8 +60,8 @@ export class LoginComponent {
 
           })
           },(error)=>{
-            console.log(error)
-            this.snack.open("Detalles invalidos,vuelva a intentar !!", "Aceptar",{
+            
+            this.snack.open("Incorrect email or passoword, try again", "Accept",{
               duration:3000
             })
           }

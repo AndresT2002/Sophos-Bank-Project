@@ -46,15 +46,7 @@ export class TransactionsComponent {
           
           this.activeProducts=this.products[0].filter((element:any) => element.status=="Active")
           this.inactiveProducts=this.products[0].filter((element:any) => element.status=="Inactive")
-          
-
-
-
-          // this.activeProducts=this.sort(this.activeProducts)
-          // this.inactiveProducts=this.sort(this.inactiveProducts)
-          // this.canceledProducts=this.sort(this.canceledProducts)
-  
-          
+                    
           this.productsOrdered.push(this.sort(this.activeProducts))
           
           this.productsOrdered.push(this.sort(this.inactiveProducts))
@@ -70,7 +62,7 @@ export class TransactionsComponent {
       },(error =>{
         if(error.status=="401"){
           
-          this.snack.open('You have to login','Aceptar',{
+          this.snack.open('You have to login','Accept',{
             duration : 3000,
             });
   
@@ -116,7 +108,8 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(DepositComponent,{
         data:productNumber,
-        
+        height: '40%',
+        width: '40%',
         hasBackdrop:true
       })
       
@@ -130,7 +123,8 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(WithdrawComponent,{
         data:productNumber,
-        
+        height: '40%',
+        width: '40%',
         hasBackdrop:true
       })
       
@@ -145,7 +139,8 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(OverdraftComponent,{
         data:productNumber,
-        
+        height: '40%',
+        width: '40%',
         hasBackdrop:true
       })
       
@@ -159,7 +154,8 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(TransferComponent,{
         data:productNumber,
-        
+        height: '40%',
+        width: '40%',
         hasBackdrop:true
       })
       
@@ -173,7 +169,8 @@ export class TransactionsComponent {
       console.log(productNumber)
       let dialogRef=this.matDialog.open(PaydebtComponent,{
         data:productNumber,
-        
+        height: '40%',
+        width: '40%',
         hasBackdrop:true
       })
       

@@ -47,7 +47,7 @@ export class DepositComponent {
       }
       
       this.options=this.productNumbersArray
-      console.log(this.options)
+      
       
     }
     )
@@ -68,7 +68,7 @@ export class DepositComponent {
   updateMySelection(productNumber:string){
     let value=this._filter(productNumber)
     this.productDeposit.productNumber=value[0]
-    console.log(value)
+    
     
     return
   }
@@ -84,7 +84,7 @@ export class DepositComponent {
   }
 
   deposit(){
-    console.log(this.dataObtained)
+    
     if(this.dataObtained !=null){
       this.productDeposit.productNumber=this.dataObtained
     }
@@ -101,17 +101,17 @@ export class DepositComponent {
     }
 
     this.transactionsService.deposit(Number(this.productDeposit.productNumber),Number(this.productDeposit.value),this.productDeposit.modifiedBy).subscribe((data)=>{
-      console.log(data)
+      
       Swal.fire('Deposit complete','Deposit operation was succesful','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+      
       if(error.status == "404"){
         this.snack.open('Product to deposit not found','Aceptar',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('Sesion expire, login again','Aceptar',{
+        this.snack.open('You have to login','Aceptar',{
           duration : 3000,
           });
 

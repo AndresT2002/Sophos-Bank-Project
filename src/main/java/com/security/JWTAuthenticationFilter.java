@@ -6,11 +6,11 @@ import java.util.Collections;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 
 import com.entity.Response;
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
+
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.security.core.AuthenticationException;
@@ -35,7 +35,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			authCredentials=new ObjectMapper().readValue(request.getReader(),AuthCredentials.class);
 			
 		} catch (IOException e) {
-			System.out.println("ENTRE ERROR");
+		
 			e.printStackTrace();
 		} 
 		

@@ -16,7 +16,14 @@ import { DeleteClientComponent } from '../../delete-client/delete-client.compone
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-
+  
+  
+  ngOnInit(){
+    if(!this.loginService.isLoggedIn()){
+      this.loginService.logout()
+      this.router.navigate(["/login"]) 
+    }
+  }
 
   currentUser:any
 constructor(private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
@@ -32,7 +39,8 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
 
         let dialogRef=this.matDialog.open(UpdateClientComponent,{
           data:dataObtained,
-          
+          height: '70%',
+          width: '40%',
           hasBackdrop:true
         })
     
@@ -68,7 +76,8 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
   onOpenDeleteClientDialog(){
 
     let dialogRef=this.matDialog.open(DeleteClientComponent,{
-         
+      height: '40%',
+      width: '40%',
       hasBackdrop:true
     })
     
@@ -81,7 +90,8 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
   onOpenCreateProductDialog(){
 
     let dialogRef=this.matDialog.open(CreateProductComponent,{
-         
+      height: '50%',
+      width: '40%',
       hasBackdrop:true
     })
     

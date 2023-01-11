@@ -35,12 +35,10 @@ export class OverdraftComponent {
   }
 
   overdraft(){
-    console.log(this.dataObtained)
     
-
     if(this.productOverdraft.productNumber == '' || this.productOverdraft.productNumber == null || this.productOverdraft.value == '' 
     || this.productOverdraft.value == null  ){
-      this.snack.open('Todos los campos deben estar completos','Aceptar',{
+      this.snack.open('All fields must be filled','Accept',{
         duration : 3000,
         verticalPosition : 'top',
         horizontalPosition : 'right'
@@ -49,17 +47,17 @@ export class OverdraftComponent {
     }
 
     this.transactionsService.overdraft(Number(this.productOverdraft.productNumber),Number(this.productOverdraft.value),this.productOverdraft.modifiedBy).subscribe((data)=>{
-      console.log(data)
+      
       Swal.fire('Overdraft completed','Overdraft operation was succesful','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+      
       if(error.status == "404"){
-        this.snack.open('Product to overdraft not found','Aceptar',{
+        this.snack.open('Product to overdraft not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
@@ -67,7 +65,7 @@ export class OverdraftComponent {
           this.router.navigate(["/login"]) 
       }
       else{
-        this.snack.open('The maximum value to overdraft is 3 Million','Aceptar',{
+        this.snack.open('The maximum value to overdraft is 3 Million','Accept',{
           duration : 3000,
           });
       }

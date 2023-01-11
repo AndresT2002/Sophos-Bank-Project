@@ -59,6 +59,7 @@ public class ProductController {
 	
 	
 	@PostMapping("/create")
+	
 	public ResponseEntity<Response> createProduct(@RequestBody Product product){
 		
 		try {
@@ -67,12 +68,13 @@ public class ProductController {
 				return new ResponseEntity<>(productCreated,HttpStatus.NOT_FOUND);
 			}
 			
-			if (productCreated.getResponseCode() ==  "400") {
+			if (productCreated.getResponseCode().equals("400")) {
 				return new ResponseEntity<>(productCreated,HttpStatus.BAD_REQUEST);
 			}
 			
 			return new ResponseEntity<>(productCreated,HttpStatus.OK);	
 		}catch(Exception e) {
+			
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -89,7 +91,7 @@ public class ProductController {
 			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 		}
 		
-		if (productUpdated.getResponseCode() ==  "400") {
+		if (productUpdated.getResponseCode().equals("400")) {
 			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 		}
 		
@@ -106,7 +108,7 @@ public class ProductController {
 			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 		}
 		
-		if (productUpdated.getResponseCode() ==  "400") {
+		if (productUpdated.getResponseCode().equals("400")) {
 			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 		}
 		
@@ -122,7 +124,7 @@ public class ProductController {
 			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 		}
 		
-		if (productUpdated.getResponseCode() ==  "400") {
+		if (productUpdated.getResponseCode().equals("400")) {
 			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 		}
 		
@@ -139,7 +141,7 @@ public class ProductController {
 			return new ResponseEntity<>(productOverdrafted,HttpStatus.NOT_FOUND);
 		}
 		
-		if (productOverdrafted.getResponseCode() ==  "400") {
+		if (productOverdrafted.getResponseCode().equals("400")) {
 			return new ResponseEntity<>(productOverdrafted,HttpStatus.BAD_REQUEST);
 		}
 		
@@ -156,7 +158,7 @@ public class ProductController {
 			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 		}
 		
-		if (productUpdated.getResponseCode() ==  "400") {
+		if (productUpdated.getResponseCode().equals("400")) {
 			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 		}
 		
@@ -174,7 +176,7 @@ public class ProductController {
 			return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 		}
 		
-		if (productUpdated.getResponseCode() ==  "400") {
+		if (productUpdated.getResponseCode().equals("400")) {
 			return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 		}
 		

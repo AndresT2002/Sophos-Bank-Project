@@ -6,14 +6,14 @@
                 <div class="container text-center">
                     <img src="https://cdn-icons-png.flaticon.com/512/24/24801.png" width="100" height="100">
                 </div>
-                <h1 class="text-center"> Eliminar usuario</h1>
+                <h1 class="text-center"> Delete Client</h1>
     
                 <form (ngSubmit)="deleteClient()">
                 
                     <mat-form-field class="full-width" appearance="outline">
-                        <mat-label>Cedula del cliente</mat-label>
+                        <mat-label>Client identification number</mat-label>
                         <input type="text"
-                               placeholder="Escriba la fecha del cliente al cual se le asignara el producto"
+                               placeholder="Write the identification number of the client that will be deleted"
                                aria-label="Number"
                                matInput
                                [formControl]="myControl"
@@ -28,8 +28,8 @@
     
             
                 <div class="container text-center">
-                    <button mat-raised-button color="primary">Eliminar</button>
-                    <button style="margin-left: 20px;" type="reset" mat-raised-button color="accent">Limpiar</button>
+                    <button mat-raised-button color="primary">Delete</button>
+                    <button style="margin-left: 20px;" type="reset" mat-raised-button color="accent">Clean</button>
                 </div>
     
     

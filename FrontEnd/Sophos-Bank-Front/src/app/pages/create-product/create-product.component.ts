@@ -61,7 +61,7 @@ export class CreateProductComponent implements OnInit{
     },(error =>{
       if(error.status=="401"){
         
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
@@ -90,7 +90,7 @@ export class CreateProductComponent implements OnInit{
   updateMySelection(identificationNumber:string){
     let value=this._filter(identificationNumber)
     this.product.belongsTo.id=value[0].id
-    console.log(value)
+    
     
     return
   }
@@ -99,12 +99,10 @@ export class CreateProductComponent implements OnInit{
     this.MatDialogRef.close()
   }
   formSubmit(){
-    
-    console.log(this.product)
     if(this.product.productType == '' || this.product.productType == null || 
     this.product.createdBy == '' || this.product.createdBy == null ||  
     this.product.gmf == '' || this.product.gmf == null || this.product.belongsTo.id== '' || this.product.belongsTo.id == null){
-      this.snack.open('Todos los campos deben estar completos','Aceptar',{
+      this.snack.open('All fields must be filled','Accept',{
         duration : 3000,
         verticalPosition : 'top',
         horizontalPosition : 'right'
@@ -114,10 +112,10 @@ export class CreateProductComponent implements OnInit{
 
     this.productService.createProduct(this.product).subscribe((data)=>{
       
-      Swal.fire('Producto Creado','Producto creado con exito en el sistema','success');
+      Swal.fire('Product created','Product created succesfuly','success');
     },(error =>{
-      console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
+      
+      this.snack.open('Error doing the request','Accept',{
         duration : 3000,
         
       });

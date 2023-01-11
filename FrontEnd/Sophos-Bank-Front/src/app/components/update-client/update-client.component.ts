@@ -44,16 +44,14 @@ export class UpdateClientComponent implements OnInit{
     this.MatDialogRef.close()
   }
 
-  formUpdate(){
-    console.log(this.client)
-    
+  formUpdate(){  
 
     if(this.client.name == '' || this.client.name == null || this.client.lastName == '' 
     || this.client.lastName == null ||  
     this.client.identificationType == '' || this.client.identificationType == null
     ||this.client.identificationNumber == '' || this.client.identificationNumber == null ||
     this.client.email == '' || this.client.email == null || this.client.password == '' || this.client.password == null ){
-      this.snack.open('Todos los campos deben estar completos','Aceptar',{
+      this.snack.open('All fields must be filled','Accept',{
         duration : 3000,
         verticalPosition : 'top',
         horizontalPosition : 'right'
@@ -62,24 +60,24 @@ export class UpdateClientComponent implements OnInit{
     }
 
     this.userService.updateClient(this.client).subscribe((data)=>{
-      console.log(data)
+      
       Swal.fire('User updated','User updated successfully','success');
       window.location.reload();
     },(error =>{
       console.log(error)
       if(error.status == "404"){
-        this.snack.open('Client to update not found','Aceptar',{
+        this.snack.open('Client to update not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('Error on petition','Aceptar',{
+        this.snack.open('Error on petition','Accept',{
           duration : 3000,
           });
       }

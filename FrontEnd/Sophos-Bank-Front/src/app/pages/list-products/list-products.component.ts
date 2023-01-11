@@ -34,7 +34,7 @@ export class ListProductsComponent {
   
   
   ngOnInit():void{
-
+    
     this.loginService.getCurrentUser().subscribe((dataObtained)=>{
       this.currentUser=dataObtained
       
@@ -73,8 +73,8 @@ export class ListProductsComponent {
       
     },(error =>{
       if(error.status=="401"){
-        console.log("XD")
-        this.snack.open('You have to login','Aceptar',{
+        
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
@@ -118,31 +118,31 @@ export class ListProductsComponent {
 
   activateProduct(productId: String){
     
-    console.log(productId)
+    
     this.productService.activateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
-      console.log(data)
-      Swal.fire('Producto Activado','Producto Activado con exito','success');
+      
+      Swal.fire('Product Activated','Producto Activated succesfuly','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+      
       if(error.status == "404"){
-        this.snack.open('Product to activate not found','Aceptar',{
+        this.snack.open('Product to activate not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
         
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else if(error.status="400"){
-        this.snack.open('This product is already active','Aceptar',{
+        this.snack.open('This product is already active','Accept',{
           duration : 3000,
           });
       }else{
-        this.snack.open('Error on petition','Aceptar',{
+        this.snack.open('Error on petition','Accept',{
           duration : 3000,
           });
       }
@@ -155,24 +155,24 @@ export class ListProductsComponent {
     
 
     this.productService.activateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
-      console.log(data)
-      Swal.fire('GMF Activado','GMF Activado con exito','success');
+      
+      Swal.fire('GMF Activated','GMF Activated succesfuly','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+    
       if(error.status == "404"){
-        this.snack.open('Product to activate GMF or product from  not found','Aceptar',{
+        this.snack.open('Product to activate GMF or product from  not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('You can only have GMF exception on one product','Aceptar',{
+        this.snack.open('You can only have GMF exception on one product','Accept',{
           duration : 3000,
           });
       }
@@ -186,23 +186,23 @@ export class ListProductsComponent {
 
     this.productService.desactivateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Producto Desactivado','Producto Desactivado con exito','success');
+      Swal.fire('Product Desactivated','Product desactivated succesfuly','success');
       window.location.reload();
     },(error =>{
       console.log(error)
       if(error.status == "404"){
-        this.snack.open('Product to desactivate not found','Aceptar',{
+        this.snack.open('Product to desactivate not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('This product is already inactive','Aceptar',{
+        this.snack.open('This product is already inactive','Accept',{
           duration : 3000,
           });
       }
@@ -216,11 +216,11 @@ export class ListProductsComponent {
 
     this.productService.desactivateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('GMF Desactivado','GMF Desactivado con exito','success');
+      Swal.fire('GMF Desactivated','GMF Desactivated succesfuly','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
+      
+      this.snack.open('Error doing the request','Accept',{
         duration : 3000,
         
       });
@@ -234,23 +234,23 @@ export class ListProductsComponent {
 
     this.productService.cancelProduct(Number(productNumber),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Producto Cancelado','Producto Cancelado con exito','success');
+      Swal.fire('Product Canceled','Product canceled succesfuly','success');
       window.location.reload();
     },(error =>{
       console.log(error)
       if(error.status == "404"){
-        this.snack.open('Product to cancel not found','Aceptar',{
+        this.snack.open('Product to cancel not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('Your product balance is higher than $1 or has a debt ','Aceptar',{
+        this.snack.open('Your product balance is higher than $1 or has a debt ','Accept',{
           duration : 3000,
           });
       }
@@ -262,7 +262,6 @@ export class ListProductsComponent {
 
     let dialogRef=this.matDialog.open(ProductTransHistoryComponent,{
       data:productNumber,
-      
       hasBackdrop:true
     })
     

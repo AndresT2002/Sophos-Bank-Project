@@ -34,14 +34,14 @@ public class ProductServiceImplementation implements ProductService{
 	
 	@Override
 	public Product getProducts(Product product) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public Response createProduct(Product product) {
 		
-		if(!(product.getProductType().equals("Ahorros") | product.getProductType().equals("Corriente"))) {
+		if(!(product.getProductType().equals("Ahorros") || product.getProductType().equals("Corriente"))) {
 			return null;
 		}
 				
@@ -63,10 +63,10 @@ public class ProductServiceImplementation implements ProductService{
 		
 		List<Product> products= productRepository.findByBelongsTo(clientFinded);
 		
-		boolean hasGmf=products.stream().filter(o -> o.getGmf().equals("Yes")).findFirst().isPresent();
+		boolean hasGmf=products.stream().anyMatch(o -> o.getGmf().equals("Yes"));
 		
 		
-		if (hasGmf== true && product.getGmf().equals("Yes")) {
+		if (hasGmf && product.getGmf().equals("Yes")) {
 			
 			Response errorResponse= new Response();
 			errorResponse.setResponseCode("400");
@@ -84,8 +84,8 @@ public class ProductServiceImplementation implements ProductService{
 		
 		while(bandera== false) {
 			Long productNumber= createProductId(product.getProductType());
-			System.out.println("Entre");
-			if(!(productsId.stream().filter(o -> o.getProductNumber() ==  productNumber).findFirst().isPresent())) {
+			
+			if(!(productsId.stream().anyMatch(o -> o.getProductNumber() ==  productNumber))) {
 				bandera=true;
 				product.setProductNumber(productNumber);
 				break;
@@ -108,13 +108,13 @@ public class ProductServiceImplementation implements ProductService{
 
 	@Override
 	public Product updateProduct(Product product) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public Product deleteProduct(Product product) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -192,10 +192,7 @@ public class ProductServiceImplementation implements ProductService{
 
 	@Override
 	public Response overDraft(long productNumber, long value,String modifiedBy) {
-		//FALTA AGREGAR VALIDACION EN LOS METODOS PARA QUE SOLO PUEDAN HACERLOS
-		//CLIENTES CON SUS CUENTAS O UN USUARIO ADMIN
-		//FALTA AGREGARLE LO DEL GMF
-		//EL CREDITO SE DEBE AGREGAR TANTO AL DEB VALUE Y A SU AVAILABLE Y BALANCE
+		
 		Optional<Product> product= productRepository.findByProductNumber(productNumber);
 		if (!product.isPresent()) {
 			Response errorResponse= new Response();
@@ -226,7 +223,7 @@ public class ProductServiceImplementation implements ProductService{
 		if(productFinded.getGmf().equals("Yes")) {
 			productFinded.setProductAvailable(productFinded.getProductBalance());
 		}else {
-			long gmf=(long) Math.round((float) productFinded.getProductBalance()*4/1000);
+			long gmf=Math.round((float) productFinded.getProductBalance()*4/1000);
 			productFinded.setProductAvailable((productFinded.getProductBalance())-(gmf)	);
 		}	
 		
@@ -290,7 +287,7 @@ public class ProductServiceImplementation implements ProductService{
 			
 			List<Product> products= productRepository.findByBelongsTo(productOwner);
 			
-			boolean hasGmf=products.stream().filter(o -> o.getGmf().equals("Yes")).findFirst().isPresent();
+			boolean hasGmf=products.stream().anyMatch(o -> o.getGmf().equals("Yes"));
 			
 			if (!hasGmf) {
 				productObtained.setGmf("Yes");
@@ -334,7 +331,7 @@ public class ProductServiceImplementation implements ProductService{
 			java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 			productObtained.setModifiedAt(sqlDate);
 			productObtained.setModifiedBy(modifiedBy);
-			long gmf=(long) Math.round((float) productObtained.getProductBalance()*4/1000);
+			long gmf=Math.round((float) productObtained.getProductBalance()*4/1000);
 			productObtained.setProductAvailable((productObtained.getProductBalance())-(gmf)	);
 			
 			
@@ -384,17 +381,15 @@ public class ProductServiceImplementation implements ProductService{
 
 	@Override
 	public List<Product> getProductsByClientId(int clientId) {
-		// TODO Auto-generated method stub
+		
 		
 		List<Product> allProducts=productRepository.findAll();
 		
-		List<Product> clientProducts=allProducts.stream()
+		      		  
+	    		
+		return allProducts.stream()
 	               .filter(a -> a.getBelongsTo().getId()== clientId)
-	               .collect(Collectors.toList());;
-	            		  
-	    
-		
-		return clientProducts;
+	               .collect(Collectors.toList());
 	}
 
 	@Override

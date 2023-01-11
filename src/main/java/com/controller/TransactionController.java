@@ -1,7 +1,7 @@
 package com.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.entity.Product;
+
 import com.entity.Response;
 import com.entity.TransactionHistory;
-import com.service.ProductService;
+
 import com.service.TransactionsImplementation;
 
 @RestController
@@ -34,10 +34,10 @@ public class TransactionController {
 	public ResponseEntity<Response> withdraw(@PathVariable("productNumber") long productNumber,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
 			Response productUpdated=transactionService.withdraw(productNumber, value,modifiedBy);
-			if (productUpdated.getResponseCode() ==  "404") {
+			if (productUpdated.getResponseCode().equals("404")) {
 				return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 			}
-			if (productUpdated.getResponseCode() ==  "400") {
+			if (productUpdated.getResponseCode().equals("400")) {
 				return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 			}
 			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
@@ -51,10 +51,10 @@ public class TransactionController {
 	public ResponseEntity<Response> transfer(@PathVariable("productNumberFrom") long productNumberFrom,@PathVariable("productNumberTo") long productNumberTo,@PathVariable("value") long value,@PathVariable("modifiedby") String modifiedBy){
 		try {
 			Response productUpdated=transactionService.transfer(productNumberFrom,productNumberTo, value,modifiedBy);
-			if (productUpdated.getResponseCode() ==  "404") {
+			if (productUpdated.getResponseCode().equals("404")) {
 				return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 			}
-			if (productUpdated.getResponseCode() ==  "400") {
+			if (productUpdated.getResponseCode().equals("400")) {
 				return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 			}
 			return new ResponseEntity<>(productUpdated,HttpStatus.OK);
@@ -72,7 +72,7 @@ public class TransactionController {
 				return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 			}
 			
-			if (productUpdated.getResponseCode() ==  "400") {
+			if (productUpdated.getResponseCode().equals("400")) {
 				return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 			}
 			
@@ -90,11 +90,12 @@ public class TransactionController {
 
 		List<TransactionHistory> historyObtained=transactionService.transactionHistoryByNumber(productNumber);
 		
-		if(historyObtained ==  null) {
+		try {
+			return new ResponseEntity<>(historyObtained,HttpStatus.OK);
+		}catch(Exception e) {
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(historyObtained,HttpStatus.OK);
 	}
 	
 	
@@ -106,7 +107,7 @@ public class TransactionController {
 				return new ResponseEntity<>(productUpdated,HttpStatus.NOT_FOUND);
 			}
 			
-			if (productUpdated.getResponseCode() ==  "400") {
+			if (productUpdated.getResponseCode().equals("400")) {
 				return new ResponseEntity<>(productUpdated,HttpStatus.BAD_REQUEST);
 			}
 			return new ResponseEntity<>(productUpdated,HttpStatus.OK);

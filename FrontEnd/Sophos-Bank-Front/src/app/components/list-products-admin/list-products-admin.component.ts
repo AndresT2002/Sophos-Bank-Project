@@ -48,12 +48,12 @@ export class ListProductsAdminComponent {
 
 
   ngOnInit():void{
-
+    
     this.loginService.getCurrentUser().subscribe((dataObtained)=>{
       this.currentUser=dataObtained
       
       this.productService.listClientProducts(this.client.id).subscribe((dataObtained)=>{
-        console.log(dataObtained)
+        
         this.products=[]
         this.productsOrdered=[]
         this.products.push(dataObtained)
@@ -88,7 +88,7 @@ export class ListProductsAdminComponent {
     },(error =>{
       if(error.status=="401"){
         
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
@@ -132,25 +132,24 @@ export class ListProductsAdminComponent {
 
   activateProduct(productId: String){
     
-    console.log(productId)
     this.productService.activateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
-      console.log(data)
-      Swal.fire('Producto Activado','Producto Activado con exito','success');
+      
+      Swal.fire('Product Activated','Product Activated succesfuly','success');
       window.location.reload();
     },(error =>{
       if(error.status == "404"){
-        this.snack.open('Product to activate not found','Aceptar',{
+        this.snack.open('Product to activate not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('This product is already active','Aceptar',{
+        this.snack.open('This product is already active','Accept',{
           duration : 3000,
           });
       }
@@ -164,23 +163,23 @@ export class ListProductsAdminComponent {
 
     this.productService.activateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       console.log(data)
-      Swal.fire('GMF Activado','GMF Activado con exito','success');
+      Swal.fire('GMF Activated','GMF Activated successfuly','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+     
       if(error.status == "404"){
-        this.snack.open('Product to activate GMF or product from  not found','Aceptar',{
+        this.snack.open('Product to activate GMF or product from  not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('You can only have GMF exception on one product','Aceptar',{
+        this.snack.open('You can only have GMF exception on one product','Accept',{
           duration : 3000,
           });
       }
@@ -194,23 +193,23 @@ export class ListProductsAdminComponent {
 
     this.productService.desactivateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Producto Desactivado','Producto Desactivado con exito','success');
+      Swal.fire('Product Desactivated','Product Desactivated succesfuly','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+      
       if(error.status == "404"){
-        this.snack.open('Product to desactivate not found','Aceptar',{
+        this.snack.open('Product to desactivate not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('This product is already inactive','Aceptar',{
+        this.snack.open('This product is already inactive','Accept',{
           duration : 3000,
           });
       }
@@ -224,16 +223,16 @@ export class ListProductsAdminComponent {
 
     this.productService.desactivateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('GMF Desactivado','GMF Desactivado con exito','success');
+      Swal.fire('GMF Desactivated','GMF Desactivated succesfuly','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+     
       if(error.status == "404"){
-        this.snack.open('Product to desactivate GMF exception not found','Aceptar',{
+        this.snack.open('Product to desactivate GMF exception not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
@@ -250,23 +249,23 @@ export class ListProductsAdminComponent {
 
     this.productService.cancelProduct(Number(productNumber),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Producto Cancelado','Producto Cancelado con exito','success');
+      Swal.fire('Product Canceled','Product Canceled succesfuly','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+      
       if(error.status == "404"){
-        this.snack.open('Product to cancel not found','Aceptar',{
+        this.snack.open('Product to cancel not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('Your product balance is higher than $1 or has a debt ','Aceptar',{
+        this.snack.open('Your product balance is higher than $1 or has a debt ','Accept',{
           duration : 3000,
           });
       }

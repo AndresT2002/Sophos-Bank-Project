@@ -9,13 +9,13 @@
             height="100"
           />
         </div>
-        <h1 class="text-center">Registrar producto</h1>
+        <h1 class="text-center">Register</h1>
         <form class="example-form" (ngSubmit)="formSubmit()">
           <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Cedula del cliente</mat-label>
+            <mat-label>Identification Number</mat-label>
             <input
               type="text"
-              placeholder="Escriba la fecha del cliente al cual se le asignara el producto"
+              placeholder="Write the identification number of the user that will have the product"
               aria-label="Number"
               matInput
               [formControl]="myControl"
@@ -35,16 +35,16 @@
           </mat-form-field>
 
           <mat-form-field class="full-width" appearance="outline">
-            <mat-label> ¿Excento de GMF?</mat-label>
+            <mat-label> ¿Has GMF exception?</mat-label>
 
             <mat-select [(value)]="product.gmf">
-              <mat-option value="Yes">Si</mat-option>
+              <mat-option value="Yes">Yes</mat-option>
               <mat-option value="No">No</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field class="full-width" appearance="outline">
-            <mat-label> Tipo de producto</mat-label>
+            <mat-label> Product Type</mat-label>
 
             <mat-select [(value)]="product.productType">
               <mat-option value="Corriente">Corriente</mat-option>
@@ -53,14 +53,14 @@
           </mat-form-field>
 
           <div class="container text-center">
-            <button mat-raised-button color="primary">Registrar</button>
+            <button mat-raised-button color="primary">Create</button>
             <button
               style="margin-left: 20px"
               type="reset"
               mat-raised-button
               color="accent"
             >
-              Limpiar
+              Clean
             </button>
           </div>
         </form>

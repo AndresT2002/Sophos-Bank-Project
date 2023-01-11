@@ -55,7 +55,7 @@ export class PaydebtComponent {
       }
       
       this.options=this.productNumbersArray
-      console.log(this.options)
+      
       
     }
     )
@@ -76,8 +76,7 @@ export class PaydebtComponent {
   updateMySelection(productNumber:string){
     let value=this._filter(productNumber)
     this.productPay.productTo=value[0]
-    console.log(value)
-    
+        
     return
   }
 
@@ -92,13 +91,11 @@ export class PaydebtComponent {
   }
 
 
-  payDebt(){
-    console.log(this.dataObtained)
-    
+  payDebt(){ 
 
     if(this.productPay.productNumber == '' || this.productPay.productNumber == null || this.productPay.value == '' 
     || this.productPay.value == null ||  this.productPay.productTo == '' || this.productPay.productTo == null){
-      this.snack.open('Todos los campos deben estar completos','Aceptar',{
+      this.snack.open('All fields must be filled','Accept',{
         duration : 3000,
         verticalPosition : 'top',
         horizontalPosition : 'right'
@@ -107,23 +104,23 @@ export class PaydebtComponent {
     }
     
     this.transactionsService.payDebt(Number(this.productPay.productNumber),Number(this.productPay.productTo),Number(this.productPay.value),this.productPay.modifiedBy).subscribe((data)=>{
-      console.log(data)
+      
       Swal.fire('Payment complete','Paymen operation was succesful','success');
       window.location.reload();
     },(error =>{
       if(error.status == "404"){
-        this.snack.open('Product to pay debt or product from not found','Aceptar',{
+        this.snack.open('Product to pay debt or product from not found','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
           this.loginService.logout()
           this.router.navigate(["/login"]) 
       }else{
-        this.snack.open('The product does not have enough money to pay that debt or you are trying to pay more than the debt','Aceptar',{
+        this.snack.open('The product does not have enough money to pay that debt or you are trying to pay more than the debt','Accept',{
           duration : 3000,
           });
       }

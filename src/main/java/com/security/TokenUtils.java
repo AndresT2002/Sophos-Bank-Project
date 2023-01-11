@@ -9,7 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+
 import java.security.Key;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import io.jsonwebtoken.Claims;
@@ -18,8 +18,8 @@ import io.jsonwebtoken.Jwts;
 
 
 public class TokenUtils {
-	private final static String ACCESS_TOKEN_SECRET = "4qhq8LrEBfYcaRHxhdb9zURb2rf8e7Ud";
-	private final static Long ACCESS_TOKEN_VALIDITY_SECONDS = 3600L;
+	private static final String ACCESS_TOKEN_SECRET = "4qhq8LrEBfYcaRHxhdb9zURb2rf8e7Ud";
+	private static final Long ACCESS_TOKEN_VALIDITY_SECONDS = 3600L;
 	
 	
 	public static String createToken(String nombre, String email) {
@@ -30,10 +30,10 @@ public class TokenUtils {
 
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
-	    long nowMillis = System.currentTimeMillis();
-	    Date now = new Date(nowMillis);
+	    
+	    
 
-	    //We will sign our JWT with our ApiKey secret
+	   
 	    byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(ACCESS_TOKEN_SECRET);
 	    Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 		
@@ -71,7 +71,7 @@ public class TokenUtils {
 	
 	
 		}catch(JwtException e) {
-			System.out.println(e);
+			
 			return null;
 		}
 		

@@ -55,12 +55,12 @@ public class TransactionsImplementation implements Transactions{
 			
 			 valueGmf=value;
 		}else {
-			 gmf=(long) Math.round((float) productFromFinded.getProductBalance()*4/1000);
+			 gmf=Math.round((float) productFromFinded.getProductBalance()*4/1000);
 			 valueGmf=value+(gmf);
 			 
 			 
 		}
-		System.out.println(valueGmf);
+		
 		//Si al retirar queda saldo negativo o está inactivo retorno
 		if((productFromFinded.getProductBalance()-valueGmf < 0) || (productFromFinded.getStatus().equals("Inactive"))) {
 			
@@ -82,7 +82,7 @@ public class TransactionsImplementation implements Transactions{
 		if(productFromFinded.getGmf().equals("Yes")) {
 			productFromFinded.setProductAvailable(productFromFinded.getProductBalance());
 		}else {
-			gmf=(long) Math.round((float) productFromFinded.getProductBalance()*4/1000);
+			gmf=Math.round((float) productFromFinded.getProductBalance()*4/1000);
 			productFromFinded.setProductAvailable((productFromFinded.getProductBalance())-(gmf)	);
 		}
 				
@@ -91,7 +91,7 @@ public class TransactionsImplementation implements Transactions{
 		
 		productToFinded.setProductBalance((productToFinded.getProductBalance()+value));
 		if(productToFinded.getGmf().equals("No")) {
-			gmf=(long) Math.round((float) productToFinded.getProductBalance()*4/1000);
+			gmf= Math.round((float) productToFinded.getProductBalance()*4/1000);
 			productToFinded.setProductAvailable((productToFinded.getProductBalance())-(gmf));
 		}else {
 			productToFinded.setProductAvailable((productToFinded.getProductBalance()));
@@ -137,7 +137,7 @@ public class TransactionsImplementation implements Transactions{
 		if(productToFinded.getGmf().equals("Yes")) {
 			productToFinded.setProductAvailable(productToFinded.getProductBalance());
 		}else {
-			long gmf=(long) Math.round((float) productToFinded.getProductBalance()*4/1000);
+			long gmf=Math.round((float) productToFinded.getProductBalance()*4/1000);
 			productToFinded.setProductAvailable((productToFinded.getProductBalance())-(gmf)	);
 		}
 				
@@ -179,7 +179,7 @@ public class TransactionsImplementation implements Transactions{
 		}else {
 			
 			 
-			 gmf=(long) Math.round((float) productFinded.getProductBalance()*4/1000);
+			 gmf=Math.round((float) productFinded.getProductBalance()*4/1000);
 			 valueGmf=value+(gmf);
 			 
 		}
@@ -198,7 +198,7 @@ public class TransactionsImplementation implements Transactions{
 		if(productFinded.getGmf().equals("Yes")) {
 			productFinded.setProductAvailable(productFinded.getProductBalance());
 		}else {
-			gmf=(long) Math.round((float) productFinded.getProductBalance()*4/1000);
+			gmf=Math.round((float) productFinded.getProductBalance()*4/1000);
 			productFinded.setProductAvailable((productFinded.getProductBalance())-(gmf));
 		}
 		
@@ -245,14 +245,9 @@ public class TransactionsImplementation implements Transactions{
 
 	@Override
 	public List<TransactionHistory> transactionHistoryByNumber(long productNumber) {
-		List<TransactionHistory> transactionHistory= transactionHistoryRepository.findByProductNumber(productNumber);
+		return transactionHistoryRepository.findByProductNumber(productNumber);
+			
 		
-		if(transactionHistory.size() ==  0) {
-			return null;
-		}
-		 
-
-		return transactionHistory;
 	}
 
 	@Override
@@ -279,11 +274,9 @@ public class TransactionsImplementation implements Transactions{
 			return errorResponse;
 		}
 		
-		Product fromProductFinded=getFromProduct.get();
 		
-
 		//En el metodo withdraw ya contemplo si es mayor al product available
-		Response withdrawProduct=withdraw(fromProduct,amount,modifiedBy);
+		withdraw(fromProduct,amount,modifiedBy);
 		
 		
 		

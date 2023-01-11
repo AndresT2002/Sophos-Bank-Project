@@ -39,7 +39,7 @@ export class ProductTransHistoryComponent {
   ngOnInit():void{
     this.transactionService.productTransactionHistory(this.product.productNumber).subscribe((dataObtained)=>{
       this.transactionData=dataObtained;
-      console.log(dataObtained)
+      
     })
   }
 

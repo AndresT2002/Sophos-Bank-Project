@@ -23,7 +23,5 @@ public class Response {
 		this.token = token;
 	}
 	
-	public Response() {
-		
-	}
+	
 }

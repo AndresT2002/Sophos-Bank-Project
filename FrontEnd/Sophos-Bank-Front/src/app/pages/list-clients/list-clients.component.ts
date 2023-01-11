@@ -35,11 +35,11 @@ export class ListClientsComponent {
   ngOnInit():void{
     this.adminService.listClients().subscribe((dataObtained)=>{
       this.data=dataObtained
-      console.log(this.data)
+      
     },(error =>{
       if(error.status=="401"){
        
-        this.snack.open('You have to login','Aceptar',{
+        this.snack.open('You have to login','Accept',{
           duration : 3000,
           });
 
@@ -61,12 +61,12 @@ export class ListClientsComponent {
     
 
     this.userService.deleteClient(Number(identificationNumber)).subscribe((data)=>{
-      console.log(data)
-      Swal.fire('Usuario Eliminado','Usuario eliminado con exito en el sistema','success');
+      
+      Swal.fire('User deleted','User deleted succesfuly','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
-      this.snack.open('Error en la solicitud','Aceptar',{
+      
+      this.snack.open('Error doing the request','Accept',{
         duration : 3000,
         
       });
@@ -78,7 +78,8 @@ export class ListClientsComponent {
 
     let dialogRef=this.matDialog.open(UpdateClientComponent,{
       data:client,
-      
+      height: '70%',
+      width: '60%',
       hasBackdrop:true
     })
 
@@ -94,7 +95,8 @@ export class ListClientsComponent {
 
     let dialogRef=this.matDialog.open(ListProductsAdminComponent,{
       data:client,
-      
+      height: '100%',
+      width: '90%',
       hasBackdrop:true
     })
     

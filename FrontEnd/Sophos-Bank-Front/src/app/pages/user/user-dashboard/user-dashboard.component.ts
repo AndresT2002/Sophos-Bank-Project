@@ -21,7 +21,7 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
   onOpenUpdateDialog(){
     this.currentUser=this.loginService.getCurrentUser().subscribe(userObtained =>{
       this.currentUser=userObtained
-      console.log(this.currentUser)
+      
 
       let userData=this.userService.getUserById(Number(this.currentUser.id)).subscribe(dataObtained =>{
 
