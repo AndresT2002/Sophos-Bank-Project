@@ -28,7 +28,8 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
 
         let dialogRef=this.matDialog.open(UpdateClientComponent,{
           data:dataObtained,
-          
+          height: '85%',
+          width: '60%',
           hasBackdrop:true
         })
     

@@ -1,5 +1,5 @@
-<div class = "bootstrap-wrapper">
-    <div class = "container-fluid">
+<div class = "bootstrap-wrapper d-flex ">
+    <div class = "container-fluid mx-auto w-auto">
     
     <table mat-table [dataSource]="data" class="mat-elevation-z8 demo-table">
         
@@ -62,28 +62,28 @@
     
           <ng-container matColumnDef="activateProduct">
             <th mat-header-cell *matHeaderCellDef> Activate Product</th>
-            <td mat-cell *matCellDef="let element" >  <button mat-raised-button color="primary" *ngIf="element.status == 'Inactive'" (click)="activateProduct(element.id)">Activate</button> </td>
+            <td mat-cell *matCellDef="let element" >  <button mat-raised-button color="primary" [disabled]="element.status=='Active' || element.status=='Canceled'"(click)="activateProduct(element.id)">Activate</button> </td>
           </ng-container>
 
           <ng-container matColumnDef="desactivateProduct">
             <th mat-header-cell *matHeaderCellDef> Desactivate Product </th>
-            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" *ngIf="element.status == 'Active'" (click)="desactivateProduct(element.id)" >Desactivate</button> </td>
+            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" [disabled]="element.status=='Inactive' || element.status=='Canceled'" (click)="desactivateProduct(element.id)" >Desactivate</button> </td>
           </ng-container>
 
           <ng-container matColumnDef="cancelProduct">
             <th mat-header-cell *matHeaderCellDef> Cancel Product </th>
-            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" *ngIf="element.status != 'Canceled'" (click)="cancelProduct(element.productNumber)" >Cancel</button> </td>
+            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" [disabled]="element.status =='Canceled'" (click)="cancelProduct(element.productNumber)" >Cancel</button> </td>
             
           </ng-container>
 
           <ng-container matColumnDef="activateGmf">
             <th mat-header-cell *matHeaderCellDef> Activate Gmf Exception </th>
-            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" *ngIf="element.status != 'Canceled' && element.gmf=='No'" (click)="activateGmf(element.id)" >Activate Gmf Exception</button> </td>
+            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" [disabled]="element.gmf =='Yes'" (click)="activateGmf(element.id)" >Activate Gmf</button> </td>
           </ng-container>
 
           <ng-container matColumnDef="desactivateGmf">
             <th mat-header-cell *matHeaderCellDef> Desactivate Gmf </th>
-            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" *ngIf="element.status != 'Canceled' && element.gmf=='Yes'" (click)="desactivateGmf(element.id)" >Desactivate Gmf</button> </td>
+            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn"    [disabled]="element.gmf =='No'" (click)="desactivateGmf(element.id)" >Desactivate Gmf</button> </td>
           </ng-container>
           
 
@@ -95,9 +95,19 @@
 
 
           <tr mat-header-row *matHeaderRowDef="columndefs"></tr>
-          <tr mat-row *matRowDef="let row; columns: columndefs;" [ngClass]="{'new-row': row.gmf == 'Yes' }"></tr>
-        
+          <tr mat-row *matRowDef="let row; columns: columndefs;"  [ngClass]="{'new-row': row.gmf == 'Yes' }"></tr>
+
+          
+          
       </table>
-      <button mat-raised-button color="warn" (click)="onCloseClick()">Close</button> 
+
+     
+        
+      <div class="d-flex justify-content-center align-items-center w-auto">
+        <button class="mx-auto" mat-raised-button color="warn" (click)="onCloseClick()">Close</button>
+      </div>
+        
+      
+       
     </div>
     </div>

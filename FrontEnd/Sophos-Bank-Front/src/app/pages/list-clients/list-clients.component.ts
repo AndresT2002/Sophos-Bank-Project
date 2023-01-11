@@ -99,7 +99,7 @@ export class ListClientsComponent {
 
     let dialogRef=this.matDialog.open(UpdateClientComponent,{
       data:client,
-      height: '70%',
+      height: '85%',
       width: '60%',
       hasBackdrop:true
     })

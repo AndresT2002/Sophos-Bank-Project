@@ -49,13 +49,6 @@ const routes: Routes = [
     pathMatch:'full',
     canActivate:[NormalGuard]
   },
-
-  {
-    path:'deleteClient',
-    component:DeleteClientComponent,
-    pathMatch:'full',
-    canActivate:[AdminGuard]
-  },
   {
     path:'listClients',
     component:ListClientsComponent,
@@ -70,23 +63,8 @@ const routes: Routes = [
   }
   ,
   {
-    path:'createProduct',
-    component:CreateProductComponent,
-    pathMatch:'full',
-    canActivate:[AdminGuard]
-    
-  }
-  ,
-  {
     path:'transactions',
     component:TransactionsComponent,
-    pathMatch:'full',
-    
-    
-  },
-  {
-    path:'transfer',
-    component:TransferComponent,
     pathMatch:'full',
     
     

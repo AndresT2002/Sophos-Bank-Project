@@ -39,7 +39,7 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
 
         let dialogRef=this.matDialog.open(UpdateClientComponent,{
           data:dataObtained,
-          height: '70%',
+          height: '90%',
           width: '40%',
           hasBackdrop:true
         })
@@ -63,7 +63,8 @@ constructor(private adminService:AdminServiceService,private router:Router, priv
     
     let dialogRef=this.matDialog.open(DepositComponent,{
       data:null,
-      
+      height: '60%',
+      width: '40%',
       hasBackdrop:true
     })
     

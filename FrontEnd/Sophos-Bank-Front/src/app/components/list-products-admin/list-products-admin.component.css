@@ -1,0 +1,9 @@
+.new-row {
+    background-color: #c6c5c5
+}   
+
+  .mat-mdc-table {
+    width: 80%;
+    max-height: 500px;
+    overflow: auto;
+  }

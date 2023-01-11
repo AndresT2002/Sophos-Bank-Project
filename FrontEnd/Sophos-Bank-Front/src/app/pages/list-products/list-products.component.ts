@@ -114,7 +114,7 @@ export class ListProductsComponent {
     
     this.productService.activateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Product Activated','Producto Activated succesfuly','success');
+      Swal.fire('Product Activated','Producto Activated succesfully','success');
       window.location.reload();
     },(error =>{
       
@@ -149,7 +149,7 @@ export class ListProductsComponent {
 
     this.productService.activateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('GMF Activated','GMF Activated succesfuly','success');
+      Swal.fire('GMF Activated','GMF Activated succesfully','success');
       window.location.reload();
     },(error =>{
     
@@ -179,7 +179,7 @@ export class ListProductsComponent {
 
     this.productService.desactivateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Product Desactivated','Product desactivated succesfuly','success');
+      Swal.fire('Product Desactivated','Product desactivated succesfully','success');
       window.location.reload();
     },(error =>{
       console.log(error)
@@ -209,7 +209,7 @@ export class ListProductsComponent {
 
     this.productService.desactivateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('GMF Desactivated','GMF Desactivated succesfuly','success');
+      Swal.fire('GMF Desactivated','GMF Desactivated succesfully','success');
       window.location.reload();
     },(error =>{
       
@@ -227,7 +227,7 @@ export class ListProductsComponent {
 
     this.productService.cancelProduct(Number(productNumber),this.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Product Canceled','Product canceled succesfuly','success');
+      Swal.fire('Product Canceled','Product canceled succesfully','success');
       window.location.reload();
     },(error =>{
       console.log(error)
@@ -255,6 +255,8 @@ export class ListProductsComponent {
 
     let dialogRef=this.matDialog.open(ProductTransHistoryComponent,{
       data:productNumber,
+      height: '90%',
+      width: '50%',
       hasBackdrop:true
     })
     

@@ -1,5 +1,6 @@
-<div class = "bootstrap-wrapper">
-    <div class = "container">
+<br>
+<div class = "bootstrap-wrapper d-flex ">
+  <div class = "container-fluid mx-auto w-auto">
     
     <table mat-table [dataSource]="transactionData" class="mat-elevation-z8 demo-table">
        
@@ -48,6 +49,8 @@
           <tr mat-row *matRowDef="let row; columns: columndefs;" [ngClass]="{'new-row': row.gmf == 'Yes' }"></tr>
         
       </table>
-      <button mat-raised-button color="warn" (click)="onCloseClick()">Close</button> 
+      <div class="d-flex justify-content-center align-items-center w-auto">
+      <button class="mx-auto" mat-raised-button color="warn" (click)="onCloseClick()">Close</button>
+    </div>
     </div>
     </div>

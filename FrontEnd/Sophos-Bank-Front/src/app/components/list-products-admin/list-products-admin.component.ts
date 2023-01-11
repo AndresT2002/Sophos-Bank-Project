@@ -273,7 +273,8 @@ export class ListProductsAdminComponent {
 
     let dialogRef=this.matDialog.open(ProductTransHistoryComponent,{
       data:productNumber,
-     
+      height: '90%',
+      width: '50%',
       hasBackdrop:true
     })
     
