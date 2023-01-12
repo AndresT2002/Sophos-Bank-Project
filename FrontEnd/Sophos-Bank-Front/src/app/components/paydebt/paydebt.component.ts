@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 import Swal from 'sweetalert2';
+import { Product } from '../interfaces';
 
 
 @Component({
@@ -26,29 +27,24 @@ export class PaydebtComponent {
     currentUser:this.loginService.getUser().id
   }
 
-  productNumbers:any;
+  productNumbers:Array<string> = []
   
 
   myControl = new FormControl('');
-  options: any[] =[]
-  filteredOptions: Observable<any[]> | undefined;
-  data:any;
-  productNumbersArray:any
+  options: Array<string> =[]
+  filteredOptions: Observable<string[]> | undefined;
+  data:Array<Product>=[];
+  activeProducts: Array<Product>=[]
+  productNumbersArray:Array<string>=[]
 
   ngOnInit() {
     
     this.productService.listClientProducts(this.productPay.currentUser).subscribe((dataObtained)=>{
-      this.data=[]
 
-      this.data.push(dataObtained)
-      
-
-      
-      this.data=this.data[0].filter((element:any) => element.status == "Active")
-      
-      this.productNumbersArray=[]
-      
-      
+      this.data=dataObtained
+    
+      this.data=this.data.filter((element:Product) => element.status == "Active")
+    
       for(let value of this.data){
         this.productNumbersArray.push(value.productNumber.toString())
       }
@@ -66,7 +62,7 @@ export class PaydebtComponent {
 
   } 
 
-  private _filter(value: string): any[] {
+  private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.options.filter(option => option.includes(filterValue));;
@@ -103,7 +99,7 @@ export class PaydebtComponent {
     
     this.transactionsService.payDebt(Number(this.productPay.productNumber),Number(this.productPay.productTo),Number(this.productPay.value),this.productPay.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Payment complete','Paymen operation was succesful','success');
+      Swal.fire('Payment complete','Paymen operation was successfully','success');
       window.location.reload();
     },(error =>{
       if(error.status == "404"){

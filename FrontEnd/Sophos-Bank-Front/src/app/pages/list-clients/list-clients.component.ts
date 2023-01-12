@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ListProductsAdminComponent } from 'src/app/components/list-products-admin/list-products-admin.component';
 import { LoginService } from 'src/app/services/login.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { Client, UpdateClient } from 'src/app/components/interfaces';
 
 @Component({
   selector: 'app-list-clients',
@@ -27,16 +28,19 @@ export class ListClientsComponent {
     email:"",
 
   }
-  columndefs : any[] = ['name','email','birthDay','createdAt','modifiedBy','modifiedAt','identificationType','identificationNumber','deleteClient','updateClient','listProducts'];
-  data:any;
+  columndefs : string[] = ['name','email','birthDay','createdAt','modifiedBy','modifiedAt','identificationType','identificationNumber','deleteClient','updateClient','listProducts'];
+  data:Array<Client>;
+
   constructor(private loginService:LoginService,private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     private matDialog:MatDialog){}
-  displayedColumns: any
+  displayedColumns=this.columndefs
   dataSource:any
+
+
   ngOnInit():void{
     this.adminService.listClients().subscribe((dataObtained)=>{
       this.data=dataObtained
-      this.displayedColumns = ['name','email','birthDay','createdAt','modifiedBy','modifiedAt','identificationType','identificationNumber','deleteClient','updateClient','listProducts'];
+      
       this.dataSource = new MatTableDataSource(this.data);
 
     },(error =>{
@@ -90,12 +94,8 @@ export class ListClientsComponent {
   }
   
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  
-  onOpenUpdateDialog(client:any){
+    
+  onOpenUpdateDialog(client:UpdateClient){
 
     let dialogRef=this.matDialog.open(UpdateClientComponent,{
       data:client,
@@ -112,11 +112,11 @@ export class ListClientsComponent {
 
   }
 
-  onOpenListProductsDialog(client:any){
+  onOpenListProductsDialog(client:Client){
 
     let dialogRef=this.matDialog.open(ListProductsAdminComponent,{
       data:client,
-      height: '100%',
+      height: '80%',
       width: '90%',
       hasBackdrop:true
     })

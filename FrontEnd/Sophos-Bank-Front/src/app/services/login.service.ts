@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { CurrentUser } from '../components/interfaces';
 import baseUrl from './helper';
 
 @Injectable({
@@ -69,7 +70,7 @@ public getUserRole(){
 }
 
 public getCurrentUser(){
-  return  this.http.get(`${baseUrl}/v0/user/currentUser`)
+  return  this.http.get<CurrentUser>(`${baseUrl}/v0/user/currentUser`)
 }
 
 

@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import  {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'
+import { MatTableDataSource } from '@angular/material/table';
 import { TransactionsService } from 'src/app/services/transactions.service';
+import { Product, TransactionHistory } from '../interfaces';
 
 @Component({
   selector: 'app-product-trans-history',
@@ -9,20 +11,18 @@ import { TransactionsService } from 'src/app/services/transactions.service';
 })
 export class ProductTransHistoryComponent {
 
-  columndefs : any[] = ['amount','movementType','productNumber','transactionDate','transactionType','productAvailable','productBalance'];
+  columndefs : string[] = ['amount','movementType','productNumber','transactionDate','transactionType','productAvailable','productBalance'];
 
   
-  constructor(private transactionService:TransactionsService,private MatDialogRef:MatDialogRef<ProductTransHistoryComponent>,@Inject(MAT_DIALOG_DATA) public productData:any){ }
+  constructor(private transactionService:TransactionsService,private MatDialogRef:MatDialogRef<ProductTransHistoryComponent>,@Inject(MAT_DIALOG_DATA) public productData:Product){ }
 
   
   public product={
     productNumber:this.productData.productNumber,
-    
-
     }
   
-  transactionData:any;
-
+  transactionData:Array<TransactionHistory> 
+  
 
 
   ngOnDestroy():void{

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
+import { Client, UpdateClient } from '../interfaces';
 
 
 @Component({
@@ -13,22 +14,25 @@ import Swal from 'sweetalert2';
   styleUrls: ['./update-client.component.css']
 })
 export class UpdateClientComponent{
-  constructor (private loginService:LoginService,@Inject(MAT_DIALOG_DATA) public dataObtained:any,private router:Router,private snack: MatSnackBar, private MatDialogRef:MatDialogRef<UpdateClientComponent>,private userService: UserService){}
+  constructor (private loginService:LoginService,@Inject(MAT_DIALOG_DATA) public dataObtained:Client,private router:Router,private snack: MatSnackBar, private MatDialogRef:MatDialogRef<UpdateClientComponent>,private userService: UserService){}
 
-
-  public client={
-    id:this.dataObtained.id,
-    name:this.dataObtained.name,
-    lastName:this.dataObtained.lastName,
-    identificationType:this.dataObtained.identificationType,
-    identificationNumber:this.dataObtained.identificationNumber,
-    email:this.dataObtained.email,
-    password:this.dataObtained.password,
-    modifiedBy:this.loginService.getUser().username
+  public client:UpdateClient = {
+    id: this.dataObtained.id,
+    name: this.dataObtained.name,
+    lastName: this.dataObtained.lastName,
+    identificationType: this.dataObtained.identificationType,
+    identificationNumber: this.dataObtained.identificationNumber,
+    email: this.dataObtained.email,
+    password: this.dataObtained.password,
+    modifiedBy: this.loginService.getUser().username,
     
-
-  }
- 
+  } 
+  
+  
+  
+ ngOnInit(){
+  console.log(this.client)
+ }
 
   ngOnDestroy():void{
     this.MatDialogRef.close(this.dataObtained)
@@ -44,7 +48,7 @@ export class UpdateClientComponent{
     if(this.client.name == '' || this.client.name == null || this.client.lastName == '' 
     || this.client.lastName == null ||  
     this.client.identificationType == '' || this.client.identificationType == null
-    ||this.client.identificationNumber == '' || this.client.identificationNumber == null ||
+    ||  this.client.identificationNumber == null ||
     this.client.email == '' || this.client.email == null || this.client.password == '' || this.client.password == null ){
       this.snack.open('All fields must be filled','Accept',{
         duration : 3000,

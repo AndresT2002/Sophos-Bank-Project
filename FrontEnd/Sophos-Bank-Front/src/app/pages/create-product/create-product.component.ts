@@ -9,17 +9,21 @@ import Swal from 'sweetalert2';
 import  { MatDialogRef} from '@angular/material/dialog'
 import { LoginService } from 'src/app/services/login.service';
 import {  Router } from '@angular/router';
+import { Client } from 'src/app/components/interfaces';
 
-export interface User {
-  id: number;
-  identificationNumber:number
+interface User {
+  id: string,
+  identificationNumber:string
 }
+
+
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.css']
 })
 export class CreateProductComponent implements OnInit{
+
   public product={
     productType:"",
     gmf:"",
@@ -28,15 +32,15 @@ export class CreateProductComponent implements OnInit{
       id:null
     }
   }
-  data:any;
+  data:Array<Client>;
   constructor(private router:Router,private loginService:LoginService,private adminService:AdminServiceService, private MatDialogRef:MatDialogRef<CreateProductComponent>,private snack:MatSnackBar,private productService:ProductsService){}
-  identificatorsArray:any;
-  ids:any;
   
   
+  identificatorsArray:Array<User>=[];
+   
   myControl = new FormControl('');
-  options: any[] =[]
-  filteredOptions: Observable<any[]> | undefined;
+  options: User[] =[]
+  filteredOptions: Observable<User[]> | undefined;
 
   
 
@@ -45,11 +49,9 @@ export class CreateProductComponent implements OnInit{
     this.adminService.listClients().subscribe((dataObtained)=>{
       this.data=dataObtained
       
-      this.identificatorsArray=[]
-      
       
       for(let value of this.data){
-        let object={
+        let object: User ={
           id:value.id,
           identificationNumber:value.identificationNumber.toString()
         }

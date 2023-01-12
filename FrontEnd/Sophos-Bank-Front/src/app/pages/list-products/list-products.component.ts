@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { CurrentUser, Product } from 'src/app/components/interfaces';
 import { ProductTransHistoryComponent } from 'src/app/components/product-trans-history/product-trans-history.component';
 
 
@@ -18,19 +19,24 @@ import Swal from 'sweetalert2';
 })
 
 export class ListProductsComponent {
-  columndefs : any[] = ['productNumber','createdAt','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
-  data:any;
+  columndefs : string[] = ['productNumber','createdAt','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
+  
   constructor(private matDialog:MatDialog,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     ){}
   
-  currentUser:any;
-  activeProducts:any;
-  inactiveProducts:any;
-  canceledProducts:any;
-  products:any;
-  productsOrdered:any;
-  modifiedBy=this.loginService.getUser().username
   
+  modifiedBy=this.loginService.getUser().username
+  currentUser:CurrentUser | undefined;
+  activeProducts:Product[] =[] 
+  inactiveProducts:Product[] =[] 
+  canceledProducts:Product[] =[] 
+  products: Array<Product> =[] 
+  productsOrdered: Array<Array<Product>> =[] 
+  finalProducts:Product[] =[] 
+  data: Product[] =[] 
+
+
+
   
   ngOnInit():void{
     
@@ -38,18 +44,15 @@ export class ListProductsComponent {
       this.currentUser=dataObtained
       
       this.productService.listClientProducts(this.currentUser.id).subscribe((dataObtained)=>{
-        console.log(dataObtained)
-        this.products=[]
-        this.productsOrdered=[]
-        this.products.push(dataObtained)
-        this.activeProducts=[]
-        this.inactiveProducts=[]
-        this.canceledProducts=[]
+        
+        
+        this.products=dataObtained
+        
 
         
-        this.activeProducts=this.products[0].filter((element:any) => element.status=="Active")
-        this.inactiveProducts=this.products[0].filter((element:any) => element.status=="Inactive")
-        this.canceledProducts=this.products[0].filter((element:any) => element.status=="Canceled")
+        this.activeProducts=this.products.filter((element:Product) => element.status=="Active")
+        this.inactiveProducts=this.products.filter((element:Product) => element.status=="Inactive")
+        this.canceledProducts=this.products.filter((element:Product) => element.status=="Canceled")
 
       
         this.productsOrdered.push(this.sort(this.activeProducts))
@@ -58,8 +61,7 @@ export class ListProductsComponent {
         
         this.productsOrdered.push(this.sort(this.canceledProducts))
         
-        this.productsOrdered=this.productsOrdered.flat()
-        this.data=this.productsOrdered
+        this.data=this.productsOrdered.flat()
         
       }
       )
@@ -82,37 +84,35 @@ export class ListProductsComponent {
   }
 
 
-  sort(toOrder:Array<any>){
+  sort(productsArray:Array<Product>){
     
-    if(toOrder.length==0){
+    if(productsArray.length==0){
       
       return []
     }
 
-    for(let i = 0; i < toOrder.length; i++){
+    for(let i = 0; i < productsArray.length; i++){
     
-      // Last i elements are already in place 
-      for(let j = 0; j < ( toOrder.length - i -1 ); j++){
+   
+      for(let j = 0; j < ( productsArray.length - i -1 ); j++){
          
-        // Checking if the item at present iteration
-        // is greater than the next iteration
-        if(toOrder[j].productAvailable < toOrder[j+1].productAvailable){
-            
-          // If the condition is true then swap them
-          let temp = toOrder[j]
-          toOrder[j] = toOrder[j + 1]
-          toOrder[j+1] = temp
+      
+        if(productsArray[j].productAvailable < productsArray[j+1].productAvailable){
+       
+          let temp = productsArray[j]
+          productsArray[j] = productsArray[j + 1]
+          productsArray[j+1] = temp
         }
       }
     }
 
-    return toOrder
+    return productsArray
   }
 
-  activateProduct(productId: string){
+  activateProduct(productId: number){
     
     
-    this.productService.activateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
+    this.productService.activateProduct(productId,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('Product Activated','Producto Activated succesfully','success');
       window.location.reload();
@@ -144,10 +144,10 @@ export class ListProductsComponent {
   }
 
 
-  activateGmf(productId: string){
+  activateGmf(productId: number){
     
 
-    this.productService.activateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
+    this.productService.activateGmf(productId,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('GMF Activated','GMF Activated succesfully','success');
       window.location.reload();
@@ -174,10 +174,10 @@ export class ListProductsComponent {
   }
 
 
-  desactivateProduct(productId: string){
+  desactivateProduct(productId: number){
     
 
-    this.productService.desactivateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
+    this.productService.desactivateProduct(productId,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('Product Desactivated','Product desactivated succesfully','success');
       window.location.reload();
@@ -204,10 +204,10 @@ export class ListProductsComponent {
   }
 
 
-  desactivateGmf(productId: string){
+  desactivateGmf(productId: number){
     
 
-    this.productService.desactivateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
+    this.productService.desactivateGmf(productId,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('GMF Desactivated','GMF Desactivated succesfully','success');
       window.location.reload();
@@ -222,10 +222,10 @@ export class ListProductsComponent {
   }
 
 
-  cancelProduct(productNumber: string){
+  cancelProduct(productNumber: number){
     
 
-    this.productService.cancelProduct(Number(productNumber),this.modifiedBy).subscribe((data)=>{
+    this.productService.cancelProduct(productNumber,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('Product Canceled','Product canceled succesfully','success');
       window.location.reload();
@@ -251,7 +251,7 @@ export class ListProductsComponent {
     )
   }
 
-  onOpenProductHistoryDialog(productNumber:any){
+  onOpenProductHistoryDialog(productNumber:number){
 
     let dialogRef=this.matDialog.open(ProductTransHistoryComponent,{
       data:productNumber,

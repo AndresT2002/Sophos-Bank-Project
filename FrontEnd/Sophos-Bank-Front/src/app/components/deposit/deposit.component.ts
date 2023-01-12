@@ -9,6 +9,9 @@ import { ProductsService } from 'src/app/services/products.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 
 import Swal from 'sweetalert2';
+import { Product, ProductDeposit } from '../interfaces';
+
+
 
 
 @Component({
@@ -20,33 +23,30 @@ export class DepositComponent {
   
   constructor (private loginService:LoginService,private productService:ProductsService,@Inject(MAT_DIALOG_DATA) public dataObtained:any,private router:Router,private snack: MatSnackBar, private MatDialogRef:MatDialogRef<DepositComponent>,private transactionsService: TransactionsService){}
 
-  public productDeposit={
+  
+  public productDeposit:ProductDeposit={
     productNumber:"",
     value:"",
     modifiedBy:this.loginService.getUser().username
   }
   
-  
   productNumbers:any;
     
   myControl = new FormControl('');
-  options: any[] =[]
+  options: Array<string> =[]
   filteredOptions: Observable<any[]> | undefined;
-  data:any;
-  productNumbersArray:any
+  data: Product[] =[] ;
+  productNumbersArray: Array<string> = []
+
+
   ngOnInit(): void {
-    this.productService.listAllProducts().subscribe((dataObtained)=>{
+    this.productService.listAllProducts().subscribe((dataObtained) =>{
       this.data=dataObtained
       
-      this.productNumbersArray=[]
-            
       for(let value of this.data){
         this.productNumbersArray.push(value.productNumber.toString())
       }
-
-
       this.options=this.productNumbersArray
-      
       
     }
     )
@@ -84,7 +84,6 @@ export class DepositComponent {
     if(this.dataObtained !=null){
       this.productDeposit.productNumber=this.dataObtained
     }
-    
 
     if(this.productDeposit.productNumber == '' || this.productDeposit.productNumber == null || this.productDeposit.value == '' 
     || this.productDeposit.value == null  ){

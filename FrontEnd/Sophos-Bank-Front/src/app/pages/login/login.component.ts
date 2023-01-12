@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { CurrentUser } from 'src/app/components/interfaces';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -42,7 +43,7 @@ export class LoginComponent {
           (data:any)=>{
           
           this.loginService.loginUser(data.token)
-          this.loginService.getCurrentUser().subscribe((user:any)=>{
+          this.loginService.getCurrentUser().subscribe((user:CurrentUser)=>{
             this.loginService.setUser(user);
             
             if(user.role=="ADMIN"){

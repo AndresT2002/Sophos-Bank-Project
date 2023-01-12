@@ -20,6 +20,7 @@
         
         <a mat-button *ngIf="isLoggedIn" (click)="logout()"> Logout </a>
         
+        <a mat-button *ngIf="isLoggedIn" [routerLink]="'/aboutme'"> About Me </a>
         
   
       </div>

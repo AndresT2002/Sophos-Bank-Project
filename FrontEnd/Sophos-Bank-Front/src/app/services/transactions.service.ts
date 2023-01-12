@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TransactionHistory } from '../components/interfaces';
 import baseUrl from './helper';
 
 @Injectable({
@@ -10,8 +11,8 @@ export class TransactionsService {
   constructor(private httpClient: HttpClient) { }
 
 
-  public productTransactionHistory(productNumber:any){
-    return this.httpClient.get(`${baseUrl}/v0/transactions/history/${productNumber}`)
+  public productTransactionHistory(productNumber:number){
+    return this.httpClient.get<Array<TransactionHistory>>(`${baseUrl}/v0/transactions/history/${productNumber}`)
   }
 
   public deposit(productNumber:number,value :number,modifiedBy:string){

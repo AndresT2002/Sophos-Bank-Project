@@ -9,6 +9,15 @@ import Swal from 'sweetalert2';
 import  { MatDialogRef} from '@angular/material/dialog'
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
+import { Client } from 'src/app/components/interfaces';
+
+
+interface User {
+  id: string,
+  identificationNumber:string
+}
+
+
 @Component({
   selector: 'app-delete-client',
   templateUrl: './delete-client.component.html',
@@ -21,15 +30,14 @@ export class DeleteClientComponent {
   }
 
   
-  data:any;
+  data:Array<Client>=[];
   constructor(private router:Router,private loginService:LoginService,private userService:UserService, private MatDialogRef:MatDialogRef<DeleteClientComponent>,private adminService:AdminServiceService,private snack:MatSnackBar,private productService:ProductsService){}
-  identificatorsArray:any;
-  ids:any;
   
-  
+  identificatorsArray:Array<User>=[]
+
   myControl = new FormControl('');
-  options: any[] =[]
-  filteredOptions: Observable<any[]> | undefined;
+  options: User[] =[]
+  filteredOptions: Observable<User[]> | undefined;
 
   ngOnInit(): void {
 
@@ -39,7 +47,7 @@ export class DeleteClientComponent {
       this.identificatorsArray=[]
             
       for(let value of this.data){
-        let object={
+        let object:User={
           id:value.id,
           identificationNumber:value.identificationNumber.toString()
         }
@@ -71,7 +79,7 @@ export class DeleteClientComponent {
 
 
   }
-  private _filter(value: string): any[] {
+  private _filter(value: string): User[] {
     const filterValue = value.toLowerCase();
 
     return this.options.filter(option => option.identificationNumber.includes(filterValue));;

@@ -1,0 +1,428 @@
+html,
+body {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background: #0f2027; 
+  color:#ccd6f7;
+  overflow: auto
+}
+h2{
+  color:#5fb8b2;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#__next{
+  width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    
+    background: #0a1930
+  }
+}
+
+
+
+
+
+
+
+.container {
+  padding: 0 2rem;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  display: flex;
+  flex: 1;
+  padding: 2rem 0;
+  border-top: 1px solid #eaeaea;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.title a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.title a:hover,
+.title a:focus,
+.title a:active {
+  text-decoration: underline;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 4rem;
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.description {
+  margin: 4rem 0;
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+}
+
+.card {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 300px;
+}
+
+.card:hover,
+.card:focus,
+.card:active {
+  color: #0070f3;
+  border-color: #0070f3;
+}
+
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.logo {
+  height: 1em;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .card,
+  .footer {
+    border-color: #222;
+  }
+  .code {
+    background: #111;
+  }
+  .logo img {
+    filter: invert(1);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.cajita{
+  background-color: antiquewhite;
+  width:min-content;
+}
+
+.cajitaFunciones{
+
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+}
+
+.bodyContainer{
+  width: 100%;
+ 
+}
+
+/**
+About ME STarts
+*/
+.aboutMeContainer{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 1rem;
+  max-width: 1024px;
+  margin: 10rem auto;
+  /* gap: 100px; */
+}
+.aboutMeImages{
+  display: grid;
+  grid-template-rows: auto auto ;
+  grid-auto-flow: column;
+  grid-template-columns: 60px;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.aboutMeImages img {
+  width: 60px;
+  height: auto;
+}
+
+
+.aboutMe{
+  /* width: 140ch; */
+  padding-left: 2rem;
+}
+
+.aboutMeTitle{
+  color:#5fb8b2;
+}
+.aboutMeKnowledge{
+  color:#5fb8b2;
+  font-weight: 700;
+}
+
+.aboutMeCV{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color:#5fb8b2;
+  font-weight: 700;
+  width: min-content;
+  
+}
+
+
+
+/**
+About ME Ends
+*/
+
+
+
+.navBar{
+  display: flex;
+  padding-left: 1rem;
+  flex-direction: row;
+  gap: 1rem;
+  
+  align-items:center;
+  max-width: 80%;
+  text-align: center;
+
+}
+.navBar h3{
+  font-weight: 750;
+}
+
+.navBarSectionContent{
+  display: flex;
+  gap: 1rem;
+  width: 80%;
+}
+
+
+.navBarSection{
+  height: auto;
+  width: 80%;
+}
+
+
+.sendEmail{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sendEmail img{
+  width: 300px;
+  height: auto;
+  margin-top: 2rem;
+}
+
+.footerContainer{
+  display: flex;
+  gap:20px;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem 1.5rem;
+  /* padding-left: 25%; */
+  background: #0f2027; /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #0f2027, #203a43, #2c5364); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #0f2027, #203a43, #2c5364); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  text-align: center;
+  margin-top: 10rem;
+
+  /* padding-left: 2rem; */
+}
+
+.footerContainer  div {
+  max-width: 20rem;
+}
+
+/* 
+.footerDescription{
+  max-width: 20rem
+
+} */
+
+.footerNavigation{
+  display:grid;
+}
+
+.footerContact{
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+  align-content: center;
+}
+
+.footerContactText{
+  align-items: center;
+}
+
+
+
+.padre{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8rem;
+}
+
+
+.skillsContainer{
+  display: grid;
+  width:80%;
+  gap:40px;
+  margin-top: 5rem;
+}
+
+@media screen and (min-width:1024px){
+  .skillsContainer {
+      grid-template-rows: auto auto ;
+      grid-auto-flow: column;
+      grid-template-columns: 400px 400px;
+      margin-top: 0;
+      width:min-content;
+  }
+
+  .aboutMeContainer{
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+      
+      
+  }
+
+  .aboutMeImages{
+      grid-template-rows: auto auto  auto;
+      gap: 90px;
+
+  }
+  .aboutMeImages img {
+      width: 100px;
+      height: auto;
+  }
+  .sendEmail img{
+      width: 800px;
+  }
+
+  .footerContainer {
+      flex-direction: row;
+      justify-content: space-around;
+  }
+
+  .navBar{
+      display: flex;
+      flex-direction: row;
+      
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      
+  }
+  
+  .navBarSectionContent{
+      display: flex;
+      gap: 1rem;
+      width: 40%;
+      
+  }
+  
+  
+  .navBarSection{
+      height: auto;
+  
+  }
+  
+
+}

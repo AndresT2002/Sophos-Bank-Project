@@ -42,6 +42,7 @@ import { PaydebtComponent } from './components/paydebt/paydebt.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import { MyPageComponent } from './pages/my-page/my-page.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {MatListModule} from '@angular/material/list';
     WithdrawComponent,
     OverdraftComponent,
     TransferComponent,
-    PaydebtComponent
+    PaydebtComponent,
+    MyPageComponent
     
   ],
   imports: [

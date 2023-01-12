@@ -8,6 +8,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ListClientsComponent } from './pages/list-clients/list-clients.component';
 import { ListProductsComponent } from './pages/list-products/list-products.component';
 import { LoginComponent } from './pages/login/login.component';
+import { MyPageComponent } from './pages/my-page/my-page.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
@@ -65,6 +66,13 @@ const routes: Routes = [
   {
     path:'transactions',
     component:TransactionsComponent,
+    pathMatch:'full',
+    
+    
+  } ,
+  {
+    path:'aboutme',
+    component:MyPageComponent,
     pathMatch:'full',
     
     

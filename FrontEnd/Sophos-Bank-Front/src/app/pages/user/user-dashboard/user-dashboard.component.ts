@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { CurrentUser } from 'src/app/components/interfaces';
 import { UpdateClientComponent } from 'src/app/components/update-client/update-client.component';
 import { AdminServiceService } from 'src/app/services/admin-service.service';
 import { LoginService } from 'src/app/services/login.service';
@@ -14,18 +15,15 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserDashboardComponent {
 
-currentUser:any
+currentUser:CurrentUser
 constructor(private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     private matDialog:MatDialog, private loginService:LoginService){}
 
   onOpenUpdateDialog(){
-    this.currentUser=this.loginService.getCurrentUser().subscribe(userObtained =>{
+  this.loginService.getCurrentUser().subscribe(userObtained =>{
       this.currentUser=userObtained
-      
-
-      this.userService.getUserById(Number(this.currentUser.id)).subscribe(dataObtained =>{
-
-
+      this.userService.getUserById(this.currentUser.id).subscribe(dataObtained =>{
+        
         let dialogRef=this.matDialog.open(UpdateClientComponent,{
           data:dataObtained,
           height: '85%',

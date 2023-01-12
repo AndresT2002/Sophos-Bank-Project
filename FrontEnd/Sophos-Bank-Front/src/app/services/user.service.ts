@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import baseUrl from './helper';
+import { UpdateClient } from '../components/interfaces';
 
 
 @Injectable({
@@ -20,11 +21,11 @@ export class UserService {
     return this.httpClient.delete(`${baseUrl}/v0/clients/delete/${cedula}`)
     }
 
-  public updateClient(user:any){
+  public updateClient(user:UpdateClient){
     return this.httpClient.put(`${baseUrl}/v0/clients/${user.id}/update`,user)
     }
 
-  public getUserById(id:any){
+  public getUserById(id:number){
     return this.httpClient.get(`${baseUrl}/v0/clients/getclient/${id}`)
   }
   

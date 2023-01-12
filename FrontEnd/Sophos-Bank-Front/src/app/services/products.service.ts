@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Product } from '../components/interfaces';
+
 import baseUrl from './helper';
 
 @Injectable({
@@ -11,7 +13,7 @@ export class ProductsService {
 
 
   public listClientProducts(clientId:number){
-    return this.httpClient.get(`${baseUrl}/v0/products/clientid/${clientId}`)
+    return this.httpClient.get<Product[]>(`${baseUrl}/v0/products/clientid/${clientId}`)
   }
 
   public activateProduct(productId:number,modifiedBy:string){
@@ -39,7 +41,7 @@ export class ProductsService {
     return this.httpClient.post(`${baseUrl}/v0/products/create`,product)
   }
   public listAllProducts(){
-    return this.httpClient.get(`${baseUrl}/v0/products`)
+    return this.httpClient.get<Product[]>(`${baseUrl}/v0/products`)
   }
 
 

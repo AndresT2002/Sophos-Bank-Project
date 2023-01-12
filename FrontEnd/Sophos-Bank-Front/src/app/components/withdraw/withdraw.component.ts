@@ -12,6 +12,7 @@ import { DepositComponent } from '../deposit/deposit.component';
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.css']
 })
+
 export class WithdrawComponent {
   constructor (private loginService:LoginService,@Inject(MAT_DIALOG_DATA) public dataObtained:any,private router:Router,private snack: MatSnackBar, private MatDialogRef:MatDialogRef<DepositComponent>,private transactionsService: TransactionsService){}
 
@@ -46,7 +47,7 @@ export class WithdrawComponent {
 
     this.transactionsService.withdraw(Number(this.productWithdraw.productNumber),Number(this.productWithdraw.value),this.productWithdraw.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Withdraw completed','Withdraw operation was succesful','success');
+      Swal.fire('Withdraw completed','Withdraw operation was successful','success');
       window.location.reload();
     },(error =>{
       

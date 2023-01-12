@@ -291,7 +291,7 @@ public class TransactionsImplementation implements Transactions{
 		payProductFinded.setModifiedBy(modifiedBy);
 		
 		
-		TransactionHistory paymentTransaction= createTransaction( amount,"Credit", payProductFinded.getBelongsTo().getId(),  sqlDate, "Debt Payment",  payProductFinded.getProductNumber(),payProductFinded.getProductBalance(),payProductFinded.getProductAvailable());
+		TransactionHistory paymentTransaction= createTransaction( amount,"Debit", payProductFinded.getBelongsTo().getId(),  sqlDate, "Debt Payment",  payProductFinded.getProductNumber(),payProductFinded.getProductBalance(),payProductFinded.getProductAvailable());
 		
 		transactionHistoryRepository.save(paymentTransaction);
 		

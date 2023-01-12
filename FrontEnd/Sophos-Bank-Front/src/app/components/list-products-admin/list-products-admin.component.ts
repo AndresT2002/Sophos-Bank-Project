@@ -9,6 +9,8 @@ import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import { ProductTransHistoryComponent } from '../product-trans-history/product-trans-history.component';
+import { Client, CurrentUser, Product } from '../interfaces';
+
 
 
 @Component({
@@ -16,25 +18,29 @@ import { ProductTransHistoryComponent } from '../product-trans-history/product-t
   templateUrl: './list-products-admin.component.html',
   styleUrls: ['./list-products-admin.component.css']
 })
-//Yes es que si está excenta
+
 export class ListProductsAdminComponent {
-  columndefs : any[] = ['productNumber','createdAt','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
-  data:any;
-  constructor(private matDialog:MatDialog,private MatDialogRef:MatDialogRef<ListProductsAdminComponent>,@Inject(MAT_DIALOG_DATA) public clientData:any,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
+  columndefs : string[] = ['productNumber','createdAt','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
+  
+
+  constructor(private matDialog:MatDialog,private MatDialogRef:MatDialogRef<ListProductsAdminComponent>,@Inject(MAT_DIALOG_DATA) public clientData:Client,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     ){}
 
-  currentUser:any;
-  activeProducts:any;
-  inactiveProducts:any;
-  canceledProducts:any;
-  products:any;
-  productsOrdered:any;
-  modifiedBy=this.loginService.getUser().username
+  currentUser:CurrentUser | undefined;
+  activeProducts:Product[] =[] 
+  inactiveProducts:Product[] =[] 
+  canceledProducts:Product[] =[] 
+  products: Array<Product> =[] 
+  productsOrdered: Array<Array<Product>> =[] 
+  finalProducts:Product[] =[] 
+  data: Product[] =[] 
+
+  modifiedBy:string =this.loginService.getUser().username
 
 
   public client={
     id:this.clientData.id,
-    }
+  }
   
   ngOnDestroy():void{
     this.MatDialogRef.close(this.clientData)
@@ -52,19 +58,14 @@ export class ListProductsAdminComponent {
     this.loginService.getCurrentUser().subscribe((dataObtained)=>{
       this.currentUser=dataObtained
       
-      this.productService.listClientProducts(this.client.id).subscribe((dataObtained)=>{
+      this.productService.listClientProducts(Number(this.client.id)).subscribe((dataObtained)=>{
         
-        this.products=[]
-        this.productsOrdered=[]
-        this.products.push(dataObtained)
-        this.activeProducts=[]
-        this.inactiveProducts=[]
-        this.canceledProducts=[]
-
-        
-        this.activeProducts=this.products[0].filter((element:any) => element.status=="Active")
-        this.inactiveProducts=this.products[0].filter((element:any) => element.status=="Inactive")
-        this.canceledProducts=this.products[0].filter((element:any) => element.status=="Canceled")
+      
+        this.products=dataObtained
+      
+        this.activeProducts=this.products.filter((element:Product) => element.status=="Active")
+        this.inactiveProducts=this.products.filter((element:Product) => element.status=="Inactive")
+        this.canceledProducts=this.products.filter((element:Product) => element.status=="Canceled")
 
         
 
@@ -75,8 +76,8 @@ export class ListProductsAdminComponent {
         
         this.productsOrdered.push(this.sort(this.canceledProducts))
         
-        this.productsOrdered=this.productsOrdered.flat()
-        this.data=this.productsOrdered
+        this.data=this.productsOrdered.flat()
+        
         
       }
       )
@@ -99,36 +100,36 @@ export class ListProductsAdminComponent {
   }
 
 
-  sort(toOrder:Array<any>){
+  sort(productsArray:Array<Product>){
     
-    if(toOrder.length==0){
+    if(productsArray.length==0){
       
       return []
     }
 
-    for(let i = 0; i < toOrder.length; i++){
+    for(let i = 0; i < productsArray.length; i++){
     
-      // Last i elements are already in place 
-      for(let j = 0; j < ( toOrder.length - i -1 ); j++){
+      
+      for(let j = 0; j < ( productsArray.length - i -1 ); j++){
          
-        // Checking if the item at present iteration
-        // is greater than the next iteration
-        if(toOrder[j].productAvailable < toOrder[j+1].productAvailable){
+        if(productsArray[j].productAvailable < productsArray[j+1].productAvailable){
             
-          // If the condition is true then swap them
-          let temp = toOrder[j]
-          toOrder[j] = toOrder[j + 1]
-          toOrder[j+1] = temp
+          let temp = productsArray[j]
+          productsArray[j] = productsArray[j + 1]
+          productsArray[j+1] = temp
         }
       }
     }
 
-    return toOrder
+    return productsArray
   }
 
-  activateProduct(productId: string){
+
+
+
+  activateProduct(productId: number){
     
-    this.productService.activateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
+    this.productService.activateProduct(productId,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('Product Activated','Product Activated successfully','success');
       window.location.reload();
@@ -154,10 +155,10 @@ export class ListProductsAdminComponent {
   }
 
 
-  activateGmf(productId: string){
+  activateGmf(productId: number){
     
 
-    this.productService.activateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
+    this.productService.activateGmf(productId,this.modifiedBy).subscribe((data)=>{
       console.log(data)
       Swal.fire('GMF Activated','GMF Activated successfully','success');
       window.location.reload();
@@ -184,10 +185,10 @@ export class ListProductsAdminComponent {
   }
 
 
-  desactivateProduct(productId: string){
+  desactivateProduct(productId: number){
     
 
-    this.productService.desactivateProduct(Number(productId),this.modifiedBy).subscribe((data)=>{
+    this.productService.desactivateProduct(productId,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('Product Desactivated','Product Desactivated successfully','success');
       window.location.reload();
@@ -214,10 +215,10 @@ export class ListProductsAdminComponent {
   }
 
 
-  desactivateGmf(productId: string){
+  desactivateGmf(productId: number){
     
 
-    this.productService.desactivateGmf(Number(productId),this.modifiedBy).subscribe((data)=>{
+    this.productService.desactivateGmf(productId,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('GMF Desactivated','GMF Desactivated successfully','success');
       window.location.reload();
@@ -240,10 +241,9 @@ export class ListProductsAdminComponent {
   }
 
 
-  cancelProduct(productNumber: string){
+  cancelProduct(productNumber: number){
     
-
-    this.productService.cancelProduct(Number(productNumber),this.modifiedBy).subscribe((data)=>{
+    this.productService.cancelProduct(productNumber,this.modifiedBy).subscribe((data)=>{
       
       Swal.fire('Product Canceled','Product Canceled successfully','success');
       window.location.reload();
@@ -269,7 +269,7 @@ export class ListProductsAdminComponent {
     )
   }
 
-  onOpenProductHistoryDialog(productNumber:any){
+  onOpenProductHistoryDialog(productNumber:number){
 
     let dialogRef=this.matDialog.open(ProductTransHistoryComponent,{
       data:productNumber,

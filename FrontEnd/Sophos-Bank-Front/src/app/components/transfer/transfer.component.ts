@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 import Swal from 'sweetalert2';
+import { Product } from '../interfaces';
 
 
 @Component({
@@ -25,28 +26,24 @@ export class TransferComponent {
     modifiedBy:this.loginService.getUser().username
   }
 
-  productNumbers:any;
+  
   
 
   myControl = new FormControl('');
-  options: any[] =[]
-  filteredOptions: Observable<any[]> | undefined;
-  data:any;
-  productNumbersArray:any
+  options: string[] =[]
+  filteredOptions: Observable<string[]> | undefined;
+  data:Array<Product>=[];
+  productNumbersArray:Array<string> = []
 
   ngOnInit() {
 
     this.productService.listAllProducts().subscribe((dataObtained)=>{
       this.data=dataObtained
-      
-      this.productNumbersArray=[]
             
       for(let value of this.data){
-        this.productNumbersArray.push(value.productNumber.toString())
+        this.options.push(value.productNumber.toString())
       }
-
-      this.options=this.productNumbersArray
-      
+    
       
     }
     )
@@ -58,7 +55,7 @@ export class TransferComponent {
 
   } 
 
-  private _filter(value: string): any[] {
+  private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.options.filter(option => option.includes(filterValue));;
@@ -93,7 +90,7 @@ export class TransferComponent {
     
     this.transactionsService.transfer(Number(this.productTransfer.productNumber),Number(this.productTransfer.productTo),Number(this.productTransfer.value),this.productTransfer.modifiedBy).subscribe((data)=>{
       
-      Swal.fire('Transfer completed','Transfer operation was succesful','success');
+      Swal.fire('Transfer completed','Transfer operation was successful','success');
       window.location.reload();
     },(error =>{
       
