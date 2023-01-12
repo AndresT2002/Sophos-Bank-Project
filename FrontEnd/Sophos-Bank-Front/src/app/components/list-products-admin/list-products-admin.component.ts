@@ -159,7 +159,7 @@ export class ListProductsAdminComponent {
     
 
     this.productService.activateGmf(productId,this.modifiedBy).subscribe((data)=>{
-      console.log(data)
+      
       Swal.fire('GMF Activated','GMF Activated successfully','success');
       window.location.reload();
     },(error =>{

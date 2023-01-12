@@ -30,9 +30,7 @@ export class UpdateClientComponent{
   
   
   
- ngOnInit(){
-  console.log(this.client)
- }
+
 
   ngOnDestroy():void{
     this.MatDialogRef.close(this.dataObtained)
@@ -63,7 +61,7 @@ export class UpdateClientComponent{
       Swal.fire('User updated','User updated successfully','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+      
       if(error.status == "404"){
         this.snack.open('Client to update not found','Accept',{
           duration : 3000,

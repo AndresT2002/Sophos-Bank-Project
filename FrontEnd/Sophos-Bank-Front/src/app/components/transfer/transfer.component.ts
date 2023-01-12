@@ -27,7 +27,6 @@ export class TransferComponent {
   }
 
   
-  
 
   myControl = new FormControl('');
   options: string[] =[]

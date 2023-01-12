@@ -120,7 +120,7 @@ export class TransactionsComponent {
     }
 
     onOpenWithdrawtDialog(productNumber:number){
-      console.log(productNumber)
+      
       let dialogRef=this.matDialog.open(WithdrawComponent,{
         data:productNumber,
         height: '50%',
@@ -136,7 +136,7 @@ export class TransactionsComponent {
 
 
     onOpenOverdraftDialog(productNumber:number){
-      console.log(productNumber)
+      
       let dialogRef=this.matDialog.open(OverdraftComponent,{
         data:productNumber,
         height: '50%',
@@ -151,7 +151,7 @@ export class TransactionsComponent {
     }
 
     onOpenTransferDialog(productNumber:number){
-      console.log(productNumber)
+      
       let dialogRef=this.matDialog.open(TransferComponent,{
         data:productNumber,
         height: '60%',

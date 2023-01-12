@@ -182,7 +182,7 @@ export class ListProductsComponent {
       Swal.fire('Product Desactivated','Product desactivated succesfully','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+     
       if(error.status == "404"){
         this.snack.open('Product to desactivate not found','Accept',{
           duration : 3000,
@@ -230,7 +230,7 @@ export class ListProductsComponent {
       Swal.fire('Product Canceled','Product canceled succesfully','success');
       window.location.reload();
     },(error =>{
-      console.log(error)
+      
       if(error.status == "404"){
         this.snack.open('Product to cancel not found','Accept',{
           duration : 3000,

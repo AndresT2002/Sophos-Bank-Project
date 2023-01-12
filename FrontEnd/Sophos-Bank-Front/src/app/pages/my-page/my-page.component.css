@@ -21,25 +21,6 @@ a {
   box-sizing: border-box;
 }
 
-#__next{
-  width: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    
-    background: #0a1930
-  }
-}
-
-
-
-
-
-
 
 .container {
   padding: 0 2rem;

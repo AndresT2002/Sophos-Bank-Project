@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TransferComponent } from './components/transfer/transfer.component';
+
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
-import { CreateProductComponent } from './pages/create-product/create-product.component';
-import { DeleteClientComponent } from './pages/delete-client/delete-client.component';
+
 import { HomeComponent } from './pages/home/home.component';
 import { ListClientsComponent } from './pages/list-clients/list-clients.component';
 import { ListProductsComponent } from './pages/list-products/list-products.component';
@@ -67,7 +66,6 @@ const routes: Routes = [
     path:'transactions',
     component:TransactionsComponent,
     pathMatch:'full',
-    
     
   } ,
   {
