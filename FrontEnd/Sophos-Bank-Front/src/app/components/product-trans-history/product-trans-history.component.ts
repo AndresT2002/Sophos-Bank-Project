@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import  {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'
-import { MatTableDataSource } from '@angular/material/table';
+
 import { TransactionsService } from 'src/app/services/transactions.service';
 import { Product, TransactionHistory } from '../interfaces';
 

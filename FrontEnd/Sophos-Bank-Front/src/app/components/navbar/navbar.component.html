@@ -18,10 +18,8 @@
         <a mat-button *ngIf="isLoggedIn" [routerLink]="'/listClientProducts'"> My Products </a>
         <a mat-button *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/listClients'"> List Clients </a>
         
-        <a mat-button *ngIf="isLoggedIn" (click)="logout()"> Logout </a>
-        
         <a mat-button *ngIf="isLoggedIn" [routerLink]="'/aboutme'"> About Me </a>
-        
+        <a mat-button *ngIf="isLoggedIn" (click)="logout()"> Logout </a>
   
       </div>
     </mat-toolbar-row>
@@ -48,6 +46,7 @@
         <a mat-list-item *ngIf="isLoggedIn && user.role == 'ADMIN'" [routerLink]="'/listClients'"> List Clients </a>
         
         <a mat-list-item *ngIf="isLoggedIn" (click)="logout()"> Logout </a>
+        <a mat-list-item *ngIf="isLoggedIn" [routerLink]="'/aboutme'"> About Me </a>
         <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>
 
       </mat-nav-list>

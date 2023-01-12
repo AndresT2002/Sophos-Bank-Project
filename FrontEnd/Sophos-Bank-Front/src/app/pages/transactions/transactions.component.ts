@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DepositComponent } from 'src/app/components/deposit/deposit.component';
+import { CurrentUser, Product } from 'src/app/components/interfaces';
 import { OverdraftComponent } from 'src/app/components/overdraft/overdraft.component';
 import { PaydebtComponent } from 'src/app/components/paydebt/paydebt.component';
 import { TransferComponent } from 'src/app/components/transfer/transfer.component';
@@ -19,13 +20,19 @@ import { UserService } from 'src/app/services/user.service';
 export class TransactionsComponent {
 
 
-  data:any;
-  currentUser:any;
-  products: any
-  productsOrdered: any
-  activeProducts: any
-  inactiveProducts: any
-  canceledProducts: any
+  data:Array<Product> =[] ;
+  currentUser:CurrentUser;
+  products: Array<Product> =[]
+  productsOrdered: Array<Array<Product>> =[] 
+  activeProducts: Product[] =[] 
+  inactiveProducts: Product[] =[] 
+  canceledProducts: Product[] =[] 
+
+
+ 
+
+
+
   constructor(private matDialog:MatDialog,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     ){}
 
@@ -36,25 +43,18 @@ export class TransactionsComponent {
         
         this.productService.listClientProducts(this.currentUser.id).subscribe((dataObtained)=>{
           
-          this.products=[]
-          this.productsOrdered=[]
-          this.products.push(dataObtained)
-          this.activeProducts=[]
-          this.inactiveProducts=[]
-          this.canceledProducts=[]
-  
           
-          this.activeProducts=this.products[0].filter((element:any) => element.status=="Active")
-          this.inactiveProducts=this.products[0].filter((element:any) => element.status=="Inactive")
+          this.products=dataObtained     
+  
+          this.activeProducts=this.products.filter((element:any) => element.status=="Active")
+          this.inactiveProducts=this.products.filter((element:any) => element.status=="Inactive")
                     
           this.productsOrdered.push(this.sort(this.activeProducts))
           
           this.productsOrdered.push(this.sort(this.inactiveProducts))
           
+          this.data=this.productsOrdered.flat()
           
-          
-          this.productsOrdered=this.productsOrdered.flat()
-          this.data=this.productsOrdered
           
         }
         )
@@ -75,37 +75,37 @@ export class TransactionsComponent {
       
       
     }
-    sort(toOrder:Array<any>){
+    sort(productsArray:Array<Product>){
     
-      if(toOrder.length==0){
+      if(productsArray.length==0){
         
         return []
       }
   
-      for(let i = 0; i < toOrder.length; i++){
+      for(let i = 0; i < productsArray.length; i++){
       
-        // Last i elements are already in place 
-        for(let j = 0; j < ( toOrder.length - i -1 ); j++){
+
+        for(let j = 0; j < ( productsArray.length - i -1 ); j++){
            
-          // Checking if the item at present iteration
-          // is greater than the next iteration
-          if(toOrder[j].productAvailable < toOrder[j+1].productAvailable){
+
+
+          if(productsArray[j].productAvailable < productsArray[j+1].productAvailable){
               
-            // If the condition is true then swap them
-            let temp = toOrder[j]
-            toOrder[j] = toOrder[j + 1]
-            toOrder[j+1] = temp
+
+            let temp = productsArray[j]
+            productsArray[j] = productsArray[j + 1]
+            productsArray[j+1] = temp
           }
         }
       }
   
-      return toOrder
+      return productsArray
     }
 
 
 
-    onOpenDepositDialog(productNumber:any){
-      console.log(productNumber)
+    onOpenDepositDialog(productNumber:number){
+
       let dialogRef=this.matDialog.open(DepositComponent,{
         data:productNumber,
         height: '50%',
@@ -119,7 +119,7 @@ export class TransactionsComponent {
   
     }
 
-    onOpenWithdrawtDialog(productNumber:any){
+    onOpenWithdrawtDialog(productNumber:number){
       console.log(productNumber)
       let dialogRef=this.matDialog.open(WithdrawComponent,{
         data:productNumber,
@@ -135,7 +135,7 @@ export class TransactionsComponent {
     }
 
 
-    onOpenOverdraftDialog(productNumber:any){
+    onOpenOverdraftDialog(productNumber:number){
       console.log(productNumber)
       let dialogRef=this.matDialog.open(OverdraftComponent,{
         data:productNumber,
@@ -150,7 +150,7 @@ export class TransactionsComponent {
   
     }
 
-    onOpenTransferDialog(productNumber:any){
+    onOpenTransferDialog(productNumber:number){
       console.log(productNumber)
       let dialogRef=this.matDialog.open(TransferComponent,{
         data:productNumber,
@@ -165,7 +165,7 @@ export class TransactionsComponent {
   
     }
 
-    onOpenPayDebtDialog(productNumber:any){
+    onOpenPayDebtDialog(productNumber:number){
       
       let dialogRef=this.matDialog.open(PaydebtComponent,{
         data:productNumber,
