@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 })
 
 export class ListProductsComponent {
-  columndefs : string[] = ['productNumber','createdAt','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
+  columndefs : string[] = ['productNumber','createdAt','createdBy','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
   
   constructor(private matDialog:MatDialog,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
     ){}

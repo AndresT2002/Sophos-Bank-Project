@@ -27,7 +27,7 @@ export class CreateProductComponent implements OnInit{
   public product={
     productType:"",
     gmf:"",
-    createdBy:"ADMIN",
+    createdBy:this.loginService.getUser().username,
     belongsTo:{
       id:null
     }
@@ -116,7 +116,7 @@ export class CreateProductComponent implements OnInit{
       
       Swal.fire('Product created','Product created successfully','success');
     },(error =>{
-      
+      console.log(error)
       if(error.status == "404"){
         this.snack.open('Client to asociate the product not found','Accept',{
           duration : 3000,

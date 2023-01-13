@@ -44,7 +44,9 @@ export class DepositComponent {
       this.data=dataObtained
       
       for(let value of this.data){
+        if (value.status != "Canceled"){
         this.productNumbersArray.push(value.productNumber.toString())
+      }
       }
       this.options=this.productNumbersArray
       

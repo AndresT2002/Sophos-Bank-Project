@@ -70,6 +70,9 @@ public class ClientController {
 		if (clientUpdated.getResponseCode().equals("404")) {
 			return new ResponseEntity<>(clientUpdated,HttpStatus.NOT_FOUND);
 		}
+		if (clientUpdated.getResponseCode().equals("409")) {
+			return new ResponseEntity<>(clientUpdated,HttpStatus.CONFLICT);
+		}
 		if(clientUpdated.getResponseCode().equals("200")) {
 			return new ResponseEntity<>(clientUpdated,HttpStatus.OK);	
 		}else {

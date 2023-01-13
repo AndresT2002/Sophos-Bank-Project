@@ -20,7 +20,7 @@ import { Client, CurrentUser, Product } from '../interfaces';
 })
 
 export class ListProductsAdminComponent {
-  columndefs : string[] = ['productNumber','createdAt','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
+  columndefs : string[] = ['productNumber','createdAt','createdBy','modifiedAt','modifiedBy','debtValue','gmf','productBalance','productAvailable','productType','status','activateProduct','desactivateProduct','cancelProduct','activateGmf','desactivateGmf','productHistory'];
   
 
   constructor(private matDialog:MatDialog,private MatDialogRef:MatDialogRef<ListProductsAdminComponent>,@Inject(MAT_DIALOG_DATA) public clientData:Client,private loginService:LoginService,private productService:ProductsService,private router:Router, private userService: UserService,private snack: MatSnackBar,
@@ -69,7 +69,7 @@ export class ListProductsAdminComponent {
 
         
 
-        
+        //Here I order the products by their value and status
         this.productsOrdered.push(this.sort(this.activeProducts))
         
         this.productsOrdered.push(this.sort(this.inactiveProducts))

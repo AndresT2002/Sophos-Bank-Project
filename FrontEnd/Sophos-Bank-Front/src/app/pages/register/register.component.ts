@@ -20,7 +20,7 @@ export class RegisterComponent {
     identificationNumber:"",
     email:"",
     password:"",
-    createdBy:"ADMIN",
+    createdBy:this.loginService.getUser().username,
     role:""
 
   }

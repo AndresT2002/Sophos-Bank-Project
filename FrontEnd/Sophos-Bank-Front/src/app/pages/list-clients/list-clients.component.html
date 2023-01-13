@@ -4,63 +4,73 @@
 <table mat-table [dataSource]="data" class="mat-elevation-z8 demo-table" style="width: auto;">
   <caption style="text-align: center;">List of clients registered on the bank database</caption>
   
-    <!-- Position Column -->
+    
     <ng-container matColumnDef="name" >
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
+
+    <ng-container matColumnDef="lastName" >
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Last name </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    </ng-container>
   
-    <!-- Name Column -->
+    
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Email </th>
       <td mat-cell *matCellDef="let element"> {{element.email}} </td>
     </ng-container>
   
-    <!-- Weight Column -->
+    
     <ng-container matColumnDef="birthDay">
-      <th mat-header-cell *matHeaderCellDef> BirthDay </th>
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> BirthDay </th>
       <td mat-cell *matCellDef="let element"> {{element.birthDay}} </td>
     </ng-container>
   
-    <!-- Symbol Column -->
+    
     <ng-container matColumnDef="createdAt">
-      <th mat-header-cell *matHeaderCellDef> Creation Date </th>
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Creation Date </th>
       <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="createdBy">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Created By </th>
+      <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="identificationType">
-      <th mat-header-cell *matHeaderCellDef> Identification Type </th>
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Identification Type </th>
       <td mat-cell *matCellDef="let element"> {{element.identificationType}} </td>
     </ng-container>
 
     <ng-container matColumnDef="identificationNumber">
-        <th mat-header-cell *matHeaderCellDef> Identification Number </th>
+        <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Identification Number </th>
         <td mat-cell *matCellDef="let element"> {{element.identificationNumber}} </td>
       </ng-container>
 
       <ng-container matColumnDef="modifiedBy">
-        <th mat-header-cell *matHeaderCellDef> Modified By  </th>
+        <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Modified By  </th>
         <td mat-cell *matCellDef="let element"> {{element.modifiedBy}} </td>
       </ng-container>
 
       <ng-container matColumnDef="modifiedAt">
-        <th mat-header-cell *matHeaderCellDef> Modified At </th>
+        <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Modified At </th>
         <td mat-cell *matCellDef="let element"> {{element.modifiedAt}} </td>
       </ng-container>
 
     <ng-container matColumnDef="deleteClient">
-        <th mat-header-cell *matHeaderCellDef> Delete</th>
+        <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Delete</th>
         <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" (click)="deleteClient(element.identificationNumber)">Delete</button> </td>
     </ng-container>
 
 
     <ng-container matColumnDef="updateClient">
-      <th mat-header-cell *matHeaderCellDef> Update</th>
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> Update</th>
       <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onOpenUpdateDialog(element)">Update</button> </td>
     </ng-container>
 
     <ng-container matColumnDef="listProducts">
-      <th mat-header-cell *matHeaderCellDef> List Products</th>
+      <th mat-header-cell *matHeaderCellDef style="text-align: center; justify-content: center;"> List Products</th>
       <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onOpenListProductsDialog(element)">List Products</button> </td>
     </ng-container>
    

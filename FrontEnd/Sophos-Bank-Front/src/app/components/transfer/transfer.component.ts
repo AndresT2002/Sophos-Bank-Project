@@ -40,7 +40,10 @@ export class TransferComponent {
       this.data=dataObtained
             
       for(let value of this.data){
-        this.options.push(value.productNumber.toString())
+        if (value.status != "Canceled"){
+          this.options.push(value.productNumber.toString())
+        }
+        
       }
     
       

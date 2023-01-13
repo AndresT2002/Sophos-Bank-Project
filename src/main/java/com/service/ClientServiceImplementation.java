@@ -35,7 +35,6 @@ public class ClientServiceImplementation implements ClientService{
 	@Override
 	public Response createClient(Client client) {
 		Date birthDate=client.getBirthDay();
-		
 		LocalDate dateParsed = birthDate.toLocalDate();
 		int birthYear=dateParsed.getYear();
 		
@@ -43,7 +42,7 @@ public class ClientServiceImplementation implements ClientService{
 		
 		
 		
-		ZoneId zoneId = ZoneId.of( "America/Bogota" );  // Or 'ZoneOffset.UTC'.
+		ZoneId zoneId = ZoneId.of( "America/Bogota" );  
 		ZonedDateTime now = ZonedDateTime.now( zoneId );
 		int currentYear=now.getYear();
 		
@@ -120,11 +119,34 @@ public class ClientServiceImplementation implements ClientService{
 		
 		java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
 		
-		
-		//FALTA AGREGAR VALIDACION DE SI EXISTE O NO
 		Optional<Client> getClient = clientRepository.findById(userId);
 		if(getClient.isPresent()) {
+			
+			Optional<Client> clientByIdentification=clientRepository.findByIdentificationNumber(client.getIdentificationNumber());
+			Optional<Client> clientByEmail=clientRepository.findByEmail(client.getEmail());
+			
+			
 			Client clientToUpdate= getClient.get();
+			
+			if(clientByIdentification.isPresent()) {
+				Client clientFoundByIdentification=clientByIdentification.get();
+				if( (clientByIdentification.isPresent() && clientFoundByIdentification.getId() !=  userId) ) {
+					Response errorResponse= new Response();
+					errorResponse.setResponseCode("409");
+					return errorResponse;
+				}
+				
+			}
+			
+			if(clientByEmail.isPresent()) {
+				Client clientFoundByEmail=clientByEmail.get();
+				if( (clientByEmail.isPresent() && clientFoundByEmail.getId() !=  userId)) {
+					Response errorResponse= new Response();
+					errorResponse.setResponseCode("409");
+					return errorResponse;
+				}
+				
+			}
 			clientToUpdate.setLastName(client.getLastName());
 			clientToUpdate.setEmail(client.getEmail());
 			clientToUpdate.setModifiedAt(sqlDate);

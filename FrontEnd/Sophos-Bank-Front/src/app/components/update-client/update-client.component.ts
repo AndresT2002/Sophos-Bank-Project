@@ -23,7 +23,7 @@ export class UpdateClientComponent{
     identificationType: this.dataObtained.identificationType,
     identificationNumber: this.dataObtained.identificationNumber,
     email: this.dataObtained.email,
-    password: this.dataObtained.password,
+    password: '',
     modifiedBy: this.loginService.getUser().username,
     
   } 
@@ -31,7 +31,7 @@ export class UpdateClientComponent{
   
   
 
-
+  
   ngOnDestroy():void{
     this.MatDialogRef.close(this.dataObtained)
     
@@ -42,7 +42,7 @@ export class UpdateClientComponent{
   }
 
   formUpdate(){  
-
+    
     if(this.client.name == '' || this.client.name == null || this.client.lastName == '' 
     || this.client.lastName == null ||  
     this.client.identificationType == '' || this.client.identificationType == null
@@ -64,6 +64,10 @@ export class UpdateClientComponent{
       
       if(error.status == "404"){
         this.snack.open('Client to update not found','Accept',{
+          duration : 3000,
+          });
+      }else if(error.status == "409"){
+        this.snack.open('Client already exist on database','Accept',{
           duration : 3000,
           });
       }else if(error.status=="401"){

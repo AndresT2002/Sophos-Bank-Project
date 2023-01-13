@@ -28,7 +28,7 @@ export class ListClientsComponent {
     email:"",
 
   }
-  columndefs : string[] = ['name','email','birthDay','createdAt','modifiedBy','modifiedAt','identificationType','identificationNumber','deleteClient','updateClient','listProducts'];
+  columndefs : string[] = ['name','lastName','email','birthDay','createdAt','createdBy','modifiedBy','modifiedAt','identificationType','identificationNumber','deleteClient','updateClient','listProducts'];
   data:Array<Client>;
 
   constructor(private loginService:LoginService,private adminService:AdminServiceService,private router:Router, private userService: UserService,private snack: MatSnackBar,
